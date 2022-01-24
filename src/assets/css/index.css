@@ -1,1 +1,13 @@
 @import url('./base.css');
+/* 字体导入 */
+@import url('../font/iconfont.css');
+@import url('../font/wordfont.css');
+
+/* tailwind引入 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'siyuan-regular';
+}

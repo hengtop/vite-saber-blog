@@ -13,6 +13,6 @@ dist
 .local
 /bin
 .eslintrc.js
-commitlint.config.js
+*.config.js
 tsconfig.json
 *.d.ts

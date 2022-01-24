@@ -1,13 +1,18 @@
 /*
  * @Date: 2022-01-23 20:11:30
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-23 22:52:49
+ * @LastEditTime: 2022-01-24 17:35:18
  */
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { memo } from 'react';
 
-export default function index() {
-  const params = useParams();
-  console.log(params);
-  return <div>article:{params.articleId}</div>;
-}
+export default memo(function index() {
+  //props/state
+
+  //redux hooks
+
+  //other hooks
+
+  //其他逻辑
+
+  return <div></div>;
+});
