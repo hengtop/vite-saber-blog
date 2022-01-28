@@ -1,0 +1,13 @@
+@tailwind base;
+
+@layer base {
+  .page-container {
+    @apply my-[10px] text-[0px];
+  }
+  .page-item {
+    @apply rounded inline-block align-middle px-[15px] h-[28px] leading-[28px] bg-white text-gray-700 -ml-px mr-[5px] text-sm hover:text-[#009688] cursor-pointer;
+  }
+  .activePage {
+    @apply bg-[#009688] text-white hover:text-white;
+  }
+}

@@ -27,3 +27,8 @@ export interface queryArticle {
   userId?: number;
   keyword?: string;
 }
+
+export interface loginType {
+  name: string;
+  password: string;
+}

@@ -7,8 +7,6 @@ import store from './store';
 //引入初始化的css
 import '@/assets/css/index.css';
 
-//定义一个路由组件
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
