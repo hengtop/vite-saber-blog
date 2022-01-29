@@ -3,13 +3,13 @@
  * @LastEditors: zhangheng
  * @LastEditTime: 2022-01-28 23:44:39
  */
-import React, { memo, useMemo } from 'react';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { changeQueryInfoAction } from '../../store';
-import type { AppState } from '@/store/reducer';
+import React, { memo, useMemo } from "react";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { changeQueryInfoAction } from "../../store";
+import type { AppState } from "@/store/reducer";
 
-import ArticleCard from '@/components/Article-Card';
-import PageComponent from '@/components/PageComponent';
+import ArticleCard from "@/components/Article-Card";
+import PageComponent from "@/components/PageComponent";
 
 export default memo(function index(props: any) {
   const { articleList } = props;
@@ -17,8 +17,8 @@ export default memo(function index(props: any) {
   //redux hooks
   const { queryInfo, articleTotalCount } = useSelector(
     (state: AppState) => ({
-      queryInfo: state.getIn(['home', 'queryInfo']),
-      articleTotalCount: state.getIn(['home', 'articleTotalCount'])
+      queryInfo: state.getIn(["home", "queryInfo"]),
+      articleTotalCount: state.getIn(["home", "articleTotalCount"]),
     }),
     shallowEqual
   );
@@ -30,7 +30,7 @@ export default memo(function index(props: any) {
       changeQueryInfoAction({
         ...(queryInfo as any),
         limit: 5,
-        offset: (currentPage - 1) * 5
+        offset: (currentPage - 1) * 5,
       })
     );
   };
@@ -43,7 +43,7 @@ export default memo(function index(props: any) {
     [articleTotalCount]
   );
   return (
-    <div className="">
+    <div>
       {articleList.map((item: any) => {
         return <ArticleCard articleInfo={item} key={item.id} />;
       })}

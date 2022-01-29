@@ -3,30 +3,31 @@
  * @LastEditors: zhangheng
  * @LastEditTime: 2022-01-29 00:01:55
  */
-import { Record, Map } from 'immutable';
-import { combineReducers } from 'redux-immutable';
-import * as actionTypes from './constant';
-import type { ActionType } from './types';
+import { Record, Map } from "immutable";
+import { combineReducers } from "redux-immutable";
+import * as actionTypes from "./constant";
+import type { ActionType } from "./types";
 
-import { reducer as homeReducer } from '@/pages/home/store';
+import { reducer as homeReducer } from "@/pages/home/store";
+import { reducer as articleReducer } from "@/pages/article/store";
 
 //总的reducer
 const initState = Map({
-  token: '',
-  refreshToken: '',
-  userId: '',
-  userInfo: {} as any
+  token: "",
+  refreshToken: "",
+  userId: "",
+  userInfo: {} as any,
 });
 const mainReducer = (state = initState, action: ActionType) => {
   switch (action.type) {
     case actionTypes.CHANGE_TOKEN:
-      return state.set('token', action.value);
+      return state.set("token", action.value);
     case actionTypes.CHANGE_REFRESHTOKEN:
-      return state.set('refreshToken', action.value);
+      return state.set("refreshToken", action.value);
     case actionTypes.CHANGE_USERID:
-      return state.set('userId', action.value);
+      return state.set("userId", action.value);
     case actionTypes.CHANGE_USERINFO:
-      return state.set('userInfo', action.value);
+      return state.set("userInfo", action.value);
     default:
       return state;
   }
@@ -34,7 +35,8 @@ const mainReducer = (state = initState, action: ActionType) => {
 
 const reducer = combineReducers({
   home: homeReducer,
-  main: mainReducer
+  main: mainReducer,
+  article: articleReducer,
 });
 export type AppState = Record<ReturnType<typeof reducer>>;
 export default reducer;

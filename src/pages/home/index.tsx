@@ -36,6 +36,6 @@ export default memo(function index() {
     <Container
       leftSlot={<LeftArticleWrapper articleList={articleList} />}
       rightSlot={<RightArticleWrapper />}
-    ></Container>
+    />
   );
 });

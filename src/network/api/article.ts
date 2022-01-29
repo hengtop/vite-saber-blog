@@ -3,13 +3,20 @@
  * @LastEditors: zhangheng
  * @LastEditTime: 2022-01-24 16:17:14
  */
-import httpRequest from '..';
-import type { CommonResponseType, queryArticle } from '../config/types';
+import httpRequest from "..";
+import type { CommonResponseType, queryArticle } from "../config/types";
 
 //获取所有的文章
 export const getAllArticle = (query?: queryArticle) => {
   return httpRequest.get<CommonResponseType>({
-    url: '/article',
-    params: query
+    url: "/article",
+    params: query,
+  });
+};
+
+//获取单个文章信息
+export const getArticleById = (id: number | string) => {
+  return httpRequest.get<CommonResponseType>({
+    url: "/article/" + id,
   });
 };
