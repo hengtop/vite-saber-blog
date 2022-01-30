@@ -1,34 +1,34 @@
 /*
  * @Date: 2022-01-23 21:09:49
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-29 01:01:49
+ * @LastEditTime: 2022-01-31 01:11:33
  */
-import React, { useState } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import localStore from "@/utils/localStore";
-import type { AppState } from "@/store/reducer";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import localStore from '@/utils/localStore';
+import type { AppState } from '@/store/reducer';
 
-import Input from "../Input";
-import ProtalsDom from "../Protals-Dom";
-import DropDownModal from "../Drop-Down-Modal";
-import CenterModal from "../Center-Modal";
+import Input from '../Input';
+import ProtalsDom from '../ProtalsDom';
+import DropDownModal from '../DropDownModal';
+import CenterModal from '../CenterModal';
 
 export default function index() {
   const [hidden, setHidden] = useState(true);
   const dropMenuData = [
-    { title: "撰写文章", value: 1 },
-    { title: "个人中心", value: 2 },
-    { title: "退出", value: 3 },
+    { title: '撰写文章', value: 1 },
+    { title: '个人中心', value: 2 },
+    { title: '退出', value: 3 }
   ];
   //redux hook
   const { userInfo } = useSelector(
     (state: AppState) => ({
-      userInfo: state.getIn(["main", "userInfo"]),
+      userInfo: state.getIn(['main', 'userInfo'])
     }),
     shallowEqual
   );
   //其他逻辑
-  const handleClickHidden = () => {
+  const handleClickHidden = (e?: any) => {
     setHidden(!hidden);
   };
   //获取点击的item key
@@ -37,10 +37,10 @@ export default function index() {
     //e.stopPropagation();
     switch (key) {
       case 1:
-        console.log("article");
+        console.log('article');
         break;
       case 2:
-        console.log("center");
+        console.log('center');
         break;
       case 3:
         //清空缓存和强制刷新
@@ -58,13 +58,10 @@ export default function index() {
       <div className="w-full flex justify-between">
         <h2 className="order-2 md:order-1 m-0 ">heng的博客</h2>
         <Input />
-        <div className="md:block order-3" onClick={handleClickHidden}>
+        <div className="md:block order-3">
           {Reflect.ownKeys(userInfo as any).length === 0 ? (
             <>
-              <i
-                className="iconfont icon-yonghu-xianxing text-2xl"
-                onClick={handleClickHidden}
-              ></i>
+              <i className="iconfont icon-yonghu-xianxing text-2xl" onClick={handleClickHidden}></i>
               <ProtalsDom>
                 <CenterModal
                   hidden={hidden}
@@ -85,8 +82,9 @@ export default function index() {
                   className="translate-x-[0] translate-y-[0] left-[unset] right-[10px] top-[68px]  shadow-lg border border-solid border-[rgba(177,180,185,.45)]"
                   valueData={dropMenuData}
                   hidden={hidden}
+                  MaskHidden={false}
                   handleChange={handleChange}
-                  MaskHidden={true}
+                  handleClickHidden={handleClickHidden}
                 />
               </ProtalsDom>
             </>

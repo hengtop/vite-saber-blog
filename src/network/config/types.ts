@@ -32,3 +32,9 @@ export interface loginType {
   name: string;
   password: string;
 }
+
+export interface LabelQueryType {
+  keyword?: string;
+  offset?: number;
+  limit?: number;
+}

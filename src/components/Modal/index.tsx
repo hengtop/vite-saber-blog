@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 13:06:11
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-29 01:01:14
+ * @LastEditTime: 2022-01-31 01:11:02
  */
 /*
  * @Date: 2022-01-27 22:40:21
@@ -18,6 +18,7 @@ export interface ModalPropsType {
   hidden?: boolean;
   maskClassName?: string;
   MaskHidden?: boolean;
+  handleClickHidden?: (e?: any) => void;
 }
 
 export default memo(function index(props: PropsWithChildren<ModalPropsType>) {
@@ -31,14 +32,15 @@ export default memo(function index(props: PropsWithChildren<ModalPropsType>) {
   const { hidden = true, MaskHidden = false } = props;
   return (
     <>
-      {/* 记录一个issue tailwind长沙市样式优先级问题，有时候同一个标签后边的类名不能覆盖，有时候又会，这跟缓存也有一定的关系，坑了我好久 */}
-      <div
-        className={classNames(
-          'fixed inset-0 z-10',
-          { hidden: hidden || MaskHidden },
-          props.maskClassName
-        )}
-      ></div>
+      {/* 记录一个issue tailwindcss样式优先级问题，有时候同一个标签后边的类名不能覆盖，有时候又会，这跟缓存也有一定的关系，坑了我好久 */}
+      {!hidden ? (
+        <div
+          className={classNames('fixed inset-0 z-10', { hidden: MaskHidden }, props.maskClassName)}
+          onClick={props.handleClickHidden}
+        ></div>
+      ) : (
+        ''
+      )}
       <div
         className={classNames('fixed bg-white rounded z-20', props.className, { hidden: hidden })}
       >

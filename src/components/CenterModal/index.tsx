@@ -1,20 +1,17 @@
 /*
  * @Date: 2022-01-28 12:42:52
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-29 00:42:34
+ * @LastEditTime: 2022-01-31 01:09:43
  */
 import React, { memo, useState } from 'react';
 import type { PropsWithChildren } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loginAction } from '@/store';
-import classNames from 'classnames';
 
 import Modal from '../Modal';
 import type { ModalPropsType } from '../Modal';
 
-interface CenterPropsType extends ModalPropsType {
-  handleClickHidden?: (e?: any) => void;
-}
+type CenterPropsType = ModalPropsType;
 
 export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
   //props/state
@@ -45,10 +42,7 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
 
   return (
     <Modal {...props}>
-      <div
-        className="fixed top-2/4 left-1/2 -translate-x-2/4 -translate-y-2/4 w-full sm:w-[320px] p-[20px] bg-white sm:rounded-md z-20"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="fixed top-2/4 left-1/2 -translate-x-2/4 -translate-y-2/4 w-full sm:w-[320px] p-[20px] bg-white sm:rounded-md z-20">
         <div
           className="absolute text-right top-[12px] right-[18px]"
           onClick={props.handleClickHidden}

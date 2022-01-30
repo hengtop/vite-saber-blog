@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 15:56:34
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-29 00:05:48
+ * @LastEditTime: 2022-01-31 00:08:07
  */
 /*
  * @Date: 2022-01-24 16:51:02
@@ -11,11 +11,10 @@
 
 import * as actionTypes from './constant';
 import { login, getUserInfo } from '@/network/api/login';
-import type { loginType } from '@/network/config/types';
+import { getLabel } from '@/network/api/label';
+import type { loginType, LabelQueryType } from '@/network/config/types';
 import localStore from '@/utils/localStore';
-import { useSelector, shallowEqual } from 'react-redux';
 import type { ActionType } from './types';
-import { AppState } from './reducer';
 
 export const changeTokenAction = (res: string): ActionType => ({
   type: actionTypes.CHANGE_TOKEN,
@@ -36,12 +35,26 @@ export const changeUserInfoAction = (res: any): ActionType => ({
   value: res
 });
 
+export const changeLabelAction = (res: any[]): ActionType => ({
+  type: actionTypes.CHANGE_LABEL,
+  value: res
+});
+
 export const getUserInfoAction = (id: number) => {
   return async (dispatch: any) => {
     /* issue 这里注意修改下后端字段将user放在data中 */
     const { user } = await getUserInfo(id);
     dispatch(changeUserInfoAction(user));
     localStore.setLocalStore('userInfo', user);
+  };
+};
+
+export const getLabelAction = (query?: LabelQueryType) => {
+  return async (dispatch: any) => {
+    const {
+      data: { list }
+    } = await getLabel(query);
+    dispatch(changeLabelAction(list));
   };
 };
 

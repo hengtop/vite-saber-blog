@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:11:01
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-25 23:57:28
+ * @LastEditTime: 2022-01-31 00:24:49
  */
 
 import React, { memo, useEffect } from 'react';
@@ -12,7 +12,7 @@ import type { queryArticle } from '@/network/config/types';
 
 import Container from '@/components/Container';
 import LeftArticleWrapper from './components/left-article-wrapper';
-import RightArticleWrapper from './components/right-article-wrapper';
+import RightArticleWrapper from '../../components/RightArticleWrapper';
 
 export default memo(function index() {
   //props/state
