@@ -1,11 +1,12 @@
 /*
  * @Date: 2022-01-28 12:42:52
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-31 01:09:43
+ * @LastEditTime: 2022-01-31 23:53:50
  */
 import React, { memo, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { loginAction } from '@/store';
 
 import Modal from '../Modal';
@@ -24,6 +25,7 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
   const dispatch = useDispatch();
 
   //other hooks
+  const navigate = useNavigate();
 
   //其他逻辑
   const handleChangeFromData = (formItem: string) => {
@@ -84,6 +86,13 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
         >
           登录
         </button>
+        <div className="text-sm pt-[10px] text-center">
+          <span>没有账号?快&nbsp;</span>
+          <a className="text-sm cursor-pointer text-[#000]" onClick={() => navigate('/signup')}>
+            注册
+          </a>
+          <span>&nbsp;一个吧</span>
+        </div>
       </div>
     </Modal>
   );

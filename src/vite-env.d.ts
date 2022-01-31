@@ -1,4 +1,6 @@
 /// <reference types="vite/client" />
+
+declare module 'lodash-es';
 import { compose } from 'redux';
 
 interface ImportMetaEnv {

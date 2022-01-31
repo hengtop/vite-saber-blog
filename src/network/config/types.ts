@@ -38,3 +38,12 @@ export interface LabelQueryType {
   offset?: number;
   limit?: number;
 }
+
+export interface registerQueryType {
+  name: string;
+  realname?: string;
+  email?: string;
+  cellphone?: string;
+  birthday?: string;
+  password: string;
+}

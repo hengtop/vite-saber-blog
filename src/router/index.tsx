@@ -1,23 +1,26 @@
 /*
  * @Date: 2022-01-23 20:15:56
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-23 22:36:52
+ * @LastEditTime: 2022-01-31 19:12:10
  */
 import React, { lazy, Suspense } from 'react';
 import type { RouteObject } from 'react-router-dom';
 
 const routes: RouteObject[] = [
   {
-    path: '/',
-    element: () => import('@/pages/home')
+    path: '/*',
+    element: () => import('@/pages/main'),
+    children: [
+      { path: '', element: () => import('@/pages/home') },
+      {
+        path: 'article/:articleId',
+        element: () => import('@/pages/article')
+      }
+    ]
   },
   {
-    path: '/article/:articleId',
-    element: () => import('@/pages/article')
-  },
-  {
-    path: '/profile/:userId',
-    element: () => import('@/pages/profile')
+    path: '/signup',
+    element: () => import('@/pages/signUp')
   }
 ];
 

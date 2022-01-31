@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "prettier": "prettier --write .",
     "prepare": "husky install",
@@ -11,6 +11,7 @@
     "commit": "cz"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/line-clamp": "^0.3.1",
     "@types/node": "^17.0.10",
     "@types/redux-immutable": "^4.0.2",
@@ -24,6 +25,8 @@
     "eslint-plugin-react": "^7.28.0",
     "highlight.js": "^11.4.0",
     "immutable": "^4.0.0",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "marked": "^4.0.12",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",

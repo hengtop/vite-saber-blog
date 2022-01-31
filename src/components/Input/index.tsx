@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 22:59:39
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-28 00:48:37
+ * @LastEditTime: 2022-02-01 00:44:52
  */
 import React, { memo } from 'react';
 
@@ -21,7 +21,7 @@ export default memo(function index() {
         <input
           placeholder="搜索文章"
           type="text"
-          className="bg-transparent outline-none focus:border-b-[1px] focus:border-black caret-gray-900"
+          className="bg-transparent outline-none focus:border-b-[1px] focus:border-black caret-gray-900 "
         />
       </div>
 
