@@ -8,7 +8,11 @@ module.exports = {
       xl: '1280px',
       '2xl': '1280px'
     },
-    extend: {}
+    extend: {
+      backgroundImage: {
+        bg1: "url('@/assets/img/bg1.jpg')"
+      }
+    }
   },
   plugins: [
     require('@tailwindcss/line-clamp'),

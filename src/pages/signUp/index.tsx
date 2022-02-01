@@ -1,10 +1,14 @@
 /*
  * @Date: 2022-01-23 20:58:44
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-01 00:48:08
+ * @LastEditTime: 2022-02-02 02:15:33
  */
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { loginAction } from '@/store';
 import { register } from '@/network/api/login';
+import { queryToObject, objectToQuery } from '@/utils/locationQuery';
 import { omit } from 'lodash-es';
 
 export default memo(function index() {
@@ -20,10 +24,11 @@ export default memo(function index() {
   });
 
   //redux hooks
-
-  //other hooks
-
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   //其他逻辑
+
   const handleChangeFromData = (formItem: string) => {
     return (e: any) => {
       setFormData({ ...formData, [formItem]: e.target.value });
@@ -32,7 +37,6 @@ export default memo(function index() {
 
   //提交
   const handleSubmit = async () => {
-    console.log(checkPassword(formData.password, formData.rePassword));
     //判断密码确认
     if (checkPassword(formData.password, formData.rePassword)) {
       const emptyProps: string[] = ['rePassword'];
@@ -43,6 +47,12 @@ export default memo(function index() {
         }
       }
       await register(omit(formData, emptyProps));
+      //成功后登录
+      await dispatch(loginAction({ name: formData.name, password: formData.password }));
+      //执行页面跳转
+      const queryObj = queryToObject();
+      const otherQuery = objectToQuery(omit(queryObj, 'redirect'));
+      navigate(queryObj['redirect'] + otherQuery);
     }
   };
 
@@ -51,8 +61,8 @@ export default memo(function index() {
   }
   /* 记录一个issue这里的样式在刚进入页面的时候不会生效，但是刷星后才会生效 */
   return (
-    <div className="container mx-auto  h-screen ">
-      <div className="p-[10px] md:w-[70%] w-screen bg-white border-2 absolute top-1/2 left-2/4 -translate-x-1/2 -translate-y-1/2 rounded-md shadow-xl">
+    <div className="h-screen bg-bg1 bg-cover bg-no-repeat">
+      <div className="p-[10px] md:w-[70%] w-screen bg-white border-2 absolute top-1/2 left-2/4 -translate-x-1/2 -translate-y-1/2 rounded-md shadow-xl opacity-80">
         <h2 className="text-center">注册用户</h2>
         <form className="h-[360px] flex flex-col justify-between sm:mx-[10%] md:mx-[20%] lg:mx-[25%] xl:mx-[25%] rounded-md">
           <div className="w-full flex">
@@ -66,6 +76,7 @@ export default memo(function index() {
               id="name"
               type="text"
               className="form-input rounded-md flex-auto"
+              style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('name')}
             />
           </div>
@@ -80,6 +91,7 @@ export default memo(function index() {
               id="realname"
               type="text"
               className="form-input rounded-md flex-auto"
+              style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('realname')}
             />
           </div>
@@ -94,6 +106,7 @@ export default memo(function index() {
               id="telphone"
               type="tel"
               className="form-input rounded-md flex-auto"
+              style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('cellphone')}
             />
           </div>
@@ -107,7 +120,8 @@ export default memo(function index() {
             <input
               id="email"
               type="email"
-              className="form-input rounded-md flex-auto"
+              className="form-input flex-auto"
+              style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('email')}
             />
           </div>
@@ -122,6 +136,7 @@ export default memo(function index() {
               id="birthday"
               type="datetime-local"
               className="form-input rounded-md flex-auto"
+              style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('birthday')}
             />
           </div>
@@ -136,6 +151,7 @@ export default memo(function index() {
               id="password"
               type="password"
               className="form-input rounded-md flex-auto"
+              style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('password')}
             />
           </div>
@@ -150,6 +166,7 @@ export default memo(function index() {
               id="repassword"
               type="password"
               className="form-input rounded-md flex-auto"
+              style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('rePassword')}
             />
           </div>

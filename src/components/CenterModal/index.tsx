@@ -1,12 +1,12 @@
 /*
  * @Date: 2022-01-28 12:42:52
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-31 23:53:50
+ * @LastEditTime: 2022-02-02 02:18:48
  */
 import React, { memo, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { loginAction } from '@/store';
 
 import Modal from '../Modal';
@@ -26,6 +26,7 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
 
   //other hooks
   const navigate = useNavigate();
+  const location = useLocation();
 
   //其他逻辑
   const handleChangeFromData = (formItem: string) => {
@@ -88,7 +89,16 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
         </button>
         <div className="text-sm pt-[10px] text-center">
           <span>没有账号?快&nbsp;</span>
-          <a className="text-sm cursor-pointer text-[#000]" onClick={() => navigate('/signup')}>
+          <a
+            className="text-sm cursor-pointer text-[#000]"
+            onClick={() =>
+              navigate(
+                '/signup' +
+                  (location.search ? location.search + '&redirect=' : '?redirect=') +
+                  location.pathname
+              )
+            }
+          >
             注册
           </a>
           <span>&nbsp;一个吧</span>
