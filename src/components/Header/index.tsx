@@ -1,10 +1,12 @@
 /*
  * @Date: 2022-01-23 21:09:49
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-31 01:11:33
+ * @LastEditTime: 2022-02-02 23:51:04
  */
 import React, { useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import localStore from '@/utils/localStore';
 import type { AppState } from '@/store/reducer';
 
@@ -27,6 +29,10 @@ export default function index() {
     }),
     shallowEqual
   );
+  //other hooks
+  //获取路由参数
+  const location = useLocation();
+  const navigate = useNavigate();
   //其他逻辑
   const handleClickHidden = (e?: any) => {
     setHidden(!hidden);
@@ -37,10 +43,11 @@ export default function index() {
     //e.stopPropagation();
     switch (key) {
       case 1:
-        console.log('article');
+        window.open('/admin/main/article/article-add' + location.search, '_self');
         break;
       case 2:
-        console.log('center');
+        console.log('/admin/main/profile/center');
+        window.open('/admin/main/profile/center' + location.search, '_self');
         break;
       case 3:
         //清空缓存和强制刷新

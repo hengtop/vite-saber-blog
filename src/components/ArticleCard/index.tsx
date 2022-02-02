@@ -1,10 +1,11 @@
 /*
  * @Date: 2022-01-24 19:19:53
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-25 22:43:53
+ * @LastEditTime: 2022-02-02 21:24:09
  */
 import React, { memo, PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { formatTime, showTimeNow } from '@/utils/timeFormat';
 
 interface CardType {
   articleInfo: any;
@@ -13,7 +14,16 @@ interface CardType {
 export default memo(function index(props: PropsWithChildren<CardType>) {
   //props/state
   const {
-    articleInfo: { cover, updateAt, id, like, text, title, views }
+    articleInfo: {
+      cover,
+      updateAt,
+      id,
+      like,
+      text,
+      title,
+      views,
+      userInfo: { name = '文章作者' }
+    }
   } = props;
 
   //redux hooks
@@ -50,8 +60,9 @@ export default memo(function index(props: PropsWithChildren<CardType>) {
         </p>
         <div className="box-content pt-1 sm:pt-2 md:pt-1 border-t-[1px] mt-4 md:mt-5 text-align text-xs md:text-sm text-gray-400 truncate">
           <i className="iconfont icon-yonghu-xianxing text-gray-400 pr-2"></i>
-          <span className="pr-2">zhangheng</span>
-          <span>你好大稍等哈松平定hi哦啊是等哈说</span>
+          <span className="pr-2">{name}</span>
+          <i className="iconfont icon-shijian  text-gray-400 pr-2"></i>
+          <span>{showTimeNow(updateAt)}</span>
         </div>
       </div>
     </div>
