@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 12:55:20
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-31 17:47:49
+ * @LastEditTime: 2022-02-06 19:08:44
  */
 import React, { memo } from 'react';
 import type { PropsWithChildren } from 'react';
@@ -18,7 +18,7 @@ export default memo(function index(props: PropsWithChildren<LabelPropsType>) {
         return (
           <span
             key={item.id}
-            className="inline-block px-[5px] whitespace-nowrap bg-[#bfa] mx-[5px] my-[3px] rounded cursor-pointer"
+            className="inline-block px-[5px] whitespace-nowrap bg-[#fafafa] border border-[#d9d9d9] mx-[5px] my-[3px] rounded cursor-pointer"
           >
             {item.name}
           </span>

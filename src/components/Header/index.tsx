@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 21:09:49
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-02 23:51:04
+ * @LastEditTime: 2022-02-06 19:05:20
  */
 import React, { useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -32,7 +32,6 @@ export default function index() {
   //other hooks
   //获取路由参数
   const location = useLocation();
-  const navigate = useNavigate();
   //其他逻辑
   const handleClickHidden = (e?: any) => {
     setHidden(!hidden);
@@ -46,7 +45,6 @@ export default function index() {
         window.open('/admin/main/article/article-add' + location.search, '_self');
         break;
       case 2:
-        console.log('/admin/main/profile/center');
         window.open('/admin/main/profile/center' + location.search, '_self');
         break;
       case 3:
