@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 15:56:34
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-02 01:56:00
+ * @LastEditTime: 2022-02-07 23:35:53
  */
 /*
  * @Date: 2022-01-24 16:51:02
@@ -12,6 +12,7 @@
 import * as actionTypes from './constant';
 import { login, getUserInfo } from '@/network/api/login';
 import { getLabel } from '@/network/api/label';
+import { toast } from 'react-toastify';
 import type { loginType, LabelQueryType } from '@/network/config/types';
 import localStore from '@/utils/localStore';
 import type { ActionType } from './types';
@@ -63,6 +64,11 @@ export const loginAction = (query: loginType) => {
     const {
       data: { token, refreshToken, id }
     } = await login(query);
+    toast.success('登陆成功', {
+      hideProgressBar: true,
+      autoClose: 1500,
+      position: 'top-right'
+    });
     //保存
     dispatch(changeTokenAction(token));
     localStore.setLocalStore('token', token);

@@ -1,12 +1,13 @@
 /*
  * @Date: 2022-01-28 12:42:52
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-02 02:18:48
+ * @LastEditTime: 2022-02-07 23:11:11
  */
 import React, { memo, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { loginAction } from '@/store';
 
 import Modal from '../Modal';
@@ -36,9 +37,10 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
   };
 
   //登录
-  const handleSumbit = (form: typeof formData) => {
+  const handleSumbit = async (form: typeof formData) => {
     //issue 校验待做
-    dispatch(loginAction(form));
+
+    await dispatch(loginAction(form));
     const hiddenFunc = props.handleClickHidden;
     hiddenFunc && hiddenFunc();
   };

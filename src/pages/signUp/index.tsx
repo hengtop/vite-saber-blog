@@ -1,13 +1,14 @@
 /*
  * @Date: 2022-01-23 20:58:44
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-02 02:15:33
+ * @LastEditTime: 2022-02-07 23:44:50
  */
 import React, { memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { loginAction } from '@/store';
 import { register } from '@/network/api/login';
+import { toast } from 'react-toastify';
 import { queryToObject, objectToQuery } from '@/utils/locationQuery';
 import { omit } from 'lodash-es';
 
@@ -25,7 +26,6 @@ export default memo(function index() {
 
   //redux hooks
   const dispatch = useDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
   //其他逻辑
 
@@ -47,12 +47,19 @@ export default memo(function index() {
         }
       }
       await register(omit(formData, emptyProps));
-      //成功后登录
-      await dispatch(loginAction({ name: formData.name, password: formData.password }));
-      //执行页面跳转
-      const queryObj = queryToObject();
-      const otherQuery = objectToQuery(omit(queryObj, 'redirect'));
-      navigate(queryObj['redirect'] + otherQuery);
+      await toast.success('注册成功', {
+        hideProgressBar: true,
+        autoClose: 800,
+        position: 'top-right',
+        onClose: async () => {
+          //成功后登录
+          await dispatch(loginAction({ name: formData.name, password: formData.password }));
+          //执行页面跳转
+          const queryObj = queryToObject();
+          const otherQuery = objectToQuery(omit(queryObj, 'redirect'));
+          navigate(queryObj['redirect'] + otherQuery);
+        }
+      });
     }
   };
 

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 12:52:24
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-31 00:06:30
+ * @LastEditTime: 2022-02-07 22:41:19
  */
 import React, { memo, useMemo } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
@@ -44,9 +44,13 @@ export default memo(function index(props: any) {
   );
   return (
     <div>
-      {articleList.map((item: any) => {
-        return <ArticleCard articleInfo={item} key={item.id} />;
-      })}
+      {articleList.length ? (
+        articleList.map((item: any) => {
+          return <ArticleCard articleInfo={item} key={item.id} />;
+        })
+      ) : (
+        <div className="bg-white p-[24px]">一篇文章也没有</div>
+      )}
       <PageComponent
         totalPage={computedTotalPage}
         currentPage={1}

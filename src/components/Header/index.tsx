@@ -1,10 +1,11 @@
 /*
  * @Date: 2022-01-23 21:09:49
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-06 19:05:20
+ * @LastEditTime: 2022-02-07 23:47:47
  */
 import React, { useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import localStore from '@/utils/localStore';
@@ -50,7 +51,15 @@ export default function index() {
       case 3:
         //清空缓存和强制刷新
         localStore.clearLocalStore();
-        window.location.reload();
+        toast.info('退出成功', {
+          hideProgressBar: true,
+          autoClose: 500,
+          position: 'top-right',
+          onClose: () => {
+            window.location.reload();
+          }
+        });
+
         break;
       default:
         return;
