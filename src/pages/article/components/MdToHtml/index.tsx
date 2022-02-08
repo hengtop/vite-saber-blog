@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { marked } from 'marked';
 import type { PropsWithChildren } from 'react';
 import 'highlight.js/styles/atom-one-dark.css';
 import showdown from 'showdown';

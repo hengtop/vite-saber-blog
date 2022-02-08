@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 
 declare module 'lodash-es';
+declare module 'showdown';
 import { compose } from 'redux';
 
 interface ImportMetaEnv {

@@ -1,10 +1,11 @@
 /*
  * @Date: 2022-01-24 19:19:53
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-02 21:24:09
+ * @LastEditTime: 2022-02-08 23:27:35
  */
 import React, { memo, PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
+import showdown from 'showdown';
 import { formatTime, showTimeNow } from '@/utils/timeFormat';
 
 interface CardType {
@@ -31,6 +32,9 @@ export default memo(function index(props: PropsWithChildren<CardType>) {
   //other hooks
   const navigate = useNavigate();
   //其他逻辑
+  //将获取到的text先解析为html文本然后再转为纯文本
+  const converter = new showdown.Converter();
+  const stringText = converter.makeHtml(text).replace(/<[^>]*>|/g, '');
 
   return (
     <div
@@ -56,7 +60,7 @@ export default memo(function index(props: PropsWithChildren<CardType>) {
           <span className="text-lg md:text-xl text-gray-800">{title}</span>
         </h3>
         <p className="my-2 leading-6 text-gray-500  text-sm md:text-base line-clamp-1 sm:line-clamp-2 sm:h-[48px] md:line-clamp-3 md:h-[72px] overflow-hidden overflow-ellipsis">
-          {text}
+          {stringText.slice(0, 550)}
         </p>
         <div className="box-content pt-1 sm:pt-2 md:pt-1 border-t-[1px] mt-4 md:mt-5 text-align text-xs md:text-sm text-gray-400 truncate">
           <i className="iconfont icon-yonghu-xianxing text-gray-400 pr-2"></i>
