@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 21:09:49
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-09 00:00:24
+ * @LastEditTime: 2022-02-10 23:47:53
  */
 import React, { useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -73,8 +73,8 @@ export default function index() {
   };
   return (
     <div className="fixed left-0 right-0 w-auto h-16 bg-white flex items-center justify-center px-[40px] z-[5]">
-      <div className="w-full flex justify-between">
-        <h2 className="order-2 md:order-1 m-0 ">heng的博客</h2>
+      <div className="w-full flex justify-between items-center">
+        <h2 className="order-2  md:order-1">heng的博客</h2>
         <Input handleSearchChange={handleSearchChange} />
         <div className="md:block order-3">
           {Reflect.ownKeys(userInfo as any).length === 0 ? (

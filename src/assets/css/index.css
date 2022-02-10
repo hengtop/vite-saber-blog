@@ -15,34 +15,34 @@ body {
 /* 去除一些默认样式对于标签的影响 */
 h1 {
   @apply text-2xl;
-  font-size: 2em;
-  margin: 0.67em 0;
+  font-size: 2em !important;
+  margin: 0.67em 0 !important;
 }
 
 h2 {
   @apply text-xl;
-  font-size: 1.5em;
-  margin: 0.75em 0;
+  font-size: 1.5em !important;
+  margin: 0.75em 0 !important;
 }
 
 h3 {
   @apply text-lg;
-  font-size: 1.17em;
-  margin: 0.83em 0;
+  font-size: 1.17em !important;
+  margin: 0.83em 0 !important;
 }
 
 h4,
 p {
-  margin: 1.12em 0;
+  margin: 1.12em 0 !important;
 }
 
 h5 {
-  font-size: 0.83em;
-  margin: 1.5em 0;
+  font-size: 0.83em !important;
+  margin: 1.5em 0 !important;
 }
 h6 {
-  font-size: 0.75em;
-  margin: 1.67em 0;
+  font-size: 0.75em !important;
+  margin: 1.67em 0 !important;
 }
 
 h1,
@@ -54,6 +54,22 @@ h6,
 b,
 strong {
   font-weight: bolder !important;
+}
+ol {
+  margin: 1.5rem 0;
+  box-sizing: border-box;
+  padding: 0 0 0 40px;
+  display: block;
+  list-style-type: decimal;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+ol li {
+  display: list-item;
+  text-align: -webkit-match-parent;
 }
 
 a:hover {

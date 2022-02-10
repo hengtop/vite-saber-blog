@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 22:59:39
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-09 00:53:36
+ * @LastEditTime: 2022-02-11 00:27:31
  */
 import React, { memo, useState, useRef, useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
@@ -43,7 +43,10 @@ export default memo(function index(props: PropsWithChildren<InputPropsType>) {
           block: showInput,
           hidden: !showInput,
           absolute: showInput,
-          'z-10': showInput
+          'inset-0': showInput,
+          'z-10': showInput,
+          'px-[40px]': showInput,
+          'py-[16px]': showInput
         })}
       >
         <i className="iconfont icon-sousuo text-2xl text-white align-middle mr-2 text-black"></i>
@@ -56,12 +59,9 @@ export default memo(function index(props: PropsWithChildren<InputPropsType>) {
           onBlur={handleSearchBlur}
         />
         <div
-          className={classNames(
-            'h-[100%] w-screen bg-white absolute top-[-16px] left-[-40px] z-[-1]',
-            {
-              hidden: !showInput
-            }
-          )}
+          className={classNames('h-[100%] w-screen bg-white absolute inset-0 z-[-1]', {
+            hidden: !showInput
+          })}
         ></div>
       </div>
 

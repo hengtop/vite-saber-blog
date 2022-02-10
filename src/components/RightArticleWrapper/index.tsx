@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 12:55:20
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-31 17:47:33
+ * @LastEditTime: 2022-02-10 23:35:14
  */
 import React, { memo, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
@@ -21,7 +21,7 @@ export default memo(function index() {
     dispatch(getLabelAction({ offset: 0, limit: 20 }));
   }, [dispatch]);
   return (
-    <div className="bg-white p-[15px]">
+    <div className="bg-white p-[15px] rounded-b xl:rounded">
       <Label label={label as any[]} />
     </div>
   );
