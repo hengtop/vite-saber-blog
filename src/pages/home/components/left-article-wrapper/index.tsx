@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 12:52:24
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-10 23:32:37
+ * @LastEditTime: 2022-02-13 00:10:22
  */
 import React, { memo, useMemo } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
@@ -43,7 +43,7 @@ export default memo(function index(props: any) {
     [articleTotalCount]
   );
   return (
-    <div>
+    <div className="p-4">
       {articleList.length ? (
         articleList.map((item: any) => {
           return <ArticleCard articleInfo={item} key={item.id} />;

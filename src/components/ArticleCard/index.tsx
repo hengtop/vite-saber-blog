@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 19:19:53
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-08 23:27:35
+ * @LastEditTime: 2022-02-13 00:11:57
  */
 import React, { memo, PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -56,9 +56,9 @@ export default memo(function index(props: PropsWithChildren<CardType>) {
       )}
       {/* issue 文本省略总结 */}
       <div className="flex-auto py-2 md:py-4 px-4 overflow-hidden overflow-ellipsis">
-        <h3 className="truncate">
+        <div className="truncate font-bold">
           <span className="text-lg md:text-xl text-gray-800">{title}</span>
-        </h3>
+        </div>
         <p className="my-2 leading-6 text-gray-500  text-sm md:text-base line-clamp-1 sm:line-clamp-2 sm:h-[48px] md:line-clamp-3 md:h-[72px] overflow-hidden overflow-ellipsis">
           {stringText.slice(0, 550)}
         </p>
