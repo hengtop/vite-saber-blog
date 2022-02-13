@@ -30,8 +30,8 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
   };
 
   return (
-    <div className="p-8 md:p-[32px] md:rounded pb-[40px] bg-white">
-      <h2 className="font-black text-4xl mb-[20px]">{title}</h2>
+    <div className="p-8 md:p-[32px] md:rounded pb-[40px] bg-white articleHtml">
+      <h1 className="font-black text-4xl mb-[20px]">{title}</h1>
       <div dangerouslySetInnerHTML={createHtml(htmlStr)}></div>
     </div>
   );
