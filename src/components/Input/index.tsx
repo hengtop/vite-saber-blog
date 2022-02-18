@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 22:59:39
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-11 00:27:31
+ * @LastEditTime: 2022-02-19 00:14:08
  */
 import React, { memo, useState, useRef, useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
@@ -9,13 +9,14 @@ import classNames from 'classnames';
 
 interface InputPropsType {
   handleSearchChange: (value: string) => void;
+  handleSearchClick: (e: any) => void;
 }
 
 export default memo(function index(props: PropsWithChildren<InputPropsType>) {
   //props/state
-  const { handleSearchChange } = props;
-  const [keyword, setKeyword] = useState('');
+  const { handleSearchChange, handleSearchClick } = props;
   const [showInput, setShowInput] = useState(false);
+  let isLock = false;
   //redux hooks
 
   //other hooks
@@ -36,6 +37,18 @@ export default memo(function index(props: PropsWithChildren<InputPropsType>) {
   const handleSearchBlur = () => {
     setShowInput(false);
   };
+  const handleChange = (e: any) => {
+    if (!isLock) {
+      handleSearchChange(e.target.value);
+    } else {
+      return;
+    }
+  };
+  const handleCompositionEnd = (e: any) => {
+    isLock = false;
+    handleSearchChange(e.target.value);
+  };
+
   return (
     <div className="order-1 md:order-2 md:ml-[300px] lg:ml-[550px] xl:ml-[750px]">
       <div
@@ -49,14 +62,26 @@ export default memo(function index(props: PropsWithChildren<InputPropsType>) {
           'py-[16px]': showInput
         })}
       >
-        <i className="iconfont icon-sousuo text-2xl text-white align-middle mr-2 text-black"></i>
+        <i
+          className={classNames(
+            'iconfont icon-sousuo text-2xl text-white align-middle mr-2 text-black cursor-pointer',
+            {
+              hidden: showInput
+            }
+          )}
+        ></i>
         <input
           ref={inputRef}
           placeholder="搜索文章"
           type="text"
           className="outline-none focus:border-b-[1px] focus:border-black caret-gray-900 bg-white"
-          onChange={(e) => handleSearchChange(e.target.value)}
+          onChange={handleChange}
+          onCompositionStart={() => {
+            isLock = true;
+          }}
+          onCompositionEnd={handleCompositionEnd}
           onBlur={handleSearchBlur}
+          onKeyDown={handleSearchClick}
         />
         <div
           className={classNames('h-[100%] w-screen bg-white absolute inset-0 z-[-1]', {

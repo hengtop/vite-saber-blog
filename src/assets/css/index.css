@@ -75,6 +75,14 @@ ol li {
   text-align: -webkit-match-parent;
 }
 
-a:hover {
-  border-bottom: 1px solid #333;
+.articleHtml a:hover {
+  border-bottom: 1px solid #000;
+}
+.articleHtml a {
+  color: #58666e;
+  border-bottom: 1px solid #999;
+}
+
+.articleHtml code {
+  font-size: 14px;
 }

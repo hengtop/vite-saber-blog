@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 16:48:56
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-31 00:01:12
+ * @LastEditTime: 2022-02-18 23:31:59
  */
 import { Record, Map } from 'immutable';
 import { combineReducers } from 'redux-immutable';
@@ -17,7 +17,8 @@ const initState = Map({
   refreshToken: '',
   userId: '',
   userInfo: {} as any,
-  label: [] as any[]
+  label: [] as any[],
+  keyword: '' //搜索文章的关键词
 });
 const mainReducer = (state = initState, action: ActionType) => {
   switch (action.type) {
@@ -31,6 +32,8 @@ const mainReducer = (state = initState, action: ActionType) => {
       return state.set('userInfo', action.value);
     case actionTypes.CHANGE_LABEL:
       return state.set('label', action.value);
+    case actionTypes.CHANGE_KEYWORD:
+      return state.set('keyword', action.value);
     default:
       return state;
   }

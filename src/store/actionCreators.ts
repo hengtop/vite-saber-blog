@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 15:56:34
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-07 23:35:53
+ * @LastEditTime: 2022-02-18 23:31:47
  */
 /*
  * @Date: 2022-01-24 16:51:02
@@ -38,6 +38,11 @@ export const changeUserInfoAction = (res: any): ActionType => ({
 
 export const changeLabelAction = (res: any[]): ActionType => ({
   type: actionTypes.CHANGE_LABEL,
+  value: res
+});
+
+export const changeKeyword = (res: string): ActionType => ({
+  type: actionTypes.CHANGE_KEYWORD,
   value: res
 });
 

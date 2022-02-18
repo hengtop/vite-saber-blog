@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:11:30
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-31 00:09:54
+ * @LastEditTime: 2022-02-17 21:36:51
  */
 import React, { memo, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { getArticleInfoByIdAction } from './store';
 import type { AppState } from '@/store/reducer';
 
 import Container from '@/components/Container';
-import MdToHtml from './components/MdToHtml';
+import LeftArticleWrapper from './components/LeftArticleWrapper';
 import RightArticleWrapper from '@/components/RightArticleWrapper';
 
 export default memo(function index() {
@@ -29,11 +29,13 @@ export default memo(function index() {
   }, [dispatch, params.articleId]);
 
   //其他逻辑
-  const { text = '', title = '' } = articleInfo as any;
+  const { text = '', title = '', classifys = [], labels = [] } = articleInfo as any;
 
   return (
     <Container
-      leftSlot={<MdToHtml mdStr={text} title={title} />}
+      leftSlot={
+        <LeftArticleWrapper text={text} title={title} classifys={classifys} labels={labels} />
+      }
       rightSlot={<RightArticleWrapper />}
     />
   );

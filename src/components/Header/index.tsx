@@ -1,15 +1,17 @@
 /*
  * @Date: 2022-01-23 21:09:49
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-10 23:47:53
+ * @LastEditTime: 2022-02-19 00:21:10
  */
 import React, { useState } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 
+import { getAllArticleAction } from '@/pages/home/store';
 import localStore from '@/utils/localStore';
 import type { AppState } from '@/store/reducer';
+import { changeKeyword } from '@/store';
 
 import Input from '../Input';
 import ProtalsDom from '../ProtalsDom';
@@ -24,22 +26,37 @@ export default function index() {
     { title: '退出', value: 3 }
   ];
   //redux hook
-  const { userInfo } = useSelector(
+  //这里解构取出的变量会丢失类型。。。
+  const { userInfo, keyword } = useSelector(
     (state: AppState) => ({
-      userInfo: state.getIn(['main', 'userInfo'])
+      userInfo: state.getIn(['main', 'userInfo']),
+      keyword: state.getIn(['main', 'keyword'])
     }),
     shallowEqual
   );
+  const dispatch = useDispatch();
   //other hooks
   //获取路由参数
   const location = useLocation();
+  const navigate = useNavigate();
   //其他逻辑
   const handleClickHidden = () => {
     setHidden(!hidden);
   };
   //获取搜索输入框的值，进行搜索提示
   const handleSearchChange = (value: string) => {
-    console.log(value);
+    dispatch(changeKeyword(value));
+    //搜索提示相关逻辑
+  };
+  //回车或者点击搜索框左侧按钮搜索
+  const handleSearchClick = (e: any) => {
+    if (e.keyCode === 13 && (keyword as string).trim()) {
+      dispatch(getAllArticleAction({ keyword: keyword as string }));
+      const searchQuery = createSearchParams({
+        query: keyword as string
+      });
+      navigate('/?' + searchQuery);
+    }
   };
   //获取点击的item key
   const handleChange = (e: any, key: number | string) => {
@@ -74,8 +91,10 @@ export default function index() {
   return (
     <div className="fixed left-0 right-0 w-auto h-16 bg-white flex items-center justify-center px-[40px] z-[5]">
       <div className="w-full flex justify-between items-center">
-        <h2 className="order-2  md:order-1">heng的博客</h2>
-        <Input handleSearchChange={handleSearchChange} />
+        <h2 className="order-2  md:order-1 cursor-pointer" onClick={() => navigate('/')}>
+          heng的博客
+        </h2>
+        <Input handleSearchChange={handleSearchChange} handleSearchClick={handleSearchClick} />
         <div className="md:block order-3">
           {Reflect.ownKeys(userInfo as any).length === 0 ? (
             <>

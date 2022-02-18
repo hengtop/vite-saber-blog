@@ -1,14 +1,16 @@
 /*
  * @Date: 2022-01-23 20:11:01
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-31 00:24:49
+ * @LastEditTime: 2022-02-19 00:23:49
  */
 
 import React, { memo, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { getAllArticleAction } from './store';
+import { getAllArticleAction, getArticleByQueryAction } from './store';
 import type { AppState } from '@/store/reducer';
 import type { queryArticle } from '@/network/config/types';
+import { useSearchParams } from 'react-router-dom';
+import type { QueryType } from '@/components/Label/components/LabelItem';
 
 import Container from '@/components/Container';
 import LeftArticleWrapper from './components/left-article-wrapper';
@@ -28,9 +30,25 @@ export default memo(function index() {
     shallowEqual
   );
   //other hooks
+  const [searchParams] = useSearchParams();
+  const searchKeyword = searchParams.get('query') ?? '';
   useEffect(() => {
-    dispatch(getAllArticleAction(queryInfo as queryArticle));
-  }, [dispatch, queryInfo]);
+    const queryType =
+      searchParams.toString().match('label') ?? searchParams.toString().match('classify');
+    const queryTypeId = searchParams.get('labelId') ?? searchParams.get('classifyId');
+
+    //查询对应标签或者分类下的文章 或者查询全部文章
+    queryType && queryTypeId
+      ? dispatch(
+          getArticleByQueryAction(queryTypeId, queryType[0] as QueryType, queryInfo as queryArticle)
+        )
+      : dispatch(
+          getAllArticleAction({
+            ...(queryInfo as queryArticle),
+            keyword: searchKeyword as string
+          })
+        );
+  }, [dispatch, queryInfo, searchParams]);
   //其他逻辑
   return (
     <Container

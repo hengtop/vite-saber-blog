@@ -1,12 +1,13 @@
 /*
  * @Date: 2022-01-24 12:52:24
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-13 21:03:49
+ * @LastEditTime: 2022-02-18 23:06:23
  */
 import React, { memo, useMemo } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { changeQueryInfoAction } from '../../store';
 import type { AppState } from '@/store/reducer';
+import { useSearchParams } from 'react-router-dom';
 
 import ArticleCard from '@/components/ArticleCard';
 import PageComponent from '@/components/PageComponent';
@@ -24,11 +25,15 @@ export default memo(function index(props: any) {
   );
   const dispatch = useDispatch();
   //other hooks
+  //获取query参数
+  const [searchParams] = useSearchParams();
+  console.log();
   const getCurrentPage = (currentPage: number) => {
     //保存搜索query
     dispatch(
       changeQueryInfoAction({
         ...(queryInfo as any),
+        keyword: searchParams.get('query'),
         limit: 5,
         offset: (currentPage - 1) * 5
       })
@@ -38,10 +43,12 @@ export default memo(function index(props: any) {
   const totalPage = (totalCount: number) => {
     return Math.ceil(totalCount / 5);
   };
+  //总数
   const computedTotalPage = useMemo(
     () => totalPage(articleTotalCount as number),
     [articleTotalCount]
   );
+
   return (
     <div className="px-4 md:px-0">
       {articleList.length ? (
