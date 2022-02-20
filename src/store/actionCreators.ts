@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 15:56:34
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-18 23:31:47
+ * @LastEditTime: 2022-02-20 18:07:27
  */
 /*
  * @Date: 2022-01-24 16:51:02
@@ -46,6 +46,11 @@ export const changeKeyword = (res: string): ActionType => ({
   value: res
 });
 
+export const changeLabelLoadingAction = (res: boolean): ActionType => ({
+  type: actionTypes.CHANGE_LABELLOADING,
+  value: res
+});
+
 export const getUserInfoAction = (id: number) => {
   return async (dispatch: any) => {
     /* issue 这里注意修改下后端字段将user放在data中 */
@@ -57,10 +62,12 @@ export const getUserInfoAction = (id: number) => {
 
 export const getLabelAction = (query?: LabelQueryType) => {
   return async (dispatch: any) => {
+    dispatch(changeLabelLoadingAction(true));
     const {
       data: { list }
     } = await getLabel(query);
-    dispatch(changeLabelAction(list));
+    await dispatch(changeLabelAction(list));
+    dispatch(changeLabelLoadingAction(false));
   };
 };
 

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 16:51:09
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-28 16:01:35
+ * @LastEditTime: 2022-02-20 17:24:07
  */
 import { Map } from 'immutable';
 import * as actionTypes from './constant';
@@ -10,7 +10,8 @@ import type { ActionType } from '@/store/types';
 const initState = Map({
   articleList: [],
   articleTotalCount: 0,
-  queryInfo: {} as any //获取文章的query
+  queryInfo: {} as any, //获取文章的query
+  articleLoading: false //文章正在加载中
 });
 
 export default function (state = initState, action: ActionType) {
@@ -21,6 +22,8 @@ export default function (state = initState, action: ActionType) {
       return state.set('articleTotalCount', action.value);
     case actionTypes.CHANGE_QUERY:
       return state.set('queryInfo', action.value);
+    case actionTypes.CHANGE_ARTICLELOADING:
+      return state.set('articleLoading', action.value);
     default:
       return state;
   }

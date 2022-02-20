@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:11:30
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-17 21:36:51
+ * @LastEditTime: 2022-02-20 17:09:04
  */
 import React, { memo, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -18,9 +18,12 @@ export default memo(function index() {
 
   //redux hooks
   const dispatch = useDispatch();
-  const { articleInfo } = useSelector((state: AppState) => ({
-    articleInfo: state.getIn(['article', 'articleInfo'])
-  }));
+  const { articleInfo } = useSelector(
+    (state: AppState) => ({
+      articleInfo: state.getIn(['article', 'articleInfo'])
+    }),
+    shallowEqual
+  );
 
   //other hooks
   const params = useParams();

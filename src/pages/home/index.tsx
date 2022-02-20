@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:11:01
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-19 00:23:49
+ * @LastEditTime: 2022-02-20 17:15:15
  */
 
 import React, { memo, useEffect } from 'react';
@@ -31,7 +31,7 @@ export default memo(function index() {
   );
   //other hooks
   const [searchParams] = useSearchParams();
-  const searchKeyword = searchParams.get('query') ?? '';
+  const searchKeyword = searchParams.get('query');
   useEffect(() => {
     const queryType =
       searchParams.toString().match('label') ?? searchParams.toString().match('classify');
