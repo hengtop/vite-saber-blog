@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 12:55:20
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-20 18:12:21
+ * @LastEditTime: 2022-02-21 02:07:49
  */
 import React, { memo, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
@@ -26,7 +26,7 @@ export default memo(function index() {
     dispatch(getLabelAction({ offset: 0, limit: 20 }));
   }, [dispatch]);
   return (
-    <div className="bg-white mx-[16px] md:m-0 p-[15px] rounded-b xl:rounded">
+    <div className="bg-white p-[15px] rounded-b xl:rounded">
       {labelLoading ? <LabelListSkeleton /> : <Label label={label as any[]} />}
     </div>
   );

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-02-17 21:24:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-20 18:33:50
+ * @LastEditTime: 2022-02-21 02:08:42
  */
 import React, { memo } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
@@ -40,7 +40,7 @@ export default memo(function index(props: PropsWithChildren<propsType>) {
       ) : (
         <>
           <MdToHtml mdStr={text} title={title} />
-          <div className="bg-white px-[32px] pb-[20px] flex items-center rounded-b">
+          <div className="bg-white px-[32px] pb-[20px] mb-[10px] flex items-center rounded-b">
             <span className="mr-[5px]">分类: </span>
             {classifys &&
               classifys.map((item: any) => {
