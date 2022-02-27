@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
 import 'highlight.js/styles/atom-one-dark.css';
 import showdown from 'showdown';
@@ -7,14 +7,21 @@ import showdownHighlight from 'showdown-highlight';
 interface MdToHtmlPropsType {
   mdStr: string;
   title: string;
+  isMounted?: (value: boolean) => void;
 }
 
 export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) {
   //props/state
-  const { mdStr, title } = props;
+  const { mdStr, title, isMounted } = props;
   //redux hooks
 
   //other hooks
+  useEffect(() => {
+    isMounted && isMounted(true);
+    return () => {
+      isMounted && isMounted(false);
+    };
+  }, [mdStr, title]);
 
   //其他逻辑
   //转换md格式的数据为html

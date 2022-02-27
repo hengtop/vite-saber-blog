@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 19:19:53
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-19 00:42:54
+ * @LastEditTime: 2022-02-27 18:41:29
  */
 import React, { memo, PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { showTimeNow } from '@/utils/timeFormat';
 
 import LabelItem from '@/components/Label/components/LabelItem';
 
-interface CardType {
+export interface CardType {
   articleInfo: any;
 }
 

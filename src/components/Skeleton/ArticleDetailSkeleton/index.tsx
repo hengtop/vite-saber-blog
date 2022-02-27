@@ -1,16 +1,23 @@
 /*
  * @Date: 2022-02-20 17:34:29
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-20 18:33:24
+ * @LastEditTime: 2022-02-27 20:35:37
  */
 //骨架加载组件
 
 import React, { memo } from 'react';
+import type { PropsWithChildren } from 'react';
+import classNames from 'classnames';
 
 import './index.css';
 
-export default memo(function index() {
+interface Sleleton {
+  className?: string;
+}
+
+export default memo(function index(props: PropsWithChildren<Sleleton>) {
   //props/state
+  const { className } = props;
 
   //redux hooks
 
@@ -19,7 +26,7 @@ export default memo(function index() {
   //其他逻辑
 
   return (
-    <div className="article-detail-skeleton-wrapper">
+    <div className={classNames('article-detail-skeleton-wrapper', className)}>
       <div className="article-detail-skeleton">
         <div className="skeleton-detail-line"></div>
         <div className="skeleton-detail-line"></div>

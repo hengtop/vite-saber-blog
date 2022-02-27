@@ -1,20 +1,22 @@
 /*
  * @Date: 2022-01-24 12:52:24
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-20 18:01:59
+ * @LastEditTime: 2022-02-27 20:10:53
  */
-import React, { memo, useMemo } from 'react';
+import React, { memo, useMemo, useState } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { changeQueryInfoAction } from '../../store';
 import type { AppState } from '@/store/reducer';
 import { useSearchParams } from 'react-router-dom';
+import classNames from 'classnames';
 
-import ArticleCard from '@/components/ArticleCard';
+import ArticleList from '../ArticleList';
 import PageComponent from '@/components/PageComponent';
 import ArticleListSkeleton from '@/components/Skeleton/ArticleListSkeleton';
 
 export default memo(function index(props: any) {
   const { articleList } = props;
+  const [isArticleCardMounted, setIsArticleCardMounted] = useState(false);
 
   //redux hooks
   const { queryInfo, articleTotalCount, articleLoading } = useSelector(
@@ -49,27 +51,24 @@ export default memo(function index(props: any) {
     () => totalPage(articleTotalCount as number),
     [articleTotalCount]
   );
+  //检测卡片组件是否渲染完成
+  const handleIsArticleCardMounted = (value: boolean) => {
+    setIsArticleCardMounted(value);
+  };
 
   return (
     <div className="px-4 md:px-0">
-      {articleLoading ? (
-        <ArticleListSkeleton />
-      ) : (
-        <>
-          {articleList.length ? (
-            articleList.map((item: any) => {
-              return <ArticleCard articleInfo={item} key={item.id} />;
-            })
-          ) : (
-            <div className="bg-white p-[24px]">一篇文章也没有</div>
-          )}
-          <PageComponent
-            totalPage={computedTotalPage}
-            currentPage={1}
-            pageCallbackFn={getCurrentPage}
-          />
-        </>
-      )}
+      <ArticleListSkeleton
+        className={classNames({ hidden: !articleLoading && isArticleCardMounted })}
+      />
+      <div className={classNames({ hidden: articleLoading || !isArticleCardMounted })}>
+        <ArticleList articleList={articleList} isMounted={handleIsArticleCardMounted} />
+        <PageComponent
+          totalPage={computedTotalPage}
+          currentPage={1}
+          pageCallbackFn={getCurrentPage}
+        />
+      </div>
     </div>
   );
 });
