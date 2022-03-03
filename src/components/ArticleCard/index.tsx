@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 19:19:53
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-27 18:41:29
+ * @LastEditTime: 2022-03-01 23:28:25
  */
 import React, { memo, PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -62,6 +62,9 @@ export default memo(function index(props: PropsWithChildren<CardType>) {
       __html: htmlStr
     };
   };
+  //渲染标题和文件简介内容
+  const renderTitle = renderHighLightHtml(title, searchKeyword as string);
+  const renderText = renderHighLightHtml(stringText.slice(0, 550), searchKeyword as string);
   return (
     <div
       onClick={() => {
@@ -85,15 +88,12 @@ export default memo(function index(props: PropsWithChildren<CardType>) {
         <div className="truncate font-bold">
           <span
             className="text-lg md:text-xl text-gray-800"
-            dangerouslySetInnerHTML={renderHighLightHtml(title, searchKeyword as string)}
+            dangerouslySetInnerHTML={renderTitle}
           ></span>
         </div>
         <p
           className="my-2 leading-6 text-gray-500  text-sm md:text-base line-clamp-1 sm:line-clamp-2 h-[24px] sm:h-[48px] md:line-clamp-3 md:h-[72px] overflow-hidden overflow-ellipsis"
-          dangerouslySetInnerHTML={renderHighLightHtml(
-            stringText.slice(0, 550),
-            searchKeyword as string
-          )}
+          dangerouslySetInnerHTML={renderText}
         ></p>
         <div className="box-content flex items-center h-[22px] md:h-[36px] pt-1 sm:pt-2 md:pt-1 border-t-[1px] mt-4 md:mt-5 text-align text-xs md:text-sm text-gray-400 truncate">
           <i className="iconfont icon-yonghu-xianxing text-gray-400 pr-2"></i>

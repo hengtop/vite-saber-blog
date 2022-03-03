@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 12:52:24
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-27 20:10:53
+ * @LastEditTime: 2022-03-01 23:44:41
  */
 import React, { memo, useMemo, useState } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
@@ -53,6 +53,7 @@ export default memo(function index(props: any) {
   );
   //检测卡片组件是否渲染完成
   const handleIsArticleCardMounted = (value: boolean) => {
+    console.log('加载了几次', value);
     setIsArticleCardMounted(value);
   };
 

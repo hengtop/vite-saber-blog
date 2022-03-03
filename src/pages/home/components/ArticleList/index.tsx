@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-02-27 18:11:25
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-27 20:09:44
+ * @LastEditTime: 2022-03-01 23:54:18
  */
 import React, { memo, useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
@@ -24,10 +24,8 @@ export default memo(function index(props: PropsWithChildren<ArticleListType>) {
   //其他逻辑
   useEffect(() => {
     isMounted && isMounted(true);
-    console.log('加载');
     return () => {
       isMounted && isMounted(false);
-      console.log('卸载');
     };
   }, [articleList]);
 

@@ -1,4 +1,7 @@
 @font-face {
   font-family: 'siyuan-regular';
-  src: url('./NotoSansSC-Regular.otf');
+  src: url('./NotoSansSC-Regular.ttf') format('ttf'),
+    url('./NotoSansSC-Regular.woff') format('woff'),
+    url('./NotoSansSC-Regular.woff2') format('woff2');
+  font-display: swap;
 }

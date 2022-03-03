@@ -1,6 +1,7 @@
 .article-list-skeleton {
   width: 100%;
   padding: 20px;
+  margin-bottom: 20px;
   background-color: #fff;
   border-radius: 0.25rem;
   overflow: hidden;

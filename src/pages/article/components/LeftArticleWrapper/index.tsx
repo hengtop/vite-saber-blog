@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-02-17 21:24:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-27 20:39:27
+ * @LastEditTime: 2022-03-02 00:06:41
  */
 import React, { memo, useState } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
@@ -48,17 +48,21 @@ export default memo(function index(props: PropsWithChildren<propsType>) {
       />
       <div className={classNames({ hidden: articleDetailLoading || !isArticleDetailMounted })}>
         <MdToHtml mdStr={text} title={title} isMounted={handleIsArticleDetailMounted} />
-        <div className="bg-white px-[32px] pb-[20px] mb-[10px] flex items-center rounded-b">
-          <span className="mr-[5px]">分类: </span>
-          {classifys &&
-            classifys.map((item: any) => {
-              return <LabelItem key={item.id} labelInfo={item} queryType={'classify'} />;
-            })}
-          <span className="ml-[30px] mr-[5px]">标签:</span>
-          {labels &&
-            labels.map((item: any) => {
-              return <LabelItem key={item.id} labelInfo={item} queryType={'label'} />;
-            })}
+        <div className="bg-white px-[32px] pb-[20px] mb-[10px] flex items-center rounded-b flex-wrap">
+          <div>
+            <span className="mr-[5px]">分类: </span>
+            {classifys &&
+              classifys.map((item: any) => {
+                return <LabelItem key={item.id} labelInfo={item} queryType={'classify'} />;
+              })}
+          </div>
+          <div>
+            <span className="mr-[5px]">标签:</span>
+            {labels &&
+              labels.map((item: any) => {
+                return <LabelItem key={item.id} labelInfo={item} queryType={'label'} />;
+              })}
+          </div>
         </div>
       </div>
     </>

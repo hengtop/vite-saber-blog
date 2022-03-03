@@ -1,10 +1,12 @@
 /*
  * @Date: 2022-01-23 20:15:56
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-31 19:12:10
+ * @LastEditTime: 2022-03-03 22:23:49
  */
 import React, { lazy, Suspense } from 'react';
 import type { RouteObject } from 'react-router-dom';
+
+import LazyLoading from '@/components/LazyLoading';
 
 const routes: RouteObject[] = [
   {
@@ -34,7 +36,7 @@ function LazyElement(props: propsType) {
   const { importRoute } = props;
   const LazyComponent = lazy(importRoute);
   return (
-    <Suspense fallback={<div>路由懒加载...</div>}>
+    <Suspense fallback={<LazyLoading />}>
       <LazyComponent />
     </Suspense>
   );
