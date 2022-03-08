@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 22:59:39
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-19 00:14:08
+ * @LastEditTime: 2022-03-08 22:46:04
  */
 import React, { memo, useState, useRef, useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
@@ -74,7 +74,7 @@ export default memo(function index(props: PropsWithChildren<InputPropsType>) {
           ref={inputRef}
           placeholder="搜索文章"
           type="text"
-          className="outline-none focus:border-b-[1px] focus:border-black caret-gray-900 bg-white"
+          className="outline-none focus:border-b-[1px] focus:border-black caret-gray-900 bg-white max-w-[200px]"
           onChange={handleChange}
           onCompositionStart={() => {
             isLock = true;

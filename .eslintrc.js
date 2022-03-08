@@ -22,7 +22,8 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
-    'react/prop-types': [2, { ignore: ['children'] }]
+    'react/prop-types': [2, { ignore: ['children'] }],
+    '@typescript-eslint/no-non-null-assertion': 'off'
   },
   settings: {
     react: {

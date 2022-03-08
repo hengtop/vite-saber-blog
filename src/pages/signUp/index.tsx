@@ -1,13 +1,13 @@
 /*
  * @Date: 2022-01-23 20:58:44
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-08 22:31:39
+ * @LastEditTime: 2022-03-05 21:49:20
  */
 import React, { memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { loginAction } from '@/store';
-import { register } from '@/network/api/login';
+import { register, userAddRole } from '@/network/api/login';
 import { toast } from 'react-toastify';
 import { queryToObject, objectToQuery } from '@/utils/locationQuery';
 import { omit } from 'lodash-es';
@@ -43,10 +43,18 @@ export default memo(function index() {
       for (const key in formData) {
         const element: string = formData[key];
         if (!element) {
+          //这里先简单判断，逻辑有点不清晰整洁
+          if (!formData[key] && (key === 'name' || key === 'password')) {
+            return await toast.error('请填写' + key, {
+              hideProgressBar: true,
+              autoClose: 500,
+              position: 'top-right'
+            });
+          }
           emptyProps?.push(key);
         }
       }
-      await register(omit(formData, emptyProps));
+      const res = await register(omit(formData, emptyProps));
       await toast.success('注册成功', {
         hideProgressBar: true,
         autoClose: 800,
@@ -54,11 +62,20 @@ export default memo(function index() {
         onClose: async () => {
           //成功后登录
           await dispatch(loginAction({ name: formData.name, password: formData.password }));
+
           //执行页面跳转
           const queryObj = queryToObject();
           const otherQuery = objectToQuery(omit(queryObj, 'redirect'));
           navigate(queryObj['redirect'] + otherQuery);
+          //添加角色
+          await userAddRole(res.data.id, [20]);
         }
+      });
+    } else {
+      await toast.error('两次密码不一样', {
+        hideProgressBar: true,
+        autoClose: 500,
+        position: 'top-right'
       });
     }
   };
@@ -77,7 +94,7 @@ export default memo(function index() {
               htmlFor="name"
               className="inline-block w-[80px] text-right mr-[5px] leading-[42px]"
             >
-              用户名:
+              用户名:<span style={{ color: 'red' }}>*</span>
             </label>
             <input
               id="name"
@@ -152,7 +169,7 @@ export default memo(function index() {
               htmlFor="password"
               className="inline-block w-[80px] text-right mr-[5px] leading-[42px]"
             >
-              密码:
+              密码:<span style={{ color: 'red' }}>*</span>
             </label>
             <input
               id="password"
@@ -167,7 +184,7 @@ export default memo(function index() {
               htmlFor="repassword"
               className="inline-block w-[80px] text-right mr-[5px] leading-[42px]"
             >
-              确认密码:
+              确认密码:<span style={{ color: 'red' }}>*</span>
             </label>
             <input
               id="repassword"

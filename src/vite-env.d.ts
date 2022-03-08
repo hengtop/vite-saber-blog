@@ -2,6 +2,8 @@
 
 declare module 'lodash-es';
 declare module 'showdown';
+
+declare module 'events';
 import { compose } from 'redux';
 
 interface ImportMetaEnv {

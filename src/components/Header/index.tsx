@@ -1,9 +1,9 @@
 /*
  * @Date: 2022-01-23 21:09:49
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-19 00:21:10
+ * @LastEditTime: 2022-03-08 23:48:59
  */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate, createSearchParams } from 'react-router-dom';
@@ -12,6 +12,7 @@ import { getAllArticleAction } from '@/pages/home/store';
 import localStore from '@/utils/localStore';
 import type { AppState } from '@/store/reducer';
 import { changeKeyword } from '@/store';
+import { handleClickHiddenEvent } from '@/utils/events';
 
 import Input from '../Input';
 import ProtalsDom from '../ProtalsDom';
@@ -39,6 +40,17 @@ export default function index() {
   //获取路由参数
   const location = useLocation();
   const navigate = useNavigate();
+
+  //监听打开登录窗口
+  useEffect(() => {
+    handleClickHiddenEvent.on('openLoginWindow', () => {
+      console.log(121212121);
+      setHidden(false);
+    });
+    return () => {
+      handleClickHiddenEvent.removeListener('openLoginWindow');
+    };
+  }, []);
   //其他逻辑
   const handleClickHidden = () => {
     setHidden(!hidden);
@@ -74,7 +86,7 @@ export default function index() {
         localStore.clearLocalStore();
         toast.info('退出成功', {
           hideProgressBar: true,
-          autoClose: 500,
+          autoClose: 200,
           position: 'top-right',
           onClose: () => {
             window.location.reload();
@@ -91,7 +103,10 @@ export default function index() {
   return (
     <div className="fixed left-0 right-0 w-auto h-16 bg-white flex items-center justify-center px-[40px] z-[5]">
       <div className="w-full flex justify-between items-center">
-        <h2 className="order-2  md:order-1 cursor-pointer" onClick={() => navigate('/')}>
+        <h2
+          className="order-2  md:order-1 cursor-pointer text-[1.5em] font-black"
+          onClick={() => navigate('/')}
+        >
           heng的博客
         </h2>
         <Input handleSearchChange={handleSearchChange} handleSearchClick={handleSearchClick} />

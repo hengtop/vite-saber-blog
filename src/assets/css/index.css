@@ -13,52 +13,50 @@ body {
 }
 
 /* 去除一些默认样式对于标签的影响 */
-h1 {
-  @apply text-2xl;
-  font-size: 2em !important;
-  margin: 0.67em 0 !important;
+.articleHtml h1 {
+  font-size: 2em;
+  line-height: 1.5em;
+  margin: 0.67em 0;
 }
 
-h2 {
-  @apply text-xl;
-  font-size: 1.5em !important;
-  margin: 0.75em 0 !important;
+.articleHtml h2 {
+  font-size: 1.5em;
+  margin: 0.75em 0;
 }
 
-h3 {
-  @apply text-lg;
+.articleHtml h3 {
   font-size: 1.17em;
-  margin: 0.83em 0 !important;
+  margin: 0.83em 0;
 }
 
-h4 {
-  margin: 1.12em 0 !important;
+.articleHtml h4 {
+  margin: 1.12em 0;
 }
 
 .articleHtml p {
   margin: 1.12em 0;
 }
 
-h5 {
-  font-size: 0.83em !important;
-  margin: 1.5em 0 !important;
+.articleHtml h5 {
+  font-size: 0.83em;
+  margin: 1.5em 0;
 }
-h6 {
-  font-size: 0.75em !important;
-  margin: 1.67em 0 !important;
+.articleHtml h6 {
+  font-size: 0.75em;
+  margin: 1.67em 0;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-b,
-strong {
-  font-weight: bolder !important;
+.articleHtml h1,
+.articleHtml h2,
+.articleHtml h3,
+.articleHtml h4,
+.articleHtml h5,
+.articleHtml h6,
+.articleHtml b,
+.articleHtml strong {
+  font-weight: bolder;
 }
-ol {
+.articleHtml ol {
   margin: 1.5rem 0;
   box-sizing: border-box;
   padding: 0 0 0 40px;
@@ -70,7 +68,7 @@ ol {
   margin-inline-end: 0px;
   padding-inline-start: 40px;
 }
-ol li {
+.articleHtml ol li {
   display: list-item;
   text-align: -webkit-match-parent;
 }

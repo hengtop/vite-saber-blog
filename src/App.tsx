@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loadLocalStore } from '@/store/actionCreators';
+import { loadLocalStore, testTokenAction } from '@/store/actionCreators';
 import routes from './router';
 
 import { ToastContainer } from 'react-toastify';
@@ -12,6 +12,8 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadLocalStore());
+    //测试token
+    dispatch(testTokenAction());
   }, []);
   //这个钩子要写在路由组件中
   const element = useRoutes(routes);

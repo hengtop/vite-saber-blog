@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 15:56:34
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-20 18:07:27
+ * @LastEditTime: 2022-03-08 23:07:11
  */
 /*
  * @Date: 2022-01-24 16:51:02
@@ -10,12 +10,13 @@
  */
 
 import * as actionTypes from './constant';
-import { login, getUserInfo } from '@/network/api/login';
+import { login, getUserInfo, testToken } from '@/network/api/login';
 import { getLabel } from '@/network/api/label';
 import { toast } from 'react-toastify';
 import type { loginType, LabelQueryType } from '@/network/config/types';
 import localStore from '@/utils/localStore';
 import type { ActionType } from './types';
+import { awaitHandle } from '@/utils/awaitHandle';
 
 export const changeTokenAction = (res: string): ActionType => ({
   type: actionTypes.CHANGE_TOKEN,
@@ -78,7 +79,7 @@ export const loginAction = (query: loginType) => {
     } = await login(query);
     toast.success('登陆成功', {
       hideProgressBar: true,
-      autoClose: 1500,
+      autoClose: 1000,
       position: 'top-right'
     });
     //保存
@@ -92,6 +93,15 @@ export const loginAction = (query: loginType) => {
   };
 };
 
+//测试登录token是否失效
+export const testTokenAction = () => {
+  return async () => {
+    console.log('测试token');
+    const [data, err] = await awaitHandle(testToken());
+    console.log(data, err);
+  };
+};
+
 //设置数据持久化
 
 export const loadLocalStore = () => {
@@ -100,17 +110,9 @@ export const loadLocalStore = () => {
   const userId = localStore.getLocalStore('userId');
   const userInfo = localStore.getLocalStore('userInfo');
   return (dispatch: any) => {
-    if (token) {
-      dispatch(changeTokenAction(token));
-    }
-    if (refreshToken) {
-      dispatch(changeRefreshTokenAction(refreshToken));
-    }
-    if (userId) {
-      dispatch(changeUserIdAction(userId));
-    }
-    if (userInfo) {
-      dispatch(changeUserInfoAction(userInfo));
-    }
+    dispatch(changeTokenAction(token ?? ''));
+    dispatch(changeRefreshTokenAction(refreshToken ?? ''));
+    dispatch(changeUserIdAction(userId ?? ''));
+    dispatch(changeUserInfoAction(userInfo ?? {}));
   };
 };
