@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @types/loadsh
 
 PATH: 
-  E:\tool\VMware\bin\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\zhangheng\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;E:\tool\xshell\;E:\tool\xftp\;E:\tool\mysql-8.0.25-winx64\bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Java\jre1.8.0_291\bin;C:\Program Files\Java\jdk1.8.0_291\bin;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\zhangheng\AppData\Local\Microsoft\WindowsApps;E:\Program\Microsoft VS Code\bin;E:\tool\bandzip\;E:\Program\WebStorm 2021.1.2\bin;C:\Users\zhangheng\AppData\Local\Yarn\bin;E:\Program\IntelliJ IDEA 2021.1.3\bin;C:\Program Files\MongoDB\Server\5.0\bin;C:\Users\zhangheng\AppData\Local\Programs\mongosh\
+  E:\tool\VMware\bin\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\zhangheng\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;E:\tool\xshell\;E:\tool\xftp\;E:\tool\mysql-8.0.25-winx64\bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Java\jre1.8.0_291\bin;C:\Program Files\Java\jdk1.8.0_291\bin;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\zhangheng\AppData\Local\Microsoft\WindowsApps;E:\Program\Microsoft VS Code\bin;C:\Users\zhangheng\AppData\Roaming\nvm;C:\Program Files\nodejs;E:\tool\bandzip\;E:\Program\WebStorm 2021.1.2\bin;;C:\Users\zhangheng\AppData\Local\Yarn\bin;E:\Program\IntelliJ IDEA 2021.1.3\bin;;C:\Program Files\MongoDB\Server\5.0\bin;C:\Users\zhangheng\AppData\Local\Programs\mongosh\
 
 Yarn version: 
   1.22.5
@@ -14,7 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'E:\code\代码笔记\Microsoft VS Code\项目练习\my-blog\vite-saber-blog\node_modules\esbuild-windows-64\esbuild.exe'
+  Error: https://registry.yarnpkg.com/@types%2floadsh: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66097:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140749:22)
+      at Request.emit (events.js:375:28)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141721:10)
+      at Request.emit (events.js:375:28)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141643:12)
+      at Object.onceWrapper (events.js:481:28)
+      at IncomingMessage.emit (events.js:387:35)
+      at endReadableNT (internal/streams/readable.js:1317:12)
+      at processTicksAndRejections (internal/process/task_queues.js:82:21)
 
 npm manifest: 
   {
@@ -32,8 +42,10 @@ npm manifest:
     "dependencies": {
       "@tailwindcss/forms": "^0.4.0",
       "@tailwindcss/line-clamp": "^0.3.1",
+      "@types/events": "^3.0.0",
       "@types/node": "^17.0.10",
       "@types/redux-immutable": "^4.0.2",
+      "@types/showdown": "^1.9.4",
       "@typescript-eslint/eslint-plugin": "^5.9.1",
       "@typescript-eslint/parser": "^5.9.1",
       "antd": "^4.18.4",
@@ -43,6 +55,7 @@ npm manifest:
       "eslint": "^7.19.0",
       "eslint-config-prettier": "^8.3.0",
       "eslint-plugin-react": "^7.28.0",
+      "events": "^3.3.0",
       "highlight.js": "^11.4.0",
       "immutable": "^4.0.0",
       "lodash": "^4.17.21",
@@ -59,7 +72,8 @@ npm manifest:
       "redux-immutable": "^4.0.0",
       "redux-thunk": "^2.4.1",
       "showdown": "^1.9.1",
-      "showdown-highlight": "^2.1.8"
+      "showdown-highlight": "^2.1.8",
+      "showdown-xss-filter": "^0.2.0"
     },
     "devDependencies": {
       "@commitlint/cli": "^16.0.2",
@@ -642,6 +656,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.2.tgz#423c77877d0569db20e1fc80885ac4118314010e"
     integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
   
+  "@types/events@^3.0.0":
+    version "3.0.0"
+    resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
+    integrity sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==
+  
   "@types/hoist-non-react-statics@^3.3.0":
     version "3.3.1"
     resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
@@ -718,6 +737,11 @@ Lockfile:
     version "0.16.2"
     resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
     integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
+  
+  "@types/showdown@^1.9.4":
+    version "1.9.4"
+    resolved "https://registry.yarnpkg.com/@types/showdown/-/showdown-1.9.4.tgz#5385adf34143abad9309561661fa6c781d2ab962"
+    integrity sha512-50ehC3IAijfkvoNqmQ+VL73S7orOxmAK8ljQAFBv8o7G66lAZyxQj1L3BAv2dD86myLXI+sgKP1kcxAaxW356w==
   
   "@typescript-eslint/eslint-plugin@^5.9.1":
     version "5.9.1"
@@ -1299,6 +1323,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.16.tgz#713b9af84fdb000139f04546bd4a93f62a5085da"
     integrity sha512-hUewv7oMjCp+wkBv5Rm0v87eJhq4woh5rSR+42YSQJKecCqgIqNkZ6lAlQms/BwHPJA5NKMRlpxPRv0n8HQW6g==
   
+  commander@^2.9.0:
+    version "2.20.3"
+    resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
+    integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
+  
   commander@^8.3.0:
     version "8.3.0"
     resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
@@ -1427,6 +1456,11 @@ Lockfile:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
     integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
+  
+  cssfilter@^0.0.8:
+    version "0.0.8"
+    resolved "https://registry.yarnpkg.com/cssfilter/-/cssfilter-0.0.8.tgz#6564caccba8a76dd9b4b920668b9fb7fda50e54c"
+    integrity sha1-ZWTKzLqKdt2bS5IGaLn7f9pQ5Uw=
   
   csstype@^3.0.2:
     version "3.0.10"
@@ -1944,6 +1978,11 @@ Lockfile:
     version "2.0.3"
     resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
     integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
+  
+  events@^3.3.0:
+    version "3.3.0"
+    resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
+    integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
   
   execa@^5.0.0, execa@^5.1.1:
     version "5.1.1"
@@ -4089,6 +4128,13 @@ Lockfile:
       html-encoder-decoder "^1.3.9"
       showdown "^1.9.1"
   
+  showdown-xss-filter@^0.2.0:
+    version "0.2.0"
+    resolved "https://registry.yarnpkg.com/showdown-xss-filter/-/showdown-xss-filter-0.2.0.tgz#39857bae56d6184979f26876b187bb87e9f4f04c"
+    integrity sha1-OYV7rlbWGEl58mh2sYe7h+n08Ew=
+    dependencies:
+      xss "0.2.x"
+  
   showdown@^1.9.1:
     version "1.9.1"
     resolved "https://registry.yarnpkg.com/showdown/-/showdown-1.9.1.tgz#134e148e75cd4623e09c21b0511977d79b5ad0ef"
@@ -4633,6 +4679,14 @@ Lockfile:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
     integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
+  
+  xss@0.2.x:
+    version "0.2.18"
+    resolved "https://registry.yarnpkg.com/xss/-/xss-0.2.18.tgz#6df5fb5ca28bdc51e78624ff63f19e13ebd73bab"
+    integrity sha1-bfX7XKKL3FHnhiT/Y/GeE+vXO6s=
+    dependencies:
+      commander "^2.9.0"
+      cssfilter "^0.0.8"
   
   xtend@^4.0.2:
     version "4.0.2"

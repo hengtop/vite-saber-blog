@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:58:44
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-05 21:49:20
+ * @LastEditTime: 2022-03-09 00:18:06
  */
 import React, { memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -99,7 +99,7 @@ export default memo(function index() {
             <input
               id="name"
               type="text"
-              className="form-input rounded-md flex-auto"
+              className="form-input rounded-md flex-auto  font-sans"
               style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('name')}
             />
@@ -107,14 +107,14 @@ export default memo(function index() {
           <div className="w-full flex">
             <label
               htmlFor="realname"
-              className="inline-block w-[80px] text-right mr-[5px] leading-[42px]"
+              className="inline-block w-[80px] text-right mr-[5px] leading-[42px] "
             >
               真实姓名:
             </label>
             <input
               id="realname"
               type="text"
-              className="form-input rounded-md flex-auto"
+              className="form-input rounded-md flex-auto font-sans"
               style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('realname')}
             />
@@ -129,7 +129,7 @@ export default memo(function index() {
             <input
               id="telphone"
               type="tel"
-              className="form-input rounded-md flex-auto"
+              className="form-input rounded-md flex-auto font-sans"
               style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('cellphone')}
             />
@@ -144,7 +144,7 @@ export default memo(function index() {
             <input
               id="email"
               type="email"
-              className="form-input flex-auto"
+              className="form-input flex-auto font-sans"
               style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('email')}
             />
@@ -159,7 +159,7 @@ export default memo(function index() {
             <input
               id="birthday"
               type="datetime-local"
-              className="form-input rounded-md flex-auto"
+              className="form-input rounded-md flex-auto font-sans"
               style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('birthday')}
             />
@@ -174,7 +174,7 @@ export default memo(function index() {
             <input
               id="password"
               type="password"
-              className="form-input rounded-md flex-auto"
+              className="form-input rounded-md flex-auto font-sans"
               style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('password')}
             />
@@ -189,7 +189,7 @@ export default memo(function index() {
             <input
               id="repassword"
               type="password"
-              className="form-input rounded-md flex-auto"
+              className="form-input rounded-md flex-auto font-sans"
               style={{ borderRadius: '0.375rem' }}
               onChange={handleChangeFromData('rePassword')}
             />

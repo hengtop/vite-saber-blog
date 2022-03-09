@@ -35,6 +35,22 @@ body {
 
 .articleHtml p {
   margin: 1.12em 0;
+  color: #333;
+  font-size: 15px;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+/* 这里因为样式优先级问题就这样写了 */
+code {
+  word-break: break-word;
+  border-radius: 2px;
+  overflow-x: auto;
+  background-color: #fff5f5;
+  color: #ff502c;
+  font-size: 0.87em;
+  padding: 0.065em 0.4em;
 }
 
 .articleHtml h5 {
@@ -55,6 +71,7 @@ body {
 .articleHtml b,
 .articleHtml strong {
   font-weight: bolder;
+  color: #333;
 }
 .articleHtml ol {
   margin: 1.5rem 0;
@@ -68,7 +85,21 @@ body {
   margin-inline-end: 0px;
   padding-inline-start: 40px;
 }
-.articleHtml ol li {
+
+.articleHtml ul {
+  margin: 1.5rem 0;
+  box-sizing: border-box;
+  padding: 0 0 0 40px;
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+.articleHtml ol li,
+.articleHtml ul li {
   display: list-item;
   text-align: -webkit-match-parent;
 }
@@ -79,8 +110,4 @@ body {
 .articleHtml a {
   color: #58666e;
   border-bottom: 1px solid #999;
-}
-
-.articleHtml code {
-  font-size: 14px;
 }

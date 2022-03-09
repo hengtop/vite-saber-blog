@@ -1,15 +1,22 @@
 /// <reference types="vite/client" />
 
 declare module 'lodash-es';
-declare module 'showdown';
 
-declare module 'events';
+declare module 'showdown-xss-filter' {
+  import * as showdownXssFilter from 'showdown-xss-filter';
+  export default showdownXssFilter;
+}
+
 import { compose } from 'redux';
 
 interface ImportMetaEnv {
   readonly VITE_BASE_API: string;
   readonly VITE_MOCK: boolean;
   // 更多环境变量...
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
 }
 
 /* issue 解决__REDUX_DEVTOOLS_EXTENSION_COMPOSE__属性类型报错问题 */

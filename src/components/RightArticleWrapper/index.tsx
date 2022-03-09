@@ -1,17 +1,24 @@
 /*
  * @Date: 2022-01-24 12:55:20
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-21 02:07:49
+ * @LastEditTime: 2022-03-09 23:24:45
  */
 import React, { memo, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { getLabelAction } from '@/store';
 import type { AppState } from '@/store/reducer';
+import type { PropsWithChildren } from 'react';
 
 import Label from '../Label';
 import LabelListSkeleton from '@/components/Skeleton/LabelListSkeleton';
 
-export default memo(function index() {
+interface RightArticleType {
+  navigationContainer: any;
+}
+
+export default memo(function index(props: PropsWithChildren<RightArticleType>) {
+  //设置几个插槽
+  const { navigationContainer } = props;
   // redux hooks
   const dispatch = useDispatch();
   const { label, labelLoading } = useSelector(
@@ -26,8 +33,11 @@ export default memo(function index() {
     dispatch(getLabelAction({ offset: 0, limit: 20 }));
   }, [dispatch]);
   return (
-    <div className="bg-white p-[15px] rounded-b xl:rounded">
-      {labelLoading ? <LabelListSkeleton /> : <Label label={label as any[]} />}
-    </div>
+    <>
+      <div className="bg-white p-[15px] rounded-b xl:rounded">
+        {labelLoading ? <LabelListSkeleton /> : <Label label={label as any[]} />}
+      </div>
+      {navigationContainer}
+    </>
   );
 });

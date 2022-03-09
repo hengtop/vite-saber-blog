@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:11:30
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-08 23:57:54
+ * @LastEditTime: 2022-03-09 23:22:43
  */
 import React, { memo, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -13,6 +13,7 @@ import type { AppState } from '@/store/reducer';
 import Container from '@/components/Container';
 import LeftArticleWrapper from './components/LeftArticleWrapper';
 import RightArticleWrapper from '@/components/RightArticleWrapper';
+import NavigationContainer from './components/NavigationContainer';
 
 export default memo(function index() {
   //props/state
@@ -47,7 +48,7 @@ export default memo(function index() {
         leftSlot={
           <LeftArticleWrapper text={text} title={title} classifys={classifys} labels={labels} />
         }
-        rightSlot={<RightArticleWrapper />}
+        rightSlot={<RightArticleWrapper navigationContainer={<NavigationContainer />} />}
       />
       <button onClick={testClickHandle} className="bg-white">
         测试是否登录
