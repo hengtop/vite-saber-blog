@@ -1,12 +1,12 @@
 /*
  * @Date: 2022-01-23 20:58:44
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-09 00:18:06
+ * @LastEditTime: 2022-03-10 00:35:35
  */
 import React, { memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { loginAction } from '@/store';
+import { useNavigate } from 'react-router-dom';
+import { loginAction, getUserInfoAction } from '@/store';
 import { register, userAddRole } from '@/network/api/login';
 import { toast } from 'react-toastify';
 import { queryToObject, objectToQuery } from '@/utils/locationQuery';
@@ -62,13 +62,14 @@ export default memo(function index() {
         onClose: async () => {
           //成功后登录
           await dispatch(loginAction({ name: formData.name, password: formData.password }));
-
           //执行页面跳转
           const queryObj = queryToObject();
           const otherQuery = objectToQuery(omit(queryObj, 'redirect'));
           navigate(queryObj['redirect'] + otherQuery);
           //添加角色
           await userAddRole(res.data.id, [20]);
+          //再次更新角色信息，之后将这个步骤放置到后端逻辑实现
+          dispatch(getUserInfoAction(res.data.id));
         }
       });
     } else {

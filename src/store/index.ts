@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 16:48:40
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-06 01:30:37
+ * @LastEditTime: 2022-03-10 00:35:11
  */
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -12,13 +12,21 @@ import {
   loadLocalStore,
   getLabelAction,
   changeKeyword,
-  changeTokenAction
+  changeTokenAction,
+  getUserInfoAction
 } from './actionCreators';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
-export { loginAction, getLabelAction, changeKeyword, changeTokenAction, loadLocalStore };
+export {
+  loginAction,
+  getLabelAction,
+  changeKeyword,
+  changeTokenAction,
+  loadLocalStore,
+  getUserInfoAction
+};
 
 export default store;
