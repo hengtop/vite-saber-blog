@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 21:09:49
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-08 23:48:59
+ * @LastEditTime: 2022-03-11 00:31:03
  */
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -43,12 +43,12 @@ export default function index() {
 
   //监听打开登录窗口
   useEffect(() => {
-    handleClickHiddenEvent.on('openLoginWindow', () => {
-      console.log(121212121);
+    const widowHidden = () => {
       setHidden(false);
-    });
+    };
+    handleClickHiddenEvent.on('openLoginWindow', widowHidden);
     return () => {
-      handleClickHiddenEvent.removeListener('openLoginWindow');
+      handleClickHiddenEvent.removeListener('openLoginWindow', widowHidden);
     };
   }, []);
   //其他逻辑
@@ -101,7 +101,7 @@ export default function index() {
     handleClickHidden();
   };
   return (
-    <div className="fixed left-0 right-0 w-auto h-16 bg-white flex items-center justify-center px-[40px] z-[5]">
+    <div className="fixed top-0 left-0 right-0 w-auto h-16 bg-white flex items-center justify-center px-[40px] z-[5]">
       <div className="w-full flex justify-between items-center">
         <h2
           className="order-2  md:order-1 cursor-pointer text-[1.5em] font-black"

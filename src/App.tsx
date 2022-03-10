@@ -19,7 +19,7 @@ function App() {
   const element = useRoutes(routes);
   return (
     <>
-      <div className="App overflow-auto">{element}</div>
+      <div className="App">{element}</div>
       <ToastContainer limit={2} />
     </>
   );

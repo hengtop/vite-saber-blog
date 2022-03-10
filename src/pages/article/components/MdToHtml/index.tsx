@@ -4,8 +4,11 @@ import 'highlight.js/styles/atom-one-dark.css';
 import 'react-photo-view/dist/react-photo-view.css';
 import { PhotoSlider } from 'react-photo-view';
 import showdown from 'showdown';
-import * as ShowdownXss from 'showdown-xss-filter';
+//import * as ShowdownXss from 'showdown-xss-filter';
 import showdownHighlight from 'showdown-highlight';
+import escapeHTML from '@/utils/xssFilter';
+import md2Navigate from '@/utils/md2Navigate';
+import { handleClickHiddenEvent as sendNavigateHtml } from '@/utils/events';
 
 interface MdToHtmlPropsType {
   mdStr: string;
@@ -31,6 +34,8 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
   useEffect(() => {
     isMounted && isMounted(true);
     handleImageList();
+    //发送导航渲染dom
+    sendNavigateHtml.emit('sendNavigateHtml', navigateDom);
     return () => {
       isMounted && isMounted(false);
     };
@@ -48,7 +53,11 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
       })
     ]
   });
-  const htmlStr = converter.makeHtml(mdStr);
+  //对html进行转义
+  const htmlStr = converter.makeHtml(escapeHTML(mdStr));
+  //提取出h标签
+  const navigateDom = md2Navigate(htmlStr);
+
   const createHtml = (htmlStr: string) => {
     return {
       __html: htmlStr

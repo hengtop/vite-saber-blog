@@ -13,7 +13,7 @@ function App() {
   }, []);
   //这个钩子要写在路由组件中
   return (
-    <div className="App overflow-auto">
+    <div>
       <Header></Header>
       {/* 渲染子组件 */}
       <Outlet />
