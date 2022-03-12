@@ -2,11 +2,6 @@
 
 declare module 'lodash-es';
 
-declare module 'showdown-xss-filter' {
-  import * as showdownXssFilter from 'showdown-xss-filter';
-  export default showdownXssFilter;
-}
-
 import { compose } from 'redux';
 
 interface ImportMetaEnv {
