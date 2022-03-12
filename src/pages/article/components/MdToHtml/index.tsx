@@ -4,7 +4,7 @@ import 'highlight.js/styles/atom-one-dark.css';
 import 'react-photo-view/dist/react-photo-view.css';
 import { PhotoSlider } from 'react-photo-view';
 import showdown from 'showdown';
-import * as ShowdownXss from 'showdown-xss-filter';
+import * as showdownXss from 'showdown-xss-filter';
 import showdownHighlight from 'showdown-highlight';
 //import escapeHTML from '@/utils/xssFilter';
 import md2Navigate from '@/utils/md2Navigate';
@@ -48,7 +48,7 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
     ghCompatibleHeaderId: true,
     //目前发现加上了这个xss扩展有点卡，后续考虑优化
     extensions: [
-      ShowdownXss,
+      //showdownXss,
       showdownHighlight({
         pre: false
       })
