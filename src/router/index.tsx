@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:15:56
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-03 22:23:49
+ * @LastEditTime: 2022-03-13 18:31:38
  */
 import React, { lazy, Suspense } from 'react';
 import type { RouteObject } from 'react-router-dom';
@@ -23,6 +23,10 @@ const routes: RouteObject[] = [
   {
     path: '/signup',
     element: () => import('@/pages/signUp')
+  },
+  {
+    path: '/updatelog',
+    element: () => import('@/pages/updateLog')
   }
 ];
 

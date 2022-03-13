@@ -1,11 +1,10 @@
 /*
  * @Date: 2022-01-24 19:19:53
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-01 23:28:25
+ * @LastEditTime: 2022-03-13 18:11:18
  */
 import React, { memo, PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import showdown from 'showdown';
 import { showTimeNow } from '@/utils/timeFormat';
 
 import LabelItem from '@/components/Label/components/LabelItem';
@@ -38,8 +37,7 @@ export default memo(function index(props: PropsWithChildren<CardType>) {
   const searchKeyword = searchParams.get('query');
   //其他逻辑
   //将获取到的text先解析为html文本然后再转为纯文本
-  const converter = new showdown.Converter();
-  const stringText = converter.makeHtml(text).replace(/<[^>]*>|/g, '');
+  const stringText = text.replace(/<[^>]*>|/g, '');
 
   //在渲染完成后将搜索关键字高亮
   useEffect(() => {

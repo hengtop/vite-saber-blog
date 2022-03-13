@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-02-17 21:24:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-02 00:06:41
+ * @LastEditTime: 2022-03-13 18:07:19
  */
 import React, { memo, useState } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
@@ -47,7 +47,7 @@ export default memo(function index(props: PropsWithChildren<propsType>) {
         className={classNames({ hidden: !articleDetailLoading && isArticleDetailMounted })}
       />
       <div className={classNames({ hidden: articleDetailLoading || !isArticleDetailMounted })}>
-        <MdToHtml mdStr={text} title={title} isMounted={handleIsArticleDetailMounted} />
+        <MdToHtml htmlStr={text} title={title} isMounted={handleIsArticleDetailMounted} />
         <div className="bg-white px-[32px] pb-[20px] mb-[10px] flex items-center rounded-b flex-wrap">
           <div>
             <span className="mr-[5px]">分类: </span>

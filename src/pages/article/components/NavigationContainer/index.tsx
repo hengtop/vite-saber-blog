@@ -1,10 +1,11 @@
 /*
  * @Date: 2022-03-09 23:21:00
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-11 01:25:58
+ * @LastEditTime: 2022-03-13 22:23:34
  */
-import React, { memo, useEffect, PropsWithChildren, BaseSyntheticEvent } from 'react';
+import React, { memo, useState, useEffect, PropsWithChildren, BaseSyntheticEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 
 import './index.css';
 
@@ -15,6 +16,7 @@ interface PropsType {
 export default memo(function index(props: PropsWithChildren<PropsType>) {
   //props/state
   const { htmlStr } = props;
+  const [showNavigate, setShowNavigate] = useState(false);
 
   //redux hooks
 
@@ -53,16 +55,36 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
     document.documentElement.scrollTop = offsetTop - 120;
   };
 
+  //显示隐藏导航
+  const handleClickShowNavigate = () => {
+    setShowNavigate(!showNavigate);
+  };
+
   return htmlStr ? (
-    <div className="mt-[20px] bg-white p-[15px] rounded-b xl:rounded navigate-wrapper">
-      <div className="text-[18px] font-bold mb-[10px]">目录</div>
-      <hr className="mb-[10px]"></hr>
+    <>
       <div
-        dangerouslySetInnerHTML={createHtml(htmlStr)}
-        className="navigate-dom"
-        onClick={navigateClickHandle}
-      ></div>
-    </div>
+        className={classNames(
+          'fixed  right-[-280px] top-[100px] w-[280px] lg:w-auto  lg:sticky lg:w-[100%] lg:right-[0px] ld:top-[80px] mt-[20px] bg-white p-[15px] rounded-b xl:rounded shadow-md navigate-wrapper',
+          {
+            'navigate-wrapper-active': showNavigate
+          }
+        )}
+      >
+        <div
+          onClick={handleClickShowNavigate}
+          className="lg:hidden bg-white shadow-sm rounded-l-full py-[15px] px-4 absolute top-[0px] left-[-48px]"
+        >
+          <i className="iconfont icon-liebiao"></i>
+        </div>
+        <div className="text-[18px] font-bold mb-[10px]">目录</div>
+        <hr className="mb-[10px]"></hr>
+        <div
+          dangerouslySetInnerHTML={createHtml(htmlStr)}
+          className="navigate-dom"
+          onClick={navigateClickHandle}
+        ></div>
+      </div>
+    </>
   ) : (
     <></>
   );

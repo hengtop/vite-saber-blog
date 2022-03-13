@@ -11,7 +11,7 @@ import md2Navigate from '@/utils/md2Navigate';
 import { handleClickHiddenEvent as sendNavigateHtml } from '@/utils/events';
 
 interface MdToHtmlPropsType {
-  mdStr: string;
+  htmlStr: string;
   title: string;
   isMounted?: (value: boolean) => void;
 }
@@ -23,7 +23,7 @@ interface DataType {
 
 export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) {
   //props/state
-  const { mdStr, title, isMounted } = props;
+  const { htmlStr, title, isMounted } = props;
   //图片预览,预览图片是否显示，预览图片索引，预览图片列表
   const [visible, setVisible] = useState(false);
   const [index, setIndex] = useState(0);
@@ -39,23 +39,27 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
     return () => {
       isMounted && isMounted(false);
     };
-  }, [mdStr, title]);
+  }, [htmlStr, title]);
 
   //其他逻辑
   //转换md格式的数据为html
   //console.log(mdStr);
-  const converter = new showdown.Converter({
-    ghCompatibleHeaderId: true,
+  /*   const converter = new showdown.Converter({
+    ghCompatibleHeaderId: true, //生成兼容github风格的标头id
+    strikethrough: true, //支持删除del标签生成
+    tables: true, //开启表格语法支持
+    smoothLivePrevie: true,
+    smartIndentationFix: true,
     //目前发现加上了这个xss扩展有点卡，后续考虑优化
     extensions: [
-      //showdownXss,
+      showdownXss,
       showdownHighlight({
         pre: false
       })
     ]
-  });
+  }); */
   //对html进行转义
-  const htmlStr = converter.makeHtml(mdStr);
+  //const __htmlStr = converter.makeHtml(htmlStr);
   //提取出h标签
   const navigateDom = md2Navigate(htmlStr);
 
