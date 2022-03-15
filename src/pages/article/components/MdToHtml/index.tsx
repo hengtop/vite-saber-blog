@@ -3,16 +3,12 @@ import type { PropsWithChildren, BaseSyntheticEvent } from 'react';
 import 'highlight.js/styles/atom-one-dark.css';
 import 'react-photo-view/dist/react-photo-view.css';
 import { PhotoSlider } from 'react-photo-view';
-import showdown from 'showdown';
-import * as showdownXss from 'showdown-xss-filter';
-import showdownHighlight from 'showdown-highlight';
-//import escapeHTML from '@/utils/xssFilter';
 import md2Navigate from '@/utils/md2Navigate';
-import { handleClickHiddenEvent as sendNavigateHtml } from '@/utils/events';
 
 interface MdToHtmlPropsType {
   htmlStr: string;
   title: string;
+  getDomRenderObj: (value: any) => void;
   isMounted?: (value: boolean) => void;
 }
 
@@ -23,45 +19,24 @@ interface DataType {
 
 export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) {
   //props/state
-  const { htmlStr, title, isMounted } = props;
+  const { htmlStr, title, isMounted, getDomRenderObj } = props;
   //图片预览,预览图片是否显示，预览图片索引，预览图片列表
   const [visible, setVisible] = useState(false);
   const [index, setIndex] = useState(0);
   const [imageList, setImageList] = useState<DataType[]>([]);
+  //提取出h标签
+  const domRenderObj = md2Navigate(htmlStr);
   //redux hooks
 
   //other hooks
   useEffect(() => {
     isMounted && isMounted(true);
     handleImageList();
-    //发送导航渲染dom
-    sendNavigateHtml.emit('sendNavigateHtml', navigateDom);
+    getDomRenderObj(domRenderObj);
     return () => {
       isMounted && isMounted(false);
     };
   }, [htmlStr, title]);
-
-  //其他逻辑
-  //转换md格式的数据为html
-  //console.log(mdStr);
-  /*   const converter = new showdown.Converter({
-    ghCompatibleHeaderId: true, //生成兼容github风格的标头id
-    strikethrough: true, //支持删除del标签生成
-    tables: true, //开启表格语法支持
-    smoothLivePrevie: true,
-    smartIndentationFix: true,
-    //目前发现加上了这个xss扩展有点卡，后续考虑优化
-    extensions: [
-      showdownXss,
-      showdownHighlight({
-        pre: false
-      })
-    ]
-  }); */
-  //对html进行转义
-  //const __htmlStr = converter.makeHtml(htmlStr);
-  //提取出h标签
-  const navigateDom = md2Navigate(htmlStr);
 
   const createHtml = (htmlStr: string) => {
     return {

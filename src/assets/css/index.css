@@ -143,3 +143,8 @@ code {
   padding: 6px 13px;
   border: 1px solid #dfe2e5;
 }
+
+.articleHtml pre {
+  margin-top: 10px;
+  box-shadow: 0 0 20px 5px rgb(0 0 0 / 40%);
+}
