@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 22:59:39
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-08 22:46:04
+ * @LastEditTime: 2022-03-17 00:51:17
  */
 import React, { memo, useState, useRef, useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
@@ -59,15 +59,16 @@ export default memo(function index(props: PropsWithChildren<InputPropsType>) {
           'inset-0': showInput,
           'z-10': showInput,
           'px-[40px]': showInput,
-          'py-[16px]': showInput
+          'py-[16px]': showInput,
         })}
       >
         <i
+          onClick={handleSearchClick}
           className={classNames(
             'iconfont icon-sousuo text-2xl text-white align-middle mr-2 text-black cursor-pointer',
             {
-              hidden: showInput
-            }
+              hidden: showInput,
+            },
           )}
         ></i>
         <input
@@ -85,7 +86,7 @@ export default memo(function index(props: PropsWithChildren<InputPropsType>) {
         />
         <div
           className={classNames('h-[100%] w-screen bg-white absolute inset-0 z-[-1]', {
-            hidden: !showInput
+            hidden: !showInput,
           })}
         ></div>
       </div>

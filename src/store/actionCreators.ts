@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 15:56:34
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-08 23:07:11
+ * @LastEditTime: 2022-03-16 21:35:48
  */
 /*
  * @Date: 2022-01-24 16:51:02
@@ -20,36 +20,41 @@ import { awaitHandle } from '@/utils/awaitHandle';
 
 export const changeTokenAction = (res: string): ActionType => ({
   type: actionTypes.CHANGE_TOKEN,
-  value: res
+  value: res,
 });
 export const changeRefreshTokenAction = (res: string): ActionType => ({
   type: actionTypes.CHANGE_REFRESHTOKEN,
-  value: res
+  value: res,
 });
 
 export const changeUserIdAction = (res: number): ActionType => ({
   type: actionTypes.CHANGE_USERID,
-  value: res
+  value: res,
 });
 
 export const changeUserInfoAction = (res: any): ActionType => ({
   type: actionTypes.CHANGE_USERINFO,
-  value: res
+  value: res,
 });
 
 export const changeLabelAction = (res: any[]): ActionType => ({
   type: actionTypes.CHANGE_LABEL,
-  value: res
+  value: res,
 });
 
 export const changeKeyword = (res: string): ActionType => ({
   type: actionTypes.CHANGE_KEYWORD,
-  value: res
+  value: res,
 });
 
 export const changeLabelLoadingAction = (res: boolean): ActionType => ({
   type: actionTypes.CHANGE_LABELLOADING,
-  value: res
+  value: res,
+});
+
+export const changeIsFirstLoginAction = (res: boolean): ActionType => ({
+  type: actionTypes.CHANGE_IS_FIRST_LOGIN,
+  value: res,
 });
 
 export const getUserInfoAction = (id: number) => {
@@ -65,7 +70,7 @@ export const getLabelAction = (query?: LabelQueryType) => {
   return async (dispatch: any) => {
     dispatch(changeLabelLoadingAction(true));
     const {
-      data: { list }
+      data: { list },
     } = await getLabel(query);
     await dispatch(changeLabelAction(list));
     dispatch(changeLabelLoadingAction(false));
@@ -75,12 +80,12 @@ export const getLabelAction = (query?: LabelQueryType) => {
 export const loginAction = (query: loginType) => {
   return async (dispatch: any) => {
     const {
-      data: { token, refreshToken, id }
+      data: { token, refreshToken, id },
     } = await login(query);
     toast.success('登陆成功', {
       hideProgressBar: true,
       autoClose: 1000,
-      position: 'top-right'
+      position: 'top-right',
     });
     //保存
     dispatch(changeTokenAction(token));
@@ -109,10 +114,12 @@ export const loadLocalStore = () => {
   const refreshToken = localStore.getLocalStore('refreshToken');
   const userId = localStore.getLocalStore('userId');
   const userInfo = localStore.getLocalStore('userInfo');
+  const isFirstLogin = localStore.getLocalStore('isFirstLogin');
   return (dispatch: any) => {
     dispatch(changeTokenAction(token ?? ''));
     dispatch(changeRefreshTokenAction(refreshToken ?? ''));
     dispatch(changeUserIdAction(userId ?? ''));
     dispatch(changeUserInfoAction(userInfo ?? {}));
+    dispatch(changeIsFirstLoginAction(isFirstLogin ?? ''));
   };
 };

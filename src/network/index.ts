@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 15:04:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-09 23:05:37
+ * @LastEditTime: 2022-03-16 21:33:35
  */
 
 import HttpRequest from './config';
@@ -16,7 +16,7 @@ import type { AppState } from '@/store/reducer';
 
 export const refreshHttpRequest = new HttpRequest({
   baseURL: import.meta.env.VITE_BASE_API as string,
-  timeout: 10000
+  timeout: 10000,
 });
 
 export const httpRequest: HttpRequest = new HttpRequest({
@@ -38,7 +38,7 @@ export const httpRequest: HttpRequest = new HttpRequest({
       toast.error('网络错误', {
         hideProgressBar: true,
         autoClose: 1500,
-        position: 'top-center'
+        position: 'top-center',
       });
       return Promise.reject(err);
     },
@@ -69,10 +69,15 @@ export const httpRequest: HttpRequest = new HttpRequest({
 
           return { data: res };
         } else {
-          //清空缓存
-          localStore.clearLocalStore();
+          //清空部分用户信息缓存
+          localStore.removeLocalStore('userInfo');
+          localStore.removeLocalStore('userId');
           store.dispatch(loadLocalStore() as any);
-          handleClickHiddenEvent.emit('openLoginWindow');
+          //判断是否第一次登录
+          const isFirstLogin = localStore.getLocalStore('isFirstLogin');
+          if (isFirstLogin !== false) {
+            handleClickHiddenEvent.emit('openLoginWindow');
+          }
         }
       }
       switch (err?.response?.status) {
@@ -80,7 +85,7 @@ export const httpRequest: HttpRequest = new HttpRequest({
           return toast.error('网络连接失败', {
             hideProgressBar: true,
             autoClose: 1500,
-            position: 'top-center'
+            position: 'top-center',
           });
         case 401:
           break;
@@ -88,13 +93,13 @@ export const httpRequest: HttpRequest = new HttpRequest({
           toast.error(err?.response?.data ?? '请求错误', {
             hideProgressBar: true,
             autoClose: 1500,
-            position: 'top-center'
+            position: 'top-center',
           });
       }
 
       return Promise.reject(err);
-    }
-  }
+    },
+  },
 });
 
 export default httpRequest;

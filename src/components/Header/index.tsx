@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 21:09:49
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-11 00:31:03
+ * @LastEditTime: 2022-03-16 21:35:16
  */
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -24,16 +24,16 @@ export default function index() {
   const dropMenuData = [
     { title: '撰写文章', value: 1 },
     { title: '个人中心', value: 2 },
-    { title: '退出', value: 3 }
+    { title: '退出', value: 3 },
   ];
   //redux hook
   //这里解构取出的变量会丢失类型。。。
   const { userInfo, keyword } = useSelector(
     (state: AppState) => ({
       userInfo: state.getIn(['main', 'userInfo']),
-      keyword: state.getIn(['main', 'keyword'])
+      keyword: state.getIn(['main', 'keyword']),
     }),
-    shallowEqual
+    shallowEqual,
   );
   const dispatch = useDispatch();
   //other hooks
@@ -51,9 +51,12 @@ export default function index() {
       handleClickHiddenEvent.removeListener('openLoginWindow', widowHidden);
     };
   }, []);
-  //其他逻辑
+  //其他逻辑,
   const handleClickHidden = () => {
     setHidden(!hidden);
+    if (!hidden === true) {
+      localStore.setLocalStore('isFirstLogin', false);
+    }
   };
   //获取搜索输入框的值，进行搜索提示
   const handleSearchChange = (value: string) => {
@@ -62,10 +65,10 @@ export default function index() {
   };
   //回车或者点击搜索框左侧按钮搜索
   const handleSearchClick = (e: any) => {
-    if (e.keyCode === 13 && (keyword as string).trim()) {
+    if ((e.keyCode === 13 || e.type === 'click') && (keyword as string).trim()) {
       dispatch(getAllArticleAction({ keyword: keyword as string }));
       const searchQuery = createSearchParams({
-        query: keyword as string
+        query: keyword as string,
       });
       navigate('/?' + searchQuery);
     }
@@ -90,7 +93,7 @@ export default function index() {
           position: 'top-right',
           onClose: () => {
             window.location.reload();
-          }
+          },
         });
 
         break;

@@ -1,13 +1,14 @@
 /*
  * @Date: 2022-01-23 20:11:30
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-15 23:28:21
+ * @LastEditTime: 2022-03-16 21:51:24
  */
 import React, { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { getArticleInfoByIdAction } from './store';
 import { testTokenAction } from '@/store/actionCreators';
+import { useTitle } from '@/hooks/useTitle';
 import type { AppState } from '@/store/reducer';
 import type { RenderObjType } from '@/utils/md2Navigate';
 
@@ -25,9 +26,9 @@ export default memo(function index() {
   const dispatch = useDispatch();
   const { articleInfo } = useSelector(
     (state: AppState) => ({
-      articleInfo: state.getIn(['article', 'articleInfo'])
+      articleInfo: state.getIn(['article', 'articleInfo']),
     }),
-    shallowEqual
+    shallowEqual,
   );
 
   //other hooks
@@ -38,6 +39,7 @@ export default memo(function index() {
 
   //其他逻辑
   const { text = '', title = '', classifys = [], labels = [] } = articleInfo as any;
+  useTitle(title);
 
   //测试登录
   const testClickHandle = () => {

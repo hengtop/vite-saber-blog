@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 15:56:55
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-20 18:05:25
+ * @LastEditTime: 2022-03-16 21:19:35
  */
 export const CHANGE_TOKEN = 'CHANGE_TOKEN';
 export const CHANGE_REFRESHTOKEN = 'CHANGE_REFRESHTOKEN';
@@ -13,3 +13,5 @@ export const CHANGE_LABEL = 'CHANGE_LABEL';
 export const CHANGE_KEYWORD = 'CHANGE_KEYWORD';
 
 export const CHANGE_LABELLOADING = 'CHANGE_LABELLOADING';
+
+export const CHANGE_IS_FIRST_LOGIN = 'CHANGE_IS_FIRST_LOGIN';
