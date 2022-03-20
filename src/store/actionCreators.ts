@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 15:56:34
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-16 21:35:48
+ * @LastEditTime: 2022-03-20 15:33:25
  */
 /*
  * @Date: 2022-01-24 16:51:02
@@ -69,10 +69,10 @@ export const getUserInfoAction = (id: number) => {
 export const getLabelAction = (query?: LabelQueryType) => {
   return async (dispatch: any) => {
     dispatch(changeLabelLoadingAction(true));
-    const {
-      data: { list },
-    } = await getLabel(query);
-    await dispatch(changeLabelAction(list));
+    const [data] = await awaitHandle(getLabel(query));
+    if (data) {
+      dispatch(changeLabelAction(data.data.list));
+    }
     dispatch(changeLabelLoadingAction(false));
   };
 };

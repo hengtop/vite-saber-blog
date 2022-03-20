@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 16:48:56
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-16 21:20:16
+ * @LastEditTime: 2022-03-20 15:04:33
  */
 import { Record, Map } from 'immutable';
 import { combineReducers } from 'redux-immutable';
@@ -20,7 +20,7 @@ const initState = Map({
   label: [] as any[],
   keyword: '', //搜索文章的关键词
   labelLoading: false,
-  isFirstLogin: true
+  isFirstLogin: true,
 });
 const mainReducer = (state = initState, action: ActionType) => {
   switch (action.type) {
@@ -48,7 +48,7 @@ const mainReducer = (state = initState, action: ActionType) => {
 const reducer = combineReducers({
   home: homeReducer,
   main: mainReducer,
-  article: articleReducer
+  article: articleReducer,
 });
 export type AppState = Record<ReturnType<typeof reducer>>;
 export default reducer;

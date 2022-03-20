@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 15:03:46
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-24 17:32:19
+ * @LastEditTime: 2022-03-20 15:13:36
  */
 
 import axios from 'axios';
@@ -26,12 +26,12 @@ export default class HttpRequest {
 
     this.instance.interceptors.request.use(
       this.interceptors?.requestInterceptor,
-      this.interceptors?.requestInterceptorCatch
+      this.interceptors?.requestInterceptorCatch,
     );
 
     this.instance.interceptors.response.use(
       this.interceptors?.responseInterceptor,
-      this.interceptors?.responseInterceptorCatch
+      this.interceptors?.responseInterceptorCatch,
     );
 
     //配置所有实例的都有的拦截器
@@ -42,7 +42,7 @@ export default class HttpRequest {
           config.cancelToken = new CancelToken((c) => {
             this.cancleRequests?.push({
               name: `${config.url}&${config.method}`,
-              cancel: c
+              cancel: c,
             });
           });
         }
@@ -52,7 +52,7 @@ export default class HttpRequest {
       (err) => {
         console.log('每个实例都有的请求拦截器---错误');
         return Promise.reject(err);
-      }
+      },
     );
     this.instance.interceptors.response.use(
       (res) => {
@@ -62,7 +62,7 @@ export default class HttpRequest {
       (err) => {
         console.log('每个实例都有的响应拦截器--错误');
         return Promise.reject(err);
-      }
+      },
     );
   }
   request<T>(config: HttpRequestConfig<T>): Promise<T> {

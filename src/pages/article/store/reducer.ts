@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 16:51:09
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-20 18:18:56
+ * @LastEditTime: 2022-03-20 15:04:22
  */
 import { Map } from 'immutable';
 import * as actionTypes from './constant';
@@ -9,7 +9,7 @@ import type { ActionType } from '@/store/types';
 
 const initState = Map({
   articleInfo: {} as any,
-  articleDetailLoading: false
+  articleDetailLoading: false,
 });
 
 export default function (state = initState, action: ActionType) {

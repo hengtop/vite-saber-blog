@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-12-08 16:04:15
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-16 21:04:21
+ * @LastEditTime: 2022-03-20 15:10:04
  */
 
 // 处理async await 的一个函数，
@@ -16,7 +16,7 @@ export const awaitHandle = <T, U = any>(promise: Promise<T>): Promise<[T | null,
       return [data, null];
     })
     .catch<[null, U]>((err: U) => {
-      console.error(err);
+      //console.error(err);
       return [null, err];
     });
 };

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 16:51:09
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-20 17:24:07
+ * @LastEditTime: 2022-03-20 15:16:08
  */
 import { Map } from 'immutable';
 import * as actionTypes from './constant';
@@ -11,7 +11,7 @@ const initState = Map({
   articleList: [],
   articleTotalCount: 0,
   queryInfo: {} as any, //获取文章的query
-  articleLoading: false //文章正在加载中
+  articleLoading: false, //文章正在加载中
 });
 
 export default function (state = initState, action: ActionType) {

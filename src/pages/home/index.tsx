@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:11:01
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-20 17:15:15
+ * @LastEditTime: 2022-03-20 15:26:26
  */
 
 import React, { memo, useEffect } from 'react';
@@ -25,9 +25,9 @@ export default memo(function index() {
     (state: AppState) => ({
       /* issue 这里的state有类型问题，不能进行完整的类型暗示 */
       articleList: state.getIn(['home', 'articleList']),
-      queryInfo: state.getIn(['home', 'queryInfo'])
+      queryInfo: state.getIn(['home', 'queryInfo']),
     }),
-    shallowEqual
+    shallowEqual,
   );
   //other hooks
   const [searchParams] = useSearchParams();
@@ -40,13 +40,17 @@ export default memo(function index() {
     //查询对应标签或者分类下的文章 或者查询全部文章
     queryType && queryTypeId
       ? dispatch(
-          getArticleByQueryAction(queryTypeId, queryType[0] as QueryType, queryInfo as queryArticle)
+          getArticleByQueryAction(
+            queryTypeId,
+            queryType[0] as QueryType,
+            queryInfo as queryArticle,
+          ),
         )
       : dispatch(
           getAllArticleAction({
             ...(queryInfo as queryArticle),
-            keyword: searchKeyword as string
-          })
+            keyword: searchKeyword as string,
+          }),
         );
   }, [dispatch, queryInfo, searchParams]);
   //其他逻辑

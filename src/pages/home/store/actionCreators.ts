@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 16:51:02
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-20 17:53:23
+ * @LastEditTime: 2022-03-20 15:32:20
  */
 
 import * as actionTypes from './constant';
@@ -9,24 +9,25 @@ import { getAllArticle, getArticleByQueryType } from '@/network/api/article';
 import type { queryArticle } from '@/network/config/types';
 import type { ActionType } from '@/store/types';
 import type { QueryType } from '@/components/Label/components/LabelItem';
+import { awaitHandle } from '@/utils/awaitHandle';
 
 export const changeArticleAction = (res: any[]): ActionType => ({
   type: actionTypes.CHANGE_ARTICLE,
-  value: res
+  value: res,
 });
 export const changeQueryInfoAction = (res: any): ActionType => ({
   type: actionTypes.CHANGE_QUERY,
-  value: res
+  value: res,
 });
 
 export const changeArticleTotalCountAction = (res: number): ActionType => ({
   type: actionTypes.CHANGE_ARTICLE_COUNT,
-  value: res
+  value: res,
 });
 
 export const changeArticleLoadingAction = (res: boolean): ActionType => ({
   type: actionTypes.CHANGE_ARTICLELOADING,
-  value: res
+  value: res,
 });
 
 //获取所有的文章
@@ -34,11 +35,15 @@ export const getAllArticleAction = (query?: queryArticle) => {
   return async (dispatch: any) => {
     //设置为加载中
     dispatch(changeArticleLoadingAction(true));
-    const {
-      data: { list, totalCount }
-    } = await getAllArticle(query);
-    await dispatch(changeArticleAction(list));
-    await dispatch(changeArticleTotalCountAction(totalCount));
+    const [data] = await awaitHandle(getAllArticle(query));
+    if (data) {
+      const {
+        data: { list, totalCount },
+      } = data;
+      dispatch(changeArticleAction(list));
+      dispatch(changeArticleTotalCountAction(totalCount));
+    }
+
     dispatch(changeArticleLoadingAction(false));
   };
 };
@@ -47,17 +52,22 @@ export const getAllArticleAction = (query?: queryArticle) => {
 export const getArticleByQueryAction = (
   id: number | string,
   queryType: QueryType,
-  query?: queryArticle
+  query?: queryArticle,
 ) => {
   return async (dispatch: any) => {
     //设置为加载中
     dispatch(changeArticleLoadingAction(true));
-    const {
-      data: { list, totalCount }
-    } = await getArticleByQueryType(id, queryType, query);
-    await dispatch(changeArticleAction(list));
-    await dispatch(changeArticleTotalCountAction(totalCount));
-    //设置为加载中
+    const [data, err] = await awaitHandle(getArticleByQueryType(id, queryType, query));
+    console.log(1111);
+    if (data) {
+      const {
+        data: { list, totalCount },
+      } = data;
+      dispatch(changeArticleAction(list));
+      dispatch(changeArticleTotalCountAction(totalCount));
+    }
+    console.log(1111);
+    //加载完成
     dispatch(changeArticleLoadingAction(false));
   };
 };

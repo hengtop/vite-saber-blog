@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 12:55:20
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-09 23:24:45
+ * @LastEditTime: 2022-03-20 15:29:16
  */
 import React, { memo, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
@@ -13,7 +13,7 @@ import Label from '../Label';
 import LabelListSkeleton from '@/components/Skeleton/LabelListSkeleton';
 
 interface RightArticleType {
-  navigationContainer: any;
+  navigationContainer?: any;
 }
 
 export default memo(function index(props: PropsWithChildren<RightArticleType>) {
@@ -24,9 +24,9 @@ export default memo(function index(props: PropsWithChildren<RightArticleType>) {
   const { label, labelLoading } = useSelector(
     (state: AppState) => ({
       label: state.getIn(['main', 'label']),
-      labelLoading: state.getIn(['main', 'labelLoading'])
+      labelLoading: state.getIn(['main', 'labelLoading']),
     }),
-    shallowEqual
+    shallowEqual,
   );
   //other hooks
   useEffect(() => {

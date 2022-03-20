@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 15:04:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-16 21:33:35
+ * @LastEditTime: 2022-03-20 15:43:06
  */
 
 import HttpRequest from './config';
@@ -72,6 +72,7 @@ export const httpRequest: HttpRequest = new HttpRequest({
           //清空部分用户信息缓存
           localStore.removeLocalStore('userInfo');
           localStore.removeLocalStore('userId');
+          localStore.removeLocalStore('menus');
           store.dispatch(loadLocalStore() as any);
           //判断是否第一次登录
           const isFirstLogin = localStore.getLocalStore('isFirstLogin');
@@ -90,7 +91,7 @@ export const httpRequest: HttpRequest = new HttpRequest({
         case 401:
           break;
         default:
-          toast.error(err?.response?.data ?? '请求错误', {
+          toast.error(err?.response?.data ?? '请求错误,请检查网络', {
             hideProgressBar: true,
             autoClose: 1500,
             position: 'top-center',
