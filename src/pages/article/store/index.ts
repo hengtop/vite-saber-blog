@@ -1,10 +1,10 @@
 /*
  * @Date: 2022-01-24 16:50:46
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-20 15:04:20
+ * @LastEditTime: 2022-04-04 21:13:03
  */
 import reducer from './reducer';
 
-import { getArticleInfoByIdAction } from './actionCreators';
+import { getArticleInfoByIdAction, getCommentListByArticleIdAction } from './actionCreators';
 
-export { reducer, getArticleInfoByIdAction };
+export { reducer, getArticleInfoByIdAction, getCommentListByArticleIdAction };

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 19:19:53
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-13 18:11:18
+ * @LastEditTime: 2022-04-04 19:17:03
  */
 import React, { memo, PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -25,8 +25,8 @@ export default memo(function index(props: PropsWithChildren<CardType>) {
       title,
       views,
       userInfo: { name = '文章作者' },
-      labels
-    }
+      labels,
+    },
   } = props;
   const [isHighlight, setIsHighlight] = useState(false);
   //redux hooks
@@ -53,11 +53,11 @@ export default memo(function index(props: PropsWithChildren<CardType>) {
       isHighlight && keyword
         ? str.replace(
             new RegExp(keyword as string, 'gi'),
-            `<span style="color: red">${keyword}</span>`
+            `<span style="color: red">${keyword}</span>`,
           )
         : str;
     return {
-      __html: htmlStr
+      __html: htmlStr,
     };
   };
   //渲染标题和文件简介内容

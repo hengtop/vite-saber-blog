@@ -1,7 +1,8 @@
 /*
  * @Date: 2022-01-24 16:50:25
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-20 18:18:35
+ * @LastEditTime: 2022-04-04 21:04:19
  */
 export const CHANGE_ARTICLEINFO = 'CHANGE_ARTICLEINFO';
 export const CHANGE_ARTICLE_DETAIL_LOADING = 'CHANGE_ARTICLE_DETAIL_LOADING';
+export const CHANGE_COMMENT_LIST = 'CHANGE_COMMENT_LIST';

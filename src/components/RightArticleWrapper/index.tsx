@@ -34,7 +34,7 @@ export default memo(function index(props: PropsWithChildren<RightArticleType>) {
   }, [dispatch]);
   return (
     <>
-      <div className="bg-white p-[15px] rounded-b xl:rounded">
+      <div className="bg-white rounded-b xl:rounded">
         {labelLoading ? <LabelListSkeleton /> : <Label label={label as any[]} />}
       </div>
       {navigationContainer}

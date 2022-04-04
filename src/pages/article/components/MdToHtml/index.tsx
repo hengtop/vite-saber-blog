@@ -40,7 +40,7 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
 
   const createHtml = (htmlStr: string) => {
     return {
-      __html: htmlStr
+      __html: htmlStr,
     };
   };
 
@@ -50,7 +50,7 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
     document.querySelectorAll('.articleHtml img').forEach((item, index) => {
       list.push({
         key: index,
-        src: (item as HTMLImageElement).src
+        src: (item as HTMLImageElement).src,
       });
     });
     setImageList(list);
