@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 15:04:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-05 22:15:56
+ * @LastEditTime: 2022-04-05 22:43:43
  */
 
 import HttpRequest from './config';
@@ -76,10 +76,10 @@ export const httpRequest: HttpRequest = new HttpRequest({
           store.dispatch(loadLocalStore() as any);
           //判断是否第一次登录
           const isFirstLogin = localStore.getLocalStore('isFirstLogin');
-          console.log('isFirstLogin', isFirstLogin);
           if (isFirstLogin !== false) {
-            console.log('dakai');
-            handleClickHiddenEvent.emit('openLoginWindow');
+            setTimeout(() => {
+              handleClickHiddenEvent.emit('openLoginWindow');
+            }, 500);
           }
         }
       }

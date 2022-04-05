@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 18:12:27
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-05 22:02:32
+ * @LastEditTime: 2022-04-05 23:29:26
  */
 import React, { memo, useCallback, useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
@@ -60,7 +60,7 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
         );
       }
     },
-    [commentList],
+    [commentList, userInfo],
   );
 
   // 发送删除评论的请求
