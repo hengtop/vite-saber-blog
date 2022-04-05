@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 16:51:02
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-04 21:12:57
+ * @LastEditTime: 2022-04-05 13:26:26
  */
 
 import * as actionTypes from './constant';
@@ -31,6 +31,7 @@ export const getArticleInfoByIdAction = (id: number | string) => {
     const [data, err] = await awaitHandle(getArticleById(id));
     if (data) {
       dispatch(changeArticleInfoAction(data.data));
+      dispatch(changeCommentListAction(data.data.comments ?? []));
     }
     dispatch(changeArticleDetailLoadingAction(false));
   };

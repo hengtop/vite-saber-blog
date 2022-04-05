@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 15:56:34
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-20 15:33:25
+ * @LastEditTime: 2022-04-05 22:01:41
  */
 /*
  * @Date: 2022-01-24 16:51:02
@@ -103,7 +103,9 @@ export const testTokenAction = () => {
   return async () => {
     console.log('测试token');
     const [data, err] = await awaitHandle(testToken());
-    console.log(data, err);
+    if (err) {
+      return err;
+    }
   };
 };
 

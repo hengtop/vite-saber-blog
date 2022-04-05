@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 21:32:45
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-04 21:55:25
+ * @LastEditTime: 2022-04-05 17:52:34
  */
 /**
  * @Date: 2022-04-04 21:37:11
@@ -24,8 +24,9 @@ export const mapTree = (
   }
   const arr = [];
   for (const item of arrs) {
-    if (item[parentKey] === id) {
-      arr.push(item);
+    // 这里注意如果传入undefined就转为null进行比较
+    if ((item[parentKey] ?? null) === id) {
+      arr.unshift(item);
       item[childrenKey] = mapTree(arrs, item.id, parentKey, childrenKey);
     }
   }

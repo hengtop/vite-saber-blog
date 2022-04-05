@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 12:42:52
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-16 21:04:48
+ * @LastEditTime: 2022-04-05 22:31:41
  */
 import React, { memo, useState } from 'react';
 import type { PropsWithChildren } from 'react';
@@ -18,7 +18,7 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
   //props/state
   const [formData, setFormData] = useState({
     name: '',
-    password: ''
+    password: '',
   });
 
   //redux hooks
@@ -63,6 +63,7 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
               <input
                 type="text"
                 id="name"
+                autoFocus
                 value={formData.name}
                 onChange={handleChangeFromData('name')}
                 className="outline-none rounded-sm bg-[#f2f3f4] h-[32px] px-[10px]  w-[72%]"
@@ -96,7 +97,7 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
               navigate(
                 '/signup' +
                   (location.search ? location.search + '&redirect=' : '?redirect=') +
-                  location.pathname
+                  location.pathname,
               )
             }
           >

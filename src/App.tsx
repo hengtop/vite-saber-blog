@@ -14,7 +14,7 @@ function App() {
     dispatch(loadLocalStore());
     //测试token
     dispatch(testTokenAction());
-  }, []);
+  }, [dispatch]);
   //这个钩子要写在路由组件中
   const element = useRoutes(routes);
   return (

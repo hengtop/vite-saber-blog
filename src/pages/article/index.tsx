@@ -1,21 +1,22 @@
 /*
  * @Date: 2022-01-23 20:11:30
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-04 21:26:28
+ * @LastEditTime: 2022-04-05 21:48:27
  */
 import React, { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { getArticleInfoByIdAction } from './store';
-import { testTokenAction } from '@/store/actionCreators';
+import { testTokenAction } from '@/store';
 import { useTitle } from '@/hooks/useTitle';
-import type { AppState } from '@/store/reducer';
-import type { RenderObjType } from '@/utils/md2Navigate';
 
 import Container from '@/components/Container';
 import LeftArticleWrapper from './components/LeftArticleWrapper';
 import RightArticleWrapper from '@/components/RightArticleWrapper';
 import NavigationContainer from './components/NavigationContainer';
+
+import type { AppState } from '@/store/reducer';
+import type { RenderObjType } from '@/utils/md2Navigate';
 
 export default memo(function index() {
   //props/state
@@ -42,9 +43,9 @@ export default memo(function index() {
   useTitle(title);
 
   //测试登录
-  const testClickHandle = () => {
+  const testClickHandle = async () => {
     //测试token
-    dispatch(testTokenAction());
+    await dispatch(testTokenAction());
   };
 
   //获取孙子组件的中的domRenderObj

@@ -47,3 +47,9 @@ export interface registerQueryType {
   birthday?: string;
   password: string;
 }
+
+export interface SendCommnetReqType {
+  article_id: number;
+  content: string;
+  comment_id?: number;
+}

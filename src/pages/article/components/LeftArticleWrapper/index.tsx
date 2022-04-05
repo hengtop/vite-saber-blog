@@ -1,10 +1,10 @@
 /*
  * @Date: 2022-02-17 21:24:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-04 21:23:44
+ * @LastEditTime: 2022-04-05 16:41:43
  */
 import React, { memo, useState } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import type { PropsWithChildren } from 'react';
 import type { AppState } from '@/store/reducer';
 
@@ -25,13 +25,14 @@ interface propsType {
 
 export default memo(function index(props: PropsWithChildren<propsType>) {
   //props/state
-  const { title, text, labels, classifys, commentList, getDomRenderObj } = props;
+  const { title, text, labels, classifys, getDomRenderObj } = props;
   const [isArticleDetailMounted, setIsArticleDetailMounted] = useState(false);
 
   //redux hooks
-  const { articleDetailLoading } = useSelector(
+  const { articleDetailLoading, commentList } = useSelector(
     (state: AppState) => ({
       articleDetailLoading: state.getIn(['article', 'articleDetailLoading']),
+      commentList: state.getIn(['article', 'commentList']),
     }),
     shallowEqual,
   );

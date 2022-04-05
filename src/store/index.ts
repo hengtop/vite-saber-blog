@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 16:48:40
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-16 21:24:13
+ * @LastEditTime: 2022-04-05 21:39:27
  */
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -12,6 +12,7 @@ import {
   loadLocalStore,
   getLabelAction,
   changeKeyword,
+  testTokenAction,
   changeTokenAction,
   getUserInfoAction,
   changeIsFirstLoginAction,
@@ -25,6 +26,7 @@ export {
   loginAction,
   getLabelAction,
   changeKeyword,
+  testTokenAction,
   changeTokenAction,
   loadLocalStore,
   getUserInfoAction,

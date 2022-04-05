@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 15:53:25
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-05 23:37:45
+ * @LastEditTime: 2022-04-05 21:21:21
  */
 
 import httpRequest, { refreshHttpRequest } from '../index';
@@ -11,7 +11,7 @@ import type { CommonResponseType, loginType, registerQueryType } from '../config
 export const login = (query: loginType) => {
   return httpRequest.post<CommonResponseType>({
     url: '/login',
-    data: query
+    data: query,
   });
 };
 
@@ -20,21 +20,21 @@ export const getTokenByRefreshToken = (refreshToken: string) => {
   return refreshHttpRequest.put<CommonResponseType>({
     url: '/refresh/token',
     headers: {
-      Authorization: refreshToken
-    }
+      Authorization: refreshToken,
+    },
   });
 };
 //测试token是否失效
 export const testToken = () => {
   return httpRequest.get<CommonResponseType>({
-    url: '/vertify/token'
+    url: '/vertify/token',
   });
 };
 
 //获取用户信息
 export const getUserInfo = (id: number) => {
   return httpRequest.get<any>({
-    url: '/user/' + id
+    url: '/user/' + id,
   });
 };
 
@@ -42,7 +42,7 @@ export const getUserInfo = (id: number) => {
 export const register = (query: registerQueryType) => {
   return httpRequest.post<CommonResponseType>({
     url: '/user/register',
-    data: query
+    data: query,
   });
 };
 
@@ -50,6 +50,6 @@ export const register = (query: registerQueryType) => {
 export const userAddRole = (userId: number, roles: number[]) => {
   return httpRequest.post<CommonResponseType>({
     url: '/user/' + userId + '/roles',
-    data: { roles }
+    data: { roles },
   });
 };

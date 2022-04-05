@@ -1,14 +1,18 @@
-import React, { memo } from 'react';
+import React, { useState, memo } from 'react';
 
 import CommentCard from '@/pages/article/components/Comment/CommentCard';
 
 import type { PropsWithChildren } from 'react';
 import type { CommentPropsType } from '../index';
 
-export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
+interface CommentItemPropsType extends CommentPropsType {
+  onDeleteHandle: (id: number) => void;
+  onSubmitReplyHandle: (value: any, record: any, cb: (arg: any) => void) => void;
+}
+
+export default memo(function index(props: PropsWithChildren<CommentItemPropsType>) {
   //props/state
-  const { commentList } = props;
-  console.log(commentList);
+  const { commentList, onSubmitReplyHandle, onDeleteHandle } = props;
   //redux hooks
 
   //other hooks
@@ -16,10 +20,19 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
   //其他逻辑
 
   return (
-    <div>
+    <>
       {commentList.map((item) => {
-        return <CommentCard key={item.id} {...item} />;
+        return (
+          <CommentCard
+            /* 设置一二级评论不显示回复信息 */
+            neeShowReplyInfo={false}
+            key={item.id}
+            {...item}
+            onSubmitReplyHandle={onSubmitReplyHandle}
+            onDeleteHandle={onDeleteHandle}
+          />
+        );
       })}
-    </div>
+    </>
   );
 });
