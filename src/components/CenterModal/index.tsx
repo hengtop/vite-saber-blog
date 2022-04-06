@@ -1,9 +1,9 @@
 /*
  * @Date: 2022-01-28 12:42:52
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-05 22:31:41
+ * @LastEditTime: 2022-04-06 21:44:02
  */
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useRef, useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -20,6 +20,7 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
     name: '',
     password: '',
   });
+  const inputRef = useRef<HTMLInputElement>(null);
 
   //redux hooks
   const dispatch = useDispatch();
@@ -27,6 +28,12 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
   //other hooks
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    if (!props.hidden) {
+      inputRef.current?.focus();
+    }
+  }, [inputRef, props.hidden]);
 
   //其他逻辑
   const handleChangeFromData = (formItem: string) => {
@@ -61,9 +68,10 @@ export default memo(function index(props: PropsWithChildren<CenterPropsType>) {
                 用户名:
               </label>
               <input
+                ref={inputRef}
                 type="text"
                 id="name"
-                autoFocus
+                autoComplete="off"
                 value={formData.name}
                 onChange={handleChangeFromData('name')}
                 className="outline-none rounded-sm bg-[#f2f3f4] h-[32px] px-[10px]  w-[72%]"

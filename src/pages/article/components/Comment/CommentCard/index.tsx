@@ -1,12 +1,14 @@
 /*
  * @Date: 2022-04-04 20:46:43
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-05 21:32:23
+ * @LastEditTime: 2022-04-06 23:16:14
  */
 import React, { useState, memo } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
 import { showTimeNow } from '@/utils/timeFormat';
+import { testTokenAction } from '@/store';
+import { handleClickHiddenEvent } from '@/utils/events';
 
 import CommentChild from '../CommentChild';
 import CommentInput from '../CommentInput';
@@ -46,6 +48,7 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
   const [showDelete, setShowDelete] = useState(false);
 
   //redux hooks
+  const dispatch = useDispatch();
   const { localUserInfo } = useSelector(
     (state: AppState) => ({
       localUserInfo: state.getIn(['main', 'userInfo']),
@@ -57,7 +60,13 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
 
   //其他逻辑
   //通过点击的方式显示隐藏输入框
-  const onClickShowInputHandle = () => {
+  const onClickShowInputHandle = async () => {
+    // 判断用户是否登录
+    const res = await dispatch(testTokenAction());
+    if (!showInput && res) {
+      handleClickHiddenEvent.emit('openLoginWindow');
+      return;
+    }
     //避免触发失焦点事件
     setShowInput(!showInput);
   };
@@ -71,6 +80,8 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
       setShowDelete(true);
     }
   };
+
+  // 封装一个检测用户是否登录的
 
   // 删除
   // const onDeleteHandle = () => {
@@ -122,14 +133,13 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
             </span>
           </div>
         </div>
-        {showInput && (
-          <CommentInput
-            onBlur={onBlurShowInputHandle}
-            placeholder={'回复' + userInfo.name + '...'}
-            showAvatar={false}
-            onSubmit={(value) => onSubmitReplyHandle(value, props, setShowInput)}
-          />
-        )}
+        <CommentInput
+          showInput={showInput}
+          onBlur={onBlurShowInputHandle}
+          placeholder={'回复' + userInfo.name + '...'}
+          showAvatar={false}
+          onSubmit={(value) => onSubmitReplyHandle(value, props, setShowInput)}
+        />
         {isRecurse && !!replyCommentList.length && (
           <div className="bg-[rgba(247,248,250,.7)] border border-solid border-[#e4e6eb] mt-[10px] rounded">
             <CommentChild
