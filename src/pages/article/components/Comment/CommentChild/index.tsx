@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 20:46:43
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-05 20:28:09
+ * @LastEditTime: 2022-04-06 23:52:48
  */
 import React, { memo, Fragment } from 'react';
 
@@ -20,7 +20,13 @@ interface CommentChildPropsType extends CommentPropsType {
 
 export default memo(function index(props: PropsWithChildren<CommentChildPropsType>) {
   //props/state
-  const { commentList = [], neeShowReplyInfo = true, onSubmitReplyHandle, onDeleteHandle } = props;
+  const {
+    commentList = [],
+    neeShowReplyInfo = true,
+    onSubmitReplyHandle,
+    onDeleteHandle,
+    replyInfo,
+  } = props;
 
   //redux hooks
 
@@ -39,7 +45,7 @@ export default memo(function index(props: PropsWithChildren<CommentChildPropsTyp
             <CommentCard
               {...item}
               isRecurse={false}
-              replyInfo={userInfo}
+              replyInfo={replyInfo}
               neeShowReplyInfo={neeShowReplyInfo}
               onDeleteHandle={onDeleteHandle}
               onSubmitReplyHandle={onSubmitReplyHandle}

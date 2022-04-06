@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 19:04:06
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-06 23:19:46
+ * @LastEditTime: 2022-04-06 23:31:20
  */
 import React, { memo, useState, useRef, useEffect } from 'react';
 
@@ -14,7 +14,7 @@ import type { BaseSyntheticEvent, PropsWithChildren } from 'react';
 import type { AppState } from '@/store/reducer';
 
 interface CommentInputPropsType {
-  showInput: boolean;
+  showInput?: boolean;
   showAvatar?: boolean;
   placeholder?: string;
   onChange?: (value: string) => void;

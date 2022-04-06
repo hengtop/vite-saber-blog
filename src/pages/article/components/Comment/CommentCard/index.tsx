@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 20:46:43
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-06 23:16:14
+ * @LastEditTime: 2022-04-06 23:45:33
  */
 import React, { useState, memo } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -94,7 +94,7 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
       <div className="flex-1 overflow-hidden">
         <div onMouseEnter={onMouseEnterHandle} onMouseLeave={() => setShowDelete(false)}>
           <div className="flex justify-between">
-            <div className="max-w-[50%]">
+            <div className="max-w-[70%]">
               <span className="max-w-[150px] truncate inline-block align-bottom text-[#252933]">
                 {userInfo?.name}
               </span>
