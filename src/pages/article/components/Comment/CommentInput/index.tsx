@@ -1,17 +1,14 @@
 /*
  * @Date: 2022-04-04 19:04:06
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-06 23:31:20
+ * @LastEditTime: 2022-04-09 00:26:41
  */
 import React, { memo, useState, useRef, useEffect } from 'react';
 
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-
-import { testTokenAction } from '@/store';
+import { useLogin } from '@/hooks/useLogin';
 import { handleClickHiddenEvent } from '@/utils/events';
 
 import type { BaseSyntheticEvent, PropsWithChildren } from 'react';
-import type { AppState } from '@/store/reducer';
 
 interface CommentInputPropsType {
   showInput?: boolean;
@@ -37,20 +34,8 @@ export default memo(function index(props: PropsWithChildren<CommentInputPropsTyp
   const texareaRef = useRef<HTMLTextAreaElement>(null);
 
   //redux hooks
-  const dispatch = useDispatch();
-  const { userInfo } = useSelector(
-    (state: AppState) => ({
-      userInfo: state.getIn(['main', 'userInfo']),
-    }),
-    shallowEqual,
-  );
-
+  const [isLogin, userInfo] = useLogin();
   //other hooks
-  useEffect(() => {
-    if (showInput) {
-      setShowButton(true);
-    }
-  }, [showInput]);
 
   //其他逻辑
   const onInputHandle = (e: BaseSyntheticEvent) => {
@@ -61,8 +46,7 @@ export default memo(function index(props: PropsWithChildren<CommentInputPropsTyp
   const onMousedownHandle = async (e: BaseSyntheticEvent) => {
     e.preventDefault();
     //检验用户是否登录
-    const res = await dispatch(testTokenAction());
-    if (res as any) {
+    if (!isLogin) {
       //打开登录窗口
       handleClickHiddenEvent.emit('openLoginWindow');
     } else {
@@ -72,9 +56,11 @@ export default memo(function index(props: PropsWithChildren<CommentInputPropsTyp
   };
 
   const onBlurHandle = () => {
-    console.log(12121);
     setShowButton(false);
     onBlur && onBlur();
+  };
+  const onFocusHandle = () => {
+    setShowButton(true);
   };
 
   return (
@@ -92,7 +78,7 @@ export default memo(function index(props: PropsWithChildren<CommentInputPropsTyp
               autoFocus
               ref={texareaRef}
               onMouseDown={onMousedownHandle}
-              //onFocus={onFocusHandle}
+              onFocus={onFocusHandle}
               placeholder={placeholder}
               className="form-textarea flex-1 resize-none !rounded !border-transparent outline-transparent !bg-[#f2f3f5]"
               value={content}

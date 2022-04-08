@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 21:09:49
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-06 23:20:20
+ * @LastEditTime: 2022-04-09 00:19:26
  */
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -10,17 +10,20 @@ import { useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 
 import { getAllArticleAction } from '@/pages/home/store';
 import localStore from '@/utils/localStore';
-import type { AppState } from '@/store/reducer';
 import { changeKeyword } from '@/store';
 import { handleClickHiddenEvent } from '@/utils/events';
+import { useLogin } from '@/hooks/useLogin';
 
 import Input from '../Input';
 import ProtalsDom from '../ProtalsDom';
 import DropDownModal from '../DropDownModal';
 import CenterModal from '../CenterModal';
 
+import type { AppState } from '@/store/reducer';
+
 export default function index() {
-  const [hidden, setHidden] = useState(true);
+  const [loginHidden, setLoginHidden] = useState(true);
+  const [menuHidden, setMenuHidden] = useState(true);
   const dropMenuData = [
     { title: '撰写文章', value: 1 },
     { title: '个人中心', value: 2 },
@@ -28,15 +31,16 @@ export default function index() {
   ];
   //redux hook
   //这里解构取出的变量会丢失类型。。。
-  const { userInfo, keyword } = useSelector(
+  const { keyword } = useSelector(
     (state: AppState) => ({
-      userInfo: state.getIn(['main', 'userInfo']),
       keyword: state.getIn(['main', 'keyword']),
     }),
     shallowEqual,
   );
   const dispatch = useDispatch();
   //other hooks
+  // 获取用户数据和是否登录flag
+  const [isLogin, userInfo] = useLogin();
   //获取路由参数
   const location = useLocation();
   const navigate = useNavigate();
@@ -44,7 +48,7 @@ export default function index() {
   //监听打开登录窗口
   useEffect(() => {
     const widowHidden = () => {
-      setHidden(false);
+      setLoginHidden(false);
     };
     handleClickHiddenEvent.on('openLoginWindow', widowHidden);
     return () => {
@@ -53,9 +57,13 @@ export default function index() {
   }, []);
   //其他逻辑,
   const handleClickHidden = () => {
-    setHidden(!hidden);
-    if (!hidden === true) {
-      localStore.setLocalStore('isFirstLogin', false);
+    if (isLogin) {
+      setMenuHidden(!menuHidden);
+    } else {
+      setLoginHidden(!loginHidden);
+      if (!loginHidden === true) {
+        localStore.setLocalStore('isFirstLogin', false);
+      }
     }
   };
   //获取搜索输入框的值，进行搜索提示
@@ -114,12 +122,12 @@ export default function index() {
         </h2>
         <Input handleSearchChange={handleSearchChange} handleSearchClick={handleSearchClick} />
         <div className="md:block order-3">
-          {Reflect.ownKeys(userInfo as any).length === 0 ? (
+          {!isLogin ? (
             <>
               <i className="iconfont icon-yonghu-xianxing text-2xl" onClick={handleClickHidden}></i>
               <ProtalsDom>
                 <CenterModal
-                  hidden={hidden}
+                  hidden={loginHidden}
                   maskClassName="bg-[#333] opacity-40"
                   handleClickHidden={handleClickHidden}
                 />
@@ -136,7 +144,7 @@ export default function index() {
                 <DropDownModal
                   className="translate-x-[0] translate-y-[0] left-[unset] right-[10px] top-[68px]  shadow-lg border border-solid border-[rgba(177,180,185,.45)]"
                   valueData={dropMenuData}
-                  hidden={hidden}
+                  hidden={menuHidden}
                   MaskHidden={false}
                   handleChange={handleChange}
                   handleClickHidden={handleClickHidden}

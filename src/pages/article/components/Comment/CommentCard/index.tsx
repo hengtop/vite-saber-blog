@@ -1,20 +1,18 @@
 /*
  * @Date: 2022-04-04 20:46:43
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-06 23:45:33
+ * @LastEditTime: 2022-04-09 00:22:02
  */
 import React, { useState, memo } from 'react';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
 import { showTimeNow } from '@/utils/timeFormat';
-import { testTokenAction } from '@/store';
 import { handleClickHiddenEvent } from '@/utils/events';
+import { useLogin } from '@/hooks/useLogin';
 
 import CommentChild from '../CommentChild';
 import CommentInput from '../CommentInput';
 
 import type { PropsWithChildren } from 'react';
-import type { AppState } from '@/store/reducer';
 
 export interface CommentCardPropsType {
   id: number;
@@ -48,22 +46,15 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
   const [showDelete, setShowDelete] = useState(false);
 
   //redux hooks
-  const dispatch = useDispatch();
-  const { localUserInfo } = useSelector(
-    (state: AppState) => ({
-      localUserInfo: state.getIn(['main', 'userInfo']),
-    }),
-    shallowEqual,
-  );
 
   //other hooks
+  const [isLogin, localUserInfo] = useLogin();
 
   //其他逻辑
   //通过点击的方式显示隐藏输入框
   const onClickShowInputHandle = async () => {
     // 判断用户是否登录
-    const res = await dispatch(testTokenAction());
-    if (!showInput && res) {
+    if (!showInput && !isLogin) {
       handleClickHiddenEvent.emit('openLoginWindow');
       return;
     }

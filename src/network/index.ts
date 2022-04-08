@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 15:04:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-05 22:43:43
+ * @LastEditTime: 2022-04-08 23:26:36
  */
 
 import HttpRequest from './config';
@@ -91,6 +91,11 @@ export const httpRequest: HttpRequest = new HttpRequest({
             position: 'top-center',
           });
         case 401:
+          toast.error(err?.response?.data, {
+            hideProgressBar: true,
+            autoClose: 1500,
+            position: 'top-center',
+          });
           break;
         default:
           toast.error(err?.response?.data ?? '请求错误,请检查网络', {
