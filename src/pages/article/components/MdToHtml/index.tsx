@@ -39,7 +39,6 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
   const location = useLocation();
   useEffect(() => {
     isMounted && isMounted(true);
-    handleImageList();
     setRenderHtml(createHtml(htmlStr));
     return () => {
       isMounted && isMounted(false);
@@ -56,9 +55,8 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
     [htmlStr],
   );
   useEffect(() => {
-    setTimeout(() => {
-      getDomRenderObj(md2Navigate(htmlStr));
-    }, 200);
+    handleImageList();
+    getDomRenderObj(md2Navigate(htmlStr));
   }, [renderHtml]);
 
   //获取文章中的img图片
