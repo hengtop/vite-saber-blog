@@ -56,7 +56,9 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
     [htmlStr],
   );
   useEffect(() => {
-    getDomRenderObj(md2Navigate(htmlStr));
+    setTimeout(() => {
+      getDomRenderObj(md2Navigate(htmlStr));
+    }, 200);
   }, [renderHtml]);
 
   //获取文章中的img图片

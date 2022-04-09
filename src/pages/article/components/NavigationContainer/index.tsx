@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-03-09 23:21:00
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-09 19:21:26
+ * @LastEditTime: 2022-04-09 20:06:20
  */
 import React, {
   memo,
@@ -67,23 +67,22 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
   //其他逻辑
   //根据href,id获取每个标题的offsetTop
   const getOffsetTopByHashAndHref = () => {
-    if (navigateContainerDom.current?.childElementCount === 31) {
-      const hashArr: number[] = [];
-      const hrefArr: number[] = [];
-      domRenderObjArr.map((item) => {
-        const hash = '#' + item.id;
-        const offsetTopHash = getDomByHash(hash)?.offsetTop as number;
-        const offsetTopHref = (document.querySelector('a[href="' + hash + '"]') as any)
-          .offsetTop as number;
-        hashArr.push(offsetTopHash);
-        hrefArr.push(offsetTopHref);
-      });
-      setTitleOffsetTop(hashArr);
-      setNavigateOffsetTop(hrefArr);
-    }
+    const hashArr: number[] = [];
+    const hrefArr: number[] = [];
+    domRenderObjArr.map((item) => {
+      const hash = '#' + item.id;
+      const offsetTopHash = getDomByHash(hash)?.offsetTop as number;
+      const offsetTopHref = (document.querySelector('a[href="' + hash + '"]') as any)
+        .offsetTop as number;
+      hashArr.push(offsetTopHash);
+      hrefArr.push(offsetTopHref);
+    });
+    setTitleOffsetTop(hashArr);
+    setNavigateOffsetTop(hrefArr);
   };
   //监听滚动条来计算激活的导航index
   const domScrollhandle = () => {
+    console.log(navigateOffsetTop, titleOffsetTop);
     let i = 0;
     const scrollTop = document.documentElement.scrollTop;
     for (i; i < titleOffsetTop.length; i++) {
@@ -108,8 +107,8 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
       //获取激活的index，设置激活样式
       const index = +e.target.dataset.index;
       setCurrentIndex(index);
-      //设置hash(这里不用跳转)
-      //navigate(e.target.hash);
+      //设置hash
+      navigate(e.target.hash);
       //设置导航栏滚动的高度
       setScrollTopForNavigate(index);
       //获取id,跳转到指定高度
