@@ -67,10 +67,11 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
   const deleteCommentHandle = useCallback(
     async (id: number) => {
       // 这里删除评论有个bug，删除有多条回复的评论时，评论总数只会减少1，当然这只是前端的bug（我没考虑关联子评论的删除），重新刷新就没问题了
-      confirm('确认删除该条评论吗？');
-      const [data, err] = await awaitHandle(deleteComment(id));
-      if (data) {
-        dispatch(changeCommentListAction(commentList.filter((item) => item.id !== id)));
+      if (confirm('确认删除该条评论吗？')) {
+        const [data, err] = await awaitHandle(deleteComment(id));
+        if (data) {
+          dispatch(changeCommentListAction(commentList.filter((item) => item.id !== id)));
+        }
       }
     },
     [commentList],

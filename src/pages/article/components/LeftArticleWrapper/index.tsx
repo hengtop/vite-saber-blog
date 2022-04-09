@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-02-17 21:24:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-05 16:41:43
+ * @LastEditTime: 2022-04-09 18:52:43
  */
 import React, { memo, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -17,6 +17,7 @@ import classNames from 'classnames';
 interface propsType {
   title: string;
   text: string;
+  articleUserInfo: any;
   classifys: any[];
   labels: any[];
   commentList: any[];
@@ -25,7 +26,7 @@ interface propsType {
 
 export default memo(function index(props: PropsWithChildren<propsType>) {
   //props/state
-  const { title, text, labels, classifys, getDomRenderObj } = props;
+  const { title, text, labels, classifys, articleUserInfo, getDomRenderObj } = props;
   const [isArticleDetailMounted, setIsArticleDetailMounted] = useState(false);
 
   //redux hooks
@@ -52,6 +53,7 @@ export default memo(function index(props: PropsWithChildren<propsType>) {
       />
       <div className={classNames({ hidden: articleDetailLoading || !isArticleDetailMounted })}>
         <MdToHtml
+          articleUserInfo={articleUserInfo}
           htmlStr={text}
           title={title}
           isMounted={handleIsArticleDetailMounted}

@@ -1,15 +1,16 @@
 /*
  * @Date: 2022-03-09 23:21:00
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-15 23:08:46
+ * @LastEditTime: 2022-04-09 19:21:26
  */
 import React, {
   memo,
   useState,
   useEffect,
   useRef,
+  useCallback,
   PropsWithChildren,
-  BaseSyntheticEvent
+  BaseSyntheticEvent,
 } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
@@ -24,9 +25,8 @@ interface PropsType {
 
 export default memo(function index(props: PropsWithChildren<PropsType>) {
   //props/state
-
-  const titleOffsetTop: number[] = [];
-  const navigateOffsetTop: number[] = [];
+  const [titleOffsetTop, setTitleOffsetTop] = useState<number[]>([]);
+  const [navigateOffsetTop, setNavigateOffsetTop] = useState<number[]>([]);
   const { domRenderObjArr } = props;
   const [showNavigate, setShowNavigate] = useState(false);
   //获取导航容器的dom
@@ -39,40 +39,50 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
   //other hooks
   const location = useLocation();
   const navigate = useNavigate();
-  //根据激活的index进行个更新
-  useEffect(() => {
-    getOffsetTopByHash();
-    getOffsetTopByHref();
-    setScrollTopForNavigate(currentIndex);
-    window.addEventListener('scroll', domScrollhandle);
-    return () => window.removeEventListener('scroll', domScrollhandle);
-  }, [domRenderObjArr, currentIndex]);
 
-  //根据url中的hash确定滚动条滚动位置和导航激活
+  // 初始化导航和文章锚点的高度数组
   useEffect(() => {
-    setOffsetTopByHash(location.hash);
-    domScrollhandle();
+    getOffsetTopByHashAndHref();
   }, [domRenderObjArr]);
 
+  // 第一次进入页面根据url中的hash确定滚动条滚动位置和导航激活
+  useEffect(() => {
+    // 根据hash设置文章的滚动高度
+    setOffsetTopByHash(location.hash);
+    // 计算出导航激活的index进行设置滚动高度
+    setScrollTopForNavigate(domScrollhandle());
+  }, [navigateOffsetTop, titleOffsetTop, location]);
+
+  // 监听滚动事件
+  useEffect(() => {
+    window.addEventListener('scroll', handleSetCurrentIndex);
+    return () => window.removeEventListener('scroll', handleSetCurrentIndex);
+  }, [titleOffsetTop]);
+
+  //根据激活的index进行个更新
+  useEffect(() => {
+    setScrollTopForNavigate(currentIndex);
+  }, [currentIndex]);
+
   //其他逻辑
-  //根据id获取每个标题的offsetTop
-  const getOffsetTopByHash = () => {
-    domRenderObjArr.map((item) => {
-      const hash = '#' + item.id;
-      const offsetTop = getDomByHash(hash)?.offsetTop as number;
-      titleOffsetTop.push(offsetTop);
-    });
+  //根据href,id获取每个标题的offsetTop
+  const getOffsetTopByHashAndHref = () => {
+    if (navigateContainerDom.current?.childElementCount === 31) {
+      const hashArr: number[] = [];
+      const hrefArr: number[] = [];
+      domRenderObjArr.map((item) => {
+        const hash = '#' + item.id;
+        const offsetTopHash = getDomByHash(hash)?.offsetTop as number;
+        const offsetTopHref = (document.querySelector('a[href="' + hash + '"]') as any)
+          .offsetTop as number;
+        hashArr.push(offsetTopHash);
+        hrefArr.push(offsetTopHref);
+      });
+      setTitleOffsetTop(hashArr);
+      setNavigateOffsetTop(hrefArr);
+    }
   };
-  //根绝href来获取每个导航条的offsetTop
-  const getOffsetTopByHref = () => {
-    domRenderObjArr.map((item) => {
-      const hash = '#' + item.id;
-      const offsetTop = (document.querySelector('a[href="' + hash + '"]') as any)
-        .offsetTop as number;
-      navigateOffsetTop.push(offsetTop);
-    });
-  };
-  //监听滚动条来同步导航的激活
+  //监听滚动条来计算激活的导航index
   const domScrollhandle = () => {
     let i = 0;
     const scrollTop = document.documentElement.scrollTop;
@@ -84,8 +94,11 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
         break;
       }
     }
-    setCurrentIndex(i);
+    return i;
   };
+  const handleSetCurrentIndex = useCallback(() => {
+    setCurrentIndex(domScrollhandle());
+  }, [titleOffsetTop]);
 
   //调整锚点跳转时的位置
   const navigateClickHandle = (e: BaseSyntheticEvent) => {
@@ -95,8 +108,8 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
       //获取激活的index，设置激活样式
       const index = +e.target.dataset.index;
       setCurrentIndex(index);
-      //设置hash
-      navigate(e.target.hash);
+      //设置hash(这里不用跳转)
+      //navigate(e.target.hash);
       //设置导航栏滚动的高度
       setScrollTopForNavigate(index);
       //获取id,跳转到指定高度
@@ -121,6 +134,7 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
   //根据hahs提取id获取对应的dom
   const getDomByHash = (hash: string) => {
     const id = decodeURI(hash).slice(1);
+    //console.log('id', document.getElementById(id), document.getElementById(id)?.offsetTop);
     return document.getElementById(id);
   };
 
@@ -135,8 +149,8 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
         className={classNames(
           'fixed  right-[-280px] top-[100px] w-[280px] lg:w-auto  lg:sticky lg:w-[100%] lg:right-[0px] ld:top-[80px] mt-[20px] bg-white p-[15px] rounded-b xl:rounded shadow-md navigate-wrapper',
           {
-            'navigate-wrapper-active': showNavigate
-          }
+            'navigate-wrapper-active': showNavigate,
+          },
         )}
       >
         <div
@@ -154,7 +168,7 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
                 href={'#' + item.id}
                 data-index={index}
                 className={classNames('a-' + item.html, {
-                  'navigate-a-active': currentIndex === index
+                  'navigate-a-active': currentIndex === index,
                 })}
                 key={index}
               >

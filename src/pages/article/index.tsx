@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:11:30
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-05 21:48:27
+ * @LastEditTime: 2022-04-09 18:55:29
  */
 import React, { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -39,7 +39,14 @@ export default memo(function index() {
   }, [dispatch, params.articleId]);
 
   //其他逻辑
-  const { text = '', title = '', classifys = [], labels = [], comments = [] } = articleInfo as any;
+  const {
+    text = '',
+    title = '',
+    classifys = [],
+    labels = [],
+    comments = [],
+    userInfo,
+  } = articleInfo as any;
   useTitle(title);
 
   //测试登录
@@ -63,6 +70,7 @@ export default memo(function index() {
             classifys={classifys}
             labels={labels}
             commentList={comments}
+            articleUserInfo={userInfo}
             getDomRenderObj={getDomRenderObj}
           />
         }

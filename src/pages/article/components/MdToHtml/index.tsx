@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState, useRef, useCallback } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import type { PropsWithChildren, BaseSyntheticEvent } from 'react';
 
@@ -11,6 +11,7 @@ import 'react-photo-view/dist/react-photo-view.css';
 interface MdToHtmlPropsType {
   htmlStr: string;
   title: string;
+  articleUserInfo: any;
   getDomRenderObj: (value: any) => void;
   isMounted?: (value: boolean) => void;
 }
@@ -20,17 +21,18 @@ interface DataType {
   src?: string;
 }
 
+type RenderHtmlType = { __html: string };
+
 export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) {
   //props/state
-  const { htmlStr, title, isMounted, getDomRenderObj } = props;
+  const { htmlStr, title, isMounted, getDomRenderObj, articleUserInfo } = props;
   //图片预览,预览图片是否显示，预览图片索引，预览图片列表
   const [visible, setVisible] = useState(false);
   const [index, setIndex] = useState(0);
   const [imageList, setImageList] = useState<DataType[]>([]);
-  //提取出h标签
-  const domRenderObj = md2Navigate(htmlStr);
+  const [renderHtml, setRenderHtml] = useState<RenderHtmlType>();
   //redux hooks
-  const [isLogin] = useLogin();
+  const [isLogin, localUseInfo] = useLogin();
 
   //other hooks
   const params = useParams();
@@ -38,17 +40,24 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
   useEffect(() => {
     isMounted && isMounted(true);
     handleImageList();
-    getDomRenderObj(domRenderObj);
+    setRenderHtml(createHtml(htmlStr));
     return () => {
       isMounted && isMounted(false);
     };
   }, [htmlStr, title]);
 
-  const createHtml = (htmlStr: string) => {
-    return {
-      __html: htmlStr,
-    };
-  };
+  // 将html处理成渲染的对象
+  const createHtml = useCallback(
+    (htmlStr: string) => {
+      return {
+        __html: htmlStr,
+      };
+    },
+    [htmlStr],
+  );
+  useEffect(() => {
+    getDomRenderObj(md2Navigate(htmlStr));
+  }, [renderHtml]);
 
   //获取文章中的img图片
   const handleImageList = () => {
@@ -80,12 +89,11 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
     }`;
     window.open('/admin/main/article/article-add?' + searchQuery, '_self');
   };
-
   return (
     <div className="p-8 md:p-[32px] md:rounded pb-[40px] bg-white articleHtml">
       <h1 className="font-black text-4xl !mb-[0px]">{title}</h1>
       <div className="text-right min-h-[25px] px-[20px]">
-        {isLogin && (
+        {isLogin && articleUserInfo?.id === localUseInfo?.id && (
           <i
             className="iconfont icon-edit cursor-pointer"
             title="编辑本文"
@@ -94,7 +102,7 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
         )}
       </div>
       <hr className="mb-[25px]" />
-      <div dangerouslySetInnerHTML={createHtml(htmlStr)} onClick={textClickHandle}></div>
+      <div dangerouslySetInnerHTML={renderHtml} onClick={textClickHandle}></div>
       <PhotoSlider
         images={imageList}
         visible={visible}
