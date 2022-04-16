@@ -10,7 +10,7 @@ export default ({ mode }) => {
       minify: mode === 'develpoment' ? 'esbuild' : 'terser',
       terserOptions: {
         compress: {
-          // drop_console: mode !== 'development',
+          drop_console: mode !== 'development',
         },
       },
     },

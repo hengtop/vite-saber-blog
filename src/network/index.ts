@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 15:04:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-08 23:26:36
+ * @LastEditTime: 2022-04-16 14:07:24
  */
 
 import HttpRequest from './config';
@@ -73,14 +73,12 @@ export const httpRequest: HttpRequest = new HttpRequest({
           localStore.removeLocalStore('userInfo');
           localStore.removeLocalStore('userId');
           localStore.removeLocalStore('menus');
+          localStore.removeLocalStore('token');
+          localStore.removeLocalStore('refreshToken');
           store.dispatch(loadLocalStore() as any);
-          //判断是否第一次登录
-          const isFirstLogin = localStore.getLocalStore('isFirstLogin');
-          if (isFirstLogin !== false) {
-            setTimeout(() => {
-              handleClickHiddenEvent.emit('openLoginWindow');
-            }, 500);
-          }
+          setTimeout(() => {
+            handleClickHiddenEvent.emit('openLoginWindow');
+          }, 500);
         }
       }
       switch (err?.response?.status) {
@@ -91,7 +89,7 @@ export const httpRequest: HttpRequest = new HttpRequest({
             position: 'top-center',
           });
         case 401:
-          toast.error(err?.response?.data, {
+          toast.error('can you give me one last kiss~~', {
             hideProgressBar: true,
             autoClose: 1500,
             position: 'top-center',

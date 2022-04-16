@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-03-09 23:21:00
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-09 20:06:20
+ * @LastEditTime: 2022-04-16 14:08:25
  */
 import React, {
   memo,
@@ -82,7 +82,6 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
   };
   //监听滚动条来计算激活的导航index
   const domScrollhandle = () => {
-    console.log(navigateOffsetTop, titleOffsetTop);
     let i = 0;
     const scrollTop = document.documentElement.scrollTop;
     for (i; i < titleOffsetTop.length; i++) {

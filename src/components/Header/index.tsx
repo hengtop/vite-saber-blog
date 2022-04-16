@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 21:09:49
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-09 00:19:26
+ * @LastEditTime: 2022-04-16 13:56:31
  */
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -41,6 +41,7 @@ export default function index() {
   //other hooks
   // 获取用户数据和是否登录flag
   const [isLogin, userInfo] = useLogin();
+
   //获取路由参数
   const location = useLocation();
   const navigate = useNavigate();
@@ -61,9 +62,9 @@ export default function index() {
       setMenuHidden(!menuHidden);
     } else {
       setLoginHidden(!loginHidden);
-      if (!loginHidden === true) {
-        localStore.setLocalStore('isFirstLogin', false);
-      }
+      // if (!loginHidden === true) {
+      //   localStore.setLocalStore('isFirstLogin', false);
+      // }
     }
   };
   //获取搜索输入框的值，进行搜索提示
