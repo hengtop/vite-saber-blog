@@ -1,13 +1,13 @@
 /*
  * @Date: 2022-02-17 22:42:30
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-02-19 00:08:43
+ * @LastEditTime: 2022-04-17 14:17:37
  */
 import React, { memo } from 'react';
 import type { PropsWithChildren, BaseSyntheticEvent } from 'react';
 import { useNavigate, createSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { changeQueryInfoAction } from '@/pages/home/store';
+import { changeQueryInfoAction, changeCurrentPage } from '@/pages/home/store';
 
 export type QueryType = 'label' | 'classify';
 interface labelInfoType {
@@ -32,7 +32,7 @@ export default memo(function index(props: PropsWithChildren<propsType>) {
   const navigate = useNavigate();
   const articleSearchParams = createSearchParams({
     [queryType]: labelInfo?.name,
-    [queryType + 'Id']: labelInfo?.id + ''
+    [queryType + 'Id']: labelInfo?.id + '',
   });
 
   //其他逻辑
@@ -40,6 +40,7 @@ export default memo(function index(props: PropsWithChildren<propsType>) {
   const searchArticleQuery = (e: BaseSyntheticEvent) => {
     //首先将分页查询的参数还原，保证查询数据是从第一条开始的
     dispatch(changeQueryInfoAction({}));
+    dispatch(changeCurrentPage(1));
     navigate('/?' + articleSearchParams.toString());
     e.stopPropagation();
   };

@@ -1,9 +1,10 @@
 /*
  * @Date: 2022-02-27 18:11:25
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-01 23:54:18
+ * @LastEditTime: 2022-04-17 13:57:04
  */
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, Fragment } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { PropsWithChildren } from 'react';
 
 import ArticleCard from '@/components/ArticleCard';
@@ -20,20 +21,28 @@ export default memo(function index(props: PropsWithChildren<ArticleListType>) {
   //redux hooks
 
   //other hooks
-
-  //其他逻辑
+  const navigate = useNavigate();
   useEffect(() => {
     isMounted && isMounted(true);
     return () => {
       isMounted && isMounted(false);
     };
   }, [articleList]);
+  //其他逻辑
+  //跳转
+  const onNavigateTo = (id: number) => {
+    navigate('/article/' + id);
+  };
 
   return (
     <>
       {articleList.length ? (
         articleList.map((item: any) => {
-          return <ArticleCard articleInfo={item} key={item.id} />;
+          return (
+            <div onClick={() => onNavigateTo(item.id)} key={item.id}>
+              <ArticleCard articleInfo={item} />
+            </div>
+          );
         })
       ) : (
         <div className="bg-white p-[24px]">一篇文章也没有</div>

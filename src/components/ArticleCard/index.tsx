@@ -1,10 +1,10 @@
 /*
  * @Date: 2022-01-24 19:19:53
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-04 19:17:03
+ * @LastEditTime: 2022-04-17 13:55:47
  */
 import React, { memo, PropsWithChildren, useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { showTimeNow } from '@/utils/timeFormat';
 
 import LabelItem from '@/components/Label/components/LabelItem';
@@ -31,7 +31,6 @@ export default memo(function index(props: PropsWithChildren<CardType>) {
   const [isHighlight, setIsHighlight] = useState(false);
   //redux hooks
   //other hooks
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   //获取搜素query
   const searchKeyword = searchParams.get('query');
@@ -64,12 +63,7 @@ export default memo(function index(props: PropsWithChildren<CardType>) {
   const renderTitle = renderHighLightHtml(title, searchKeyword as string);
   const renderText = renderHighLightHtml(stringText.slice(0, 550), searchKeyword as string);
   return (
-    <div
-      onClick={() => {
-        navigate('/article/' + id);
-      }}
-      className="transition-all hover:-translate-y-1 hover:shadow-lg cursor-pointer w-full h-[114px] sm:h-[145px] md:h-[188px] rounded md:rounded-md flex overflow-hidden mb-4 bg-white"
-    >
+    <div className="transition-all hover:-translate-y-1 hover:shadow-lg cursor-pointer w-full h-[114px] sm:h-[145px] md:h-[188px] rounded md:rounded-md flex overflow-hidden mb-4 bg-white">
       {cover ? (
         <div className="basis-1/3 min-w-[33.333%]">
           <img

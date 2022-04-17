@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 12:52:24
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-01 23:44:41
+ * @LastEditTime: 2022-04-17 14:08:32
  */
 import React, { memo, useMemo, useState } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
@@ -19,13 +19,14 @@ export default memo(function index(props: any) {
   const [isArticleCardMounted, setIsArticleCardMounted] = useState(false);
 
   //redux hooks
-  const { queryInfo, articleTotalCount, articleLoading } = useSelector(
+  const { queryInfo, articleTotalCount, articleLoading, currentPage } = useSelector(
     (state: AppState) => ({
+      currentPage: state.getIn(['home', 'currentPage']),
       queryInfo: state.getIn(['home', 'queryInfo']),
       articleTotalCount: state.getIn(['home', 'articleTotalCount']),
-      articleLoading: state.getIn(['home', 'articleLoading'])
+      articleLoading: state.getIn(['home', 'articleLoading']),
     }),
-    shallowEqual
+    shallowEqual,
   );
   const dispatch = useDispatch();
   //other hooks
@@ -38,8 +39,8 @@ export default memo(function index(props: any) {
         ...(queryInfo as any),
         keyword: searchParams.get('query'),
         limit: 5,
-        offset: (currentPage - 1) * 5
-      })
+        offset: (currentPage - 1) * 5,
+      }),
     );
   };
   //根据总数和limit计算实际页面数
@@ -49,7 +50,7 @@ export default memo(function index(props: any) {
   //总数
   const computedTotalPage = useMemo(
     () => totalPage(articleTotalCount as number),
-    [articleTotalCount]
+    [articleTotalCount],
   );
   //检测卡片组件是否渲染完成
   const handleIsArticleCardMounted = (value: boolean) => {
@@ -64,12 +65,12 @@ export default memo(function index(props: any) {
       />
       <div className={classNames({ hidden: articleLoading || !isArticleCardMounted })}>
         <ArticleList articleList={articleList} isMounted={handleIsArticleCardMounted} />
-        <PageComponent
-          totalPage={computedTotalPage}
-          currentPage={1}
-          pageCallbackFn={getCurrentPage}
-        />
       </div>
+      <PageComponent
+        totalPage={computedTotalPage}
+        currentPage={currentPage as number}
+        pageCallbackFn={getCurrentPage}
+      />
     </div>
   );
 });

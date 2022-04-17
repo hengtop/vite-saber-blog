@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-24 16:51:02
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-20 15:32:20
+ * @LastEditTime: 2022-04-17 14:09:24
  */
 
 import * as actionTypes from './constant';
@@ -30,8 +30,15 @@ export const changeArticleLoadingAction = (res: boolean): ActionType => ({
   value: res,
 });
 
+export const changeCurrentPage = (res: number): ActionType => ({
+  type: actionTypes.CHANGE_CURRENT_PAGE,
+  value: res,
+});
+
 //获取所有的文章
 export const getAllArticleAction = (query?: queryArticle) => {
+  // 保存页码当前页码数
+
   return async (dispatch: any) => {
     //设置为加载中
     dispatch(changeArticleLoadingAction(true));
@@ -43,7 +50,9 @@ export const getAllArticleAction = (query?: queryArticle) => {
       dispatch(changeArticleAction(list));
       dispatch(changeArticleTotalCountAction(totalCount));
     }
-
+    query?.offset !== undefined &&
+      query?.limit !== undefined &&
+      dispatch(changeCurrentPage(query.offset / query.limit + 1));
     dispatch(changeArticleLoadingAction(false));
   };
 };
@@ -58,7 +67,6 @@ export const getArticleByQueryAction = (
     //设置为加载中
     dispatch(changeArticleLoadingAction(true));
     const [data, err] = await awaitHandle(getArticleByQueryType(id, queryType, query));
-    console.log(1111);
     if (data) {
       const {
         data: { list, totalCount },
@@ -66,7 +74,6 @@ export const getArticleByQueryAction = (
       dispatch(changeArticleAction(list));
       dispatch(changeArticleTotalCountAction(totalCount));
     }
-    console.log(1111);
     //加载完成
     dispatch(changeArticleLoadingAction(false));
   };
