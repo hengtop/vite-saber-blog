@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:15:56
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-03-13 18:31:38
+ * @LastEditTime: 2022-05-26 22:47:53
  */
 import React, { lazy, Suspense } from 'react';
 import type { RouteObject } from 'react-router-dom';
@@ -16,18 +16,18 @@ const routes: RouteObject[] = [
       { path: '', element: () => import('@/pages/home') },
       {
         path: 'article/:articleId',
-        element: () => import('@/pages/article')
-      }
-    ]
+        element: () => import('@/pages/article'),
+      },
+    ],
   },
   {
     path: '/signup',
-    element: () => import('@/pages/signUp')
+    element: () => import('@/pages/signUp'),
   },
   {
     path: '/updatelog',
-    element: () => import('@/pages/updateLog')
-  }
+    element: () => import('@/pages/updateLog'),
+  },
 ];
 
 type lazyPropsType = () => Promise<{ default: React.ComponentType }>;

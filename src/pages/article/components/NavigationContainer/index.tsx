@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-03-09 23:21:00
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-16 14:08:25
+ * @LastEditTime: 2022-06-03 02:39:55
  */
 import React, {
   memo,
@@ -50,7 +50,8 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
     // 根据hash设置文章的滚动高度
     setOffsetTopByHash(location.hash);
     // 计算出导航激活的index进行设置滚动高度
-    setScrollTopForNavigate(domScrollhandle());
+    // setScrollTopForNavigate(domScrollhandle());
+    setCurrentIndex(domScrollhandle());
   }, [navigateOffsetTop, titleOffsetTop, location]);
 
   // 监听滚动事件
@@ -59,7 +60,7 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
     return () => window.removeEventListener('scroll', handleSetCurrentIndex);
   }, [titleOffsetTop]);
 
-  //根据激活的index进行个更新
+  //根据激活的index进行更新
   useEffect(() => {
     setScrollTopForNavigate(currentIndex);
   }, [currentIndex]);
@@ -104,14 +105,14 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
     if (e.target.nodeName === 'A') {
       e.preventDefault();
       //获取激活的index，设置激活样式
-      const index = +e.target.dataset.index;
-      setCurrentIndex(index);
+      //const index = +e.target.dataset.index;
+      //setCurrentIndex(index);
       //设置hash
       navigate(e.target.hash);
       //设置导航栏滚动的高度
-      setScrollTopForNavigate(index);
+      //setScrollTopForNavigate(index);
       //获取id,跳转到指定高度
-      setOffsetTopByHash(e.target.hash);
+      //setOffsetTopByHash(e.target.hash);
     }
   };
   //设置合适的显示高度
@@ -124,8 +125,14 @@ export default memo(function index(props: PropsWithChildren<PropsType>) {
   //todo 设置导航栏合适的滚动高度,这里设置动画的化，如果用户在同一时间内滚动了很多的导航标题会有抖动的现象，这个后续想起了在优化
   const setScrollTopForNavigate = (index: number) => {
     if (navigateContainerDom.current) {
-      //navigateContainerDom.current.scrollTop = navigateOffsetTop[index] - 240;
-      scrollTo(navigateContainerDom.current, navigateOffsetTop[index] - 240, 200);
+      const maxScrollTop =
+        navigateContainerDom.current.scrollHeight - navigateContainerDom.current.clientHeight;
+
+      navigateContainerDom.current.scrollTop =
+        maxScrollTop < navigateOffsetTop[index] - 240
+          ? maxScrollTop
+          : navigateOffsetTop[index] - 240;
+      //scrollTo(navigateContainerDom.current, navigateOffsetTop[index] - 240, 200);
     }
   };
 
