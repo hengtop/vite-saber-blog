@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-28 15:53:25
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-05 21:21:21
+ * @LastEditTime: 2022-08-20 21:09:00
  */
 
 import httpRequest, { refreshHttpRequest } from '../index';
@@ -51,5 +51,15 @@ export const userAddRole = (userId: number, roles: number[]) => {
   return httpRequest.post<CommonResponseType>({
     url: '/user/' + userId + '/roles',
     data: { roles },
+  });
+};
+
+// 获取验证码
+export const getCaptcha = ({ sid }: { sid: string }) => {
+  return httpRequest.post<string>({
+    data: {
+      sid,
+    },
+    url: '/captcha',
   });
 };

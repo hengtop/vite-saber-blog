@@ -17,5 +17,16 @@ export default ({ mode }) => {
     resolve: {
       alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
     },
+    server: {
+      proxy: {
+        // 字符串简写写法
+        // 选项写法
+        '/api': {
+          target: 'http://localhost:8999',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+      },
+    },
   });
 };

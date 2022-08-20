@@ -5,7 +5,7 @@ import type { PropsWithChildren, BaseSyntheticEvent } from 'react';
 import { PhotoSlider } from 'react-photo-view';
 import md2Navigate from '@/utils/md2Navigate';
 import { useLogin } from '@/hooks/useLogin';
-import 'highlight.js/styles/atom-one-dark.css';
+import 'highlight.js/styles/github.css';
 import 'react-photo-view/dist/react-photo-view.css';
 
 interface MdToHtmlPropsType {

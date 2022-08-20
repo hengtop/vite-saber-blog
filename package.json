@@ -45,13 +45,15 @@
     "redux-thunk": "^2.4.1",
     "showdown": "^1.9.1",
     "showdown-highlight": "^2.1.8",
-    "showdown-xss-filter": "^0.2.0"
+    "showdown-xss-filter": "^0.2.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.0.2",
     "@commitlint/config-conventional": "^16.0.0",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
+    "@types/uuid": "^8.3.4",
     "@vitejs/plugin-react": "^1.0.7",
     "autoprefixer": "^10.4.2",
     "commitizen": "^4.2.4",
