@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:11:30
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-09 18:55:29
+ * @LastEditTime: 2022-08-26 18:40:39
  */
 import React, { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -80,9 +80,9 @@ export default memo(function index() {
           />
         }
       />
-      <button onClick={testClickHandle} className="bg-white">
+      {/* <button onClick={testClickHandle} className="bg-white">
         测试是否登录
-      </button>
+      </button> */}
     </>
   );
 });

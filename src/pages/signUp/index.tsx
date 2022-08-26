@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-23 20:58:44
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-08-20 21:30:22
+ * @LastEditTime: 2022-08-26 18:39:37
  */
 import React, { memo, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,8 @@ import { toast } from 'react-toastify';
 import { queryToObject, objectToQuery } from '@/utils/locationQuery';
 import { omit } from 'lodash-es';
 import { v4 as uuidv4 } from 'uuid';
+
+import Form, { FormPropsType } from '@/components/Form';
 
 export default memo(function index() {
   //props/state
@@ -26,6 +28,7 @@ export default memo(function index() {
     captcha: '',
     sid: '',
   });
+
   const [captcha, setCaptcha] = useState('');
   const [sid] = useState(uuidv4());
 
@@ -111,143 +114,93 @@ export default memo(function index() {
     setCaptcha(fileURL);
   };
   /* 记录一个issue这里的样式在刚进入页面的时候不会生效，但是刷星后才会生效 */
+  // 表单配置
+  const formConfig: FormPropsType<keyof typeof formData> = [
+    {
+      field: 'name',
+      name: '用户名',
+      placeholder: 'Username',
+      type: 'text',
+      onChange: handleChangeFromData,
+      required: true,
+    },
+    {
+      field: 'password',
+      name: '密码',
+      type: 'password',
+      placeholder: 'Password',
+      required: true,
+      onChange: handleChangeFromData,
+    },
+    {
+      field: 'rePassword',
+      name: '确认密码',
+      placeholder: 'Confirm password',
+      type: 'password',
+      required: true,
+      onChange: handleChangeFromData,
+    },
+    {
+      field: 'realname',
+      name: '真实名称',
+      placeholder: 'RealName',
+      type: 'text',
+      onChange: handleChangeFromData,
+    },
+    {
+      field: 'cellphone',
+      name: '电话号码',
+      placeholder: 'Telephone ',
+      type: 'tel',
+      onChange: handleChangeFromData,
+    },
+    {
+      field: 'email',
+      name: '邮箱',
+      type: 'email',
+      placeholder: 'Email',
+      onChange: handleChangeFromData,
+    },
+    // 生日控件有点兼容问题暂时不展示了，毕竟不是必穿字段
+    // {
+    //   field: 'birthday',
+    //   name: '生日',
+    //   placeholder: 'Birthday',
+    //   type: 'date',
+    //   onChange: handleChangeFromData,
+    // },
+
+    {
+      field: 'captcha',
+      name: '验证码',
+      type: 'text',
+      placeholder: 'Captcha',
+      onChange: handleChangeFromData,
+      required: true,
+      captchaImg: (props: any) => (
+        <img
+          className="w-[120px] bg-[white]"
+          onClick={() => getCathchaImage(sid)}
+          src={captcha}
+          {...props}
+        />
+      ),
+    },
+  ];
   return (
-    <div className="h-screen bg-[white] bg-cover bg-no-repeat">
-      <div className="p-[10px] md:w-[70%] w-screen   absolute top-1/2 left-2/4 -translate-x-1/2 -translate-y-1/2  ">
-        <h2 className="text-2xl text-center mb-10">注册用户</h2>
-        <form className="h-[360px] flex flex-col justify-between sm:mx-[10%] md:mx-[20%] lg:mx-[25%] xl:mx-[25%] rounded-md">
-          <div className="w-full flex">
-            <label
-              htmlFor="name"
-              className="inline-block w-[80px] text-right mr-[5px] leading-[42px]"
-            >
-              用户名:<span style={{ color: 'red' }}>*</span>
-            </label>
-            <input
-              id="name"
-              type="text"
-              className="form-input rounded-md flex-auto  font-sans"
-              style={{ borderRadius: '0.375rem' }}
-              onChange={handleChangeFromData('name')}
-            />
-          </div>
-          <div className="w-full flex">
-            <label
-              htmlFor="realname"
-              className="inline-block w-[80px] text-right mr-[5px] leading-[42px] "
-            >
-              真实姓名:
-            </label>
-            <input
-              id="realname"
-              type="text"
-              className="form-input rounded-md flex-auto font-sans"
-              style={{ borderRadius: '0.375rem' }}
-              onChange={handleChangeFromData('realname')}
-            />
-          </div>
-          <div className="w-full flex">
-            <label
-              htmlFor="telphone"
-              className="inline-block w-[80px] text-right mr-[5px] leading-[42px]"
-            >
-              电话号码:
-            </label>
-            <input
-              id="telphone"
-              type="tel"
-              className="form-input rounded-md flex-auto font-sans"
-              style={{ borderRadius: '0.375rem' }}
-              onChange={handleChangeFromData('cellphone')}
-            />
-          </div>
-          <div className="w-full flex">
-            <label
-              htmlFor="email"
-              className="inline-block w-[80px] text-right mr-[5px] leading-[42px]"
-            >
-              电子邮箱:
-            </label>
-            <input
-              id="email"
-              type="email"
-              className="form-input flex-auto font-sans"
-              style={{ borderRadius: '0.375rem' }}
-              onChange={handleChangeFromData('email')}
-            />
-          </div>
-          <div className="w-full flex">
-            <label
-              htmlFor="birthday"
-              className="inline-block w-[80px] text-right mr-[5px] leading-[42px]"
-            >
-              生日:
-            </label>
-            <input
-              id="birthday"
-              type="datetime-local"
-              className="form-input rounded-md flex-auto font-sans"
-              style={{ borderRadius: '0.375rem' }}
-              onChange={handleChangeFromData('birthday')}
-            />
-          </div>
-          <div className="w-full flex">
-            <label
-              htmlFor="password"
-              className="inline-block w-[80px] text-right mr-[5px] leading-[42px]"
-            >
-              密码:<span style={{ color: 'red' }}>*</span>
-            </label>
-            <input
-              id="password"
-              type="password"
-              className="form-input rounded-md flex-auto font-sans"
-              style={{ borderRadius: '0.375rem' }}
-              onChange={handleChangeFromData('password')}
-            />
-          </div>
-          <div className="w-full flex">
-            <label
-              htmlFor="repassword"
-              className="inline-block w-[80px] text-right mr-[5px] leading-[42px]"
-            >
-              确认密码:<span style={{ color: 'red' }}>*</span>
-            </label>
-            <input
-              id="repassword"
-              type="password"
-              className="form-input rounded-md flex-auto font-sans"
-              style={{ borderRadius: '0.375rem' }}
-              onChange={handleChangeFromData('rePassword')}
-            />
-          </div>
-          <div className="w-full flex">
-            <label
-              htmlFor="name"
-              className="inline-block w-[80px] text-right mr-[5px] leading-[42px]"
-            >
-              验证码:<span style={{ color: 'red' }}>*</span>
-            </label>
-            <input
-              id="captcha"
-              type="text"
-              className="form-input rounded-md flex-auto  font-sans"
-              style={{ borderRadius: '0.375rem' }}
-              onChange={handleChangeFromData('captcha')}
-            />
-            <img
-              className="w-[120px] bg-[white]"
-              onClick={() => getCathchaImage(sid)}
-              src={captcha}
-            />
-          </div>
-        </form>
-        <button
-          className="block w-[80px] py-[3px] px-[5px] mx-auto mt-[20px] tracking-widest rounded border border-[1px] border-solid border-[#333] hover:bg-[#f2f3f4]"
-          onClick={handleSubmit}
-        >
-          注册
-        </button>
+    <div className="flex justify-center items-center h-screen bg-[url(https://zhanghengtuchaung.oss-cn-chengdu.aliyuncs.com/img/5848e4a37f5e4fb39f4c4384a9c27523.jpg)] bg-cover bg-no-repeat rounded">
+      <div className="flex justify-between rounded-[2px] w-[auto]  md:w-[768px] bg-[white]">
+        <div className="hidden md:block md:w-[340px] bg-[url(https://zhanghengtuchaung.oss-cn-chengdu.aliyuncs.com/img/c3b71346ca9d619960eb8537a8eb4e75740ff6fb_raw.jpg)] bg-cover"></div>
+        <div className="flex flex-col items-center md:items-[unset] md:w-[auto] ml-[60px] mr-[57.5px]">
+          <h2 className="text-2xl text-center my-2">注册用户</h2>
+          <Form formConfig={formConfig} />
+          <button
+            className="mb-2 block w-[80px] py-[3px] px-[5px] mx-auto mt-[20px] tracking-widest rounded border border-[1px] border-solid border-[#333] hover:bg-[#f2f3f4]"
+            onClick={handleSubmit}
+          >
+            注册
+          </button>
+        </div>
       </div>
     </div>
   );
