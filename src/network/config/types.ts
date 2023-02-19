@@ -52,4 +52,6 @@ export interface SendCommnetReqType {
   article_id: number;
   content: string;
   comment_id?: number;
+  root_comment_id?: number;
+  reply_user_id?: number;
 }

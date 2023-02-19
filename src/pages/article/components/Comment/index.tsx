@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 18:12:27
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-05 23:29:26
+ * @LastEditTime: 2023-02-18 17:28:41
  */
 import React, { memo, useCallback, useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
@@ -44,6 +44,7 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
   // 添加评论
   const sendcommentHandle = useCallback(
     async (params: SendCommnetReqType) => {
+      console.log(params);
       const [data, err] = await awaitHandle(sendComment(params));
       if (data) {
         dispatch(
@@ -54,6 +55,7 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
               userInfo,
               content: params.content,
               commentId: params.comment_id ?? null,
+              rootCommentId: params.root_comment_id ?? null,
               updateAt: new Date(),
             },
           ]),
@@ -90,11 +92,15 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
   };
   // 回复评论
   const onSubmitReplyHandle = async (value: string, record: any, cb: (arg: any) => void) => {
+    console.log(record);
     if (params.articleId && value.length !== 0) {
       await sendcommentHandle({
         article_id: parseInt(params.articleId),
         content: value,
         comment_id: record.id,
+        // 回复对象是顶级评论就不添加reply
+        reply_user_id: record.commentId ? record.userInfo.id : null,
+        root_comment_id: record.rootCommentId ?? record.id,
       });
       cb && cb(false);
     }
