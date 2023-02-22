@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 18:12:27
  * @LastEditors: zhangheng
- * @LastEditTime: 2023-02-18 17:28:41
+ * @LastEditTime: 2023-02-22 20:40:05
  */
 import React, { memo, useCallback, useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
@@ -14,7 +14,7 @@ import { changeCommentListAction } from '../../store';
 
 import TitleCard from '@/components/TitleCard';
 import CommentInput from '../Comment/CommentInput';
-import CommentItem from '../Comment/CommentItem';
+import CommentList from './CommentList';
 
 import type { PropsWithChildren } from 'react';
 import type { AppState } from '@/store/reducer';
@@ -23,12 +23,13 @@ import type { SendCommnetReqType } from '@/network/config/types';
 
 export interface CommentPropsType {
   commentList: CommentCardPropsType[];
+  commentListTotalCount: number;
 }
 
 export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
   //props/state
   //redux hooks
-  const { commentList } = props;
+  const { commentList, commentListTotalCount } = props;
   const { userInfo } = useSelector(
     (state: AppState) => ({
       userInfo: state.getIn(['main', 'userInfo']),
@@ -44,22 +45,28 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
   // 添加评论
   const sendcommentHandle = useCallback(
     async (params: SendCommnetReqType) => {
-      console.log(params);
       const [data, err] = await awaitHandle(sendComment(params));
       if (data) {
-        dispatch(
-          changeCommentListAction([
-            ...(commentList as CommentCardPropsType[]),
-            {
-              id: data.data.id,
-              userInfo,
-              content: params.content,
-              commentId: params.comment_id ?? null,
-              rootCommentId: params.root_comment_id ?? null,
-              updateAt: new Date(),
-            },
-          ]),
-        );
+        const newCommentItem = {
+          id: data.data.id,
+          userInfo,
+          content: params.content,
+          commentId: params.comment_id ?? null,
+          rootCommentId: params.root_comment_id ?? null,
+          updateAt: new Date(),
+        };
+        // 判断是否是回复
+        if (params.root_comment_id) {
+          const commentItem = commentList.find((item) => item.id === params.root_comment_id);
+          commentItem.replies.list = commentItem?.replies.list ?? [];
+          commentItem.replies?.list.push(newCommentItem);
+          commentItem.replies.totalCount = (commentItem.replies.totalCount ?? 0) + 1;
+          dispatch(changeCommentListAction([...(commentList as CommentCardPropsType[])]));
+        } else {
+          dispatch(
+            changeCommentListAction([...(commentList as CommentCardPropsType[]), newCommentItem]),
+          );
+        }
       }
     },
     [commentList, userInfo],
@@ -87,12 +94,17 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
         content: value,
       });
       //清空输入框
+      console.log(cb);
       cb && cb('');
     }
   };
   // 回复评论
-  const onSubmitReplyHandle = async (value: string, record: any, cb: (arg: any) => void) => {
-    console.log(record);
+  const onSubmitReplyHandle = async (
+    value: string,
+    record: any,
+    cb: (arg: any) => void,
+    setValue: (value: string) => void,
+  ) => {
     if (params.articleId && value.length !== 0) {
       await sendcommentHandle({
         article_id: parseInt(params.articleId),
@@ -103,6 +115,7 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
         root_comment_id: record.rootCommentId ?? record.id,
       });
       cb && cb(false);
+      setValue && setValue('');
     }
   };
 
@@ -112,19 +125,16 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
   };
 
   //将数据处理为数型数组
-  const treeCommentList = useMemo(() => {
-    return mapTree(commentList, null, 'commentId', 'replyCommentList');
-  }, [commentList]);
   return (
     <TitleCard title="评论">
       <CommentInput onSubmit={onSubmitCommentHandle} />
       <h2 className="pb-[10px] text-[18px] font-bold mt-[10px]">
-        全部评论&nbsp;{commentList.length}
+        全部评论&nbsp;{commentListTotalCount}
       </h2>
       {!!commentList.length && (
-        <CommentItem
+        <CommentList
           onDeleteHandle={onDeleteHandle}
-          commentList={treeCommentList}
+          commentList={commentList}
           onSubmitReplyHandle={onSubmitReplyHandle}
         />
       )}

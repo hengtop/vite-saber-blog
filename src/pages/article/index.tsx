@@ -1,12 +1,12 @@
 /*
  * @Date: 2022-01-23 20:11:30
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-08-26 18:40:39
+ * @LastEditTime: 2023-02-21 20:47:53
  */
 import React, { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { getArticleInfoByIdAction } from './store';
+import { getArticleInfoByIdAction, getCommentListByArticleIdAction } from './store';
 import { testTokenAction } from '@/store';
 import { useTitle } from '@/hooks/useTitle';
 
@@ -35,7 +35,10 @@ export default memo(function index() {
   //other hooks
   const params = useParams();
   useEffect(() => {
-    params.articleId && dispatch(getArticleInfoByIdAction(params.articleId));
+    if (params.articleId) {
+      dispatch(getArticleInfoByIdAction(params.articleId));
+      dispatch(getCommentListByArticleIdAction({ id: params.articleId }));
+    }
   }, [dispatch, params.articleId]);
 
   //其他逻辑

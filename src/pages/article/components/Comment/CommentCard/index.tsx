@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 20:46:43
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-09 00:22:02
+ * @LastEditTime: 2023-02-22 20:44:36
  */
 import React, { useState, memo } from 'react';
 
@@ -18,15 +18,21 @@ export interface CommentCardPropsType {
   id: number;
   commentId: number | null;
   content: string;
-  replyCommentList?: CommentCardPropsType[];
+  commentList?: CommentCardPropsType[];
   updateAt: string;
   userInfo: any;
   isRecurse?: boolean;
   replyInfo?: any;
   neeShowReplyInfo?: boolean;
   showCommentInput?: boolean;
-  onSubmitReplyHandle: (value: any, record: any, cb: (arg: any) => void) => void;
+  onSubmitReplyHandle: (
+    value: any,
+    record: any,
+    cb: (arg: any) => void,
+    setValue: (value: string) => void,
+  ) => void;
   onDeleteHandle: (id: number) => void;
+  replies: { list: CommentCardPropsType[]; totalCount: number };
 }
 
 export default memo(function index(props: PropsWithChildren<CommentCardPropsType>) {
@@ -35,12 +41,12 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
     content,
     updateAt,
     userInfo,
-    replyCommentList = [],
-    isRecurse = true,
     replyInfo,
     neeShowReplyInfo = true,
     onSubmitReplyHandle,
     onDeleteHandle,
+    replies,
+    id,
   } = props;
   const [showInput, setShowInput] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -71,14 +77,6 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
       setShowDelete(true);
     }
   };
-
-  // 封装一个检测用户是否登录的
-
-  // 删除
-  // const onDeleteHandle = () => {
-  //   console.log(props.id);
-  // };
-
   return (
     <div className="px-[10px] flex p-[10px]">
       <img className="w-[36px] h-[36px] rounded-full mr-[10px]" src={userInfo?.avatar_url} />
@@ -129,17 +127,18 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
           onBlur={onBlurShowInputHandle}
           placeholder={'回复' + userInfo.name + '...'}
           showAvatar={false}
-          onSubmit={(value) => onSubmitReplyHandle(value, props, setShowInput)}
+          onSubmit={(value, setValue) => onSubmitReplyHandle(value, props, setShowInput, setValue)}
         />
-        {isRecurse && !!replyCommentList.length && (
+        {!!replies?.list?.length && (
           <div className="bg-[rgba(247,248,250,.7)] border border-solid border-[#e4e6eb] mt-[10px] rounded">
-            <CommentChild
-              onDeleteHandle={onDeleteHandle}
-              onSubmitReplyHandle={onSubmitReplyHandle}
-              neeShowReplyInfo={neeShowReplyInfo}
-              replyInfo={userInfo}
-              commentList={replyCommentList}
-            />
+            {replies.list.map((item) => (
+              <CommentChild
+                key={item.id}
+                {...item}
+                onDeleteHandle={onDeleteHandle}
+                onSubmitReplyHandle={onSubmitReplyHandle}
+              />
+            ))}
           </div>
         )}
       </div>

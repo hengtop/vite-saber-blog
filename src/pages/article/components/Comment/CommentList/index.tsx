@@ -5,9 +5,14 @@ import CommentCard from '@/pages/article/components/Comment/CommentCard';
 import type { PropsWithChildren } from 'react';
 import type { CommentPropsType } from '../index';
 
-interface CommentItemPropsType extends CommentPropsType {
+interface CommentItemPropsType extends Omit<CommentPropsType, 'commentListTotalCount'> {
   onDeleteHandle: (id: number) => void;
-  onSubmitReplyHandle: (value: any, record: any, cb: (arg: any) => void) => void;
+  onSubmitReplyHandle: (
+    value: any,
+    record: any,
+    cb: (arg: any) => void,
+    setValue: (value: string) => void,
+  ) => void;
 }
 
 export default memo(function index(props: PropsWithChildren<CommentItemPropsType>) {
@@ -25,7 +30,6 @@ export default memo(function index(props: PropsWithChildren<CommentItemPropsType
         return (
           <CommentCard
             /* 设置一二级评论不显示回复信息 */
-            neeShowReplyInfo={false}
             key={item.id}
             {...item}
             onSubmitReplyHandle={onSubmitReplyHandle}

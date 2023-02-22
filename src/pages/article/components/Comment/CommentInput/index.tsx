@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 19:04:06
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-09 00:26:41
+ * @LastEditTime: 2023-02-22 20:45:15
  */
 import React, { memo, useState, useRef, useEffect } from 'react';
 
@@ -16,7 +16,7 @@ interface CommentInputPropsType {
   placeholder?: string;
   onChange?: (value: string) => void;
   onBlur?: () => void;
-  onSubmit: (value: string, cb?: (arg: any) => void) => void;
+  onSubmit: (value: string, cb: (arg: string) => void) => void;
 }
 
 export default memo(function index(props: PropsWithChildren<CommentInputPropsType>) {

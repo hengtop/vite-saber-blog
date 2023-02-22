@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-02-17 21:24:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-04-17 13:28:31
+ * @LastEditTime: 2023-02-21 20:54:06
  */
 import React, { memo, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -30,10 +30,11 @@ export default memo(function index(props: PropsWithChildren<propsType>) {
   const [isArticleDetailMounted, setIsArticleDetailMounted] = useState(false);
 
   //redux hooks
-  const { articleDetailLoading, commentList } = useSelector(
+  const { articleDetailLoading, commentList, commentListTotalCount } = useSelector(
     (state: AppState) => ({
       articleDetailLoading: state.getIn(['article', 'articleDetailLoading']),
       commentList: state.getIn(['article', 'commentList']),
+      commentListTotalCount: state.getIn(['article', 'commentListTotalCount']),
     }),
     shallowEqual,
   );
@@ -45,7 +46,6 @@ export default memo(function index(props: PropsWithChildren<propsType>) {
   const handleIsArticleDetailMounted = (value: boolean) => {
     setIsArticleDetailMounted(value);
   };
-
   return (
     <>
       <ArticleDetailSkeleton
@@ -75,7 +75,7 @@ export default memo(function index(props: PropsWithChildren<propsType>) {
               })}
           </div>
         </div>
-        <Comment commentList={commentList as any[]} />
+        <Comment commentList={commentList as any[]} commentListTotalCount={commentListTotalCount} />
       </div>
     </>
   );
