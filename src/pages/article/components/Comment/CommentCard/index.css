@@ -1,0 +1,23 @@
+.comment-page-component .page-item {
+  padding: 0 5px;
+  line-height: 16px;
+  height: 16px;
+  background-color: unset;
+}
+
+.comment-page-component .page-item.activePage {
+  padding: 0 5px;
+  line-height: 16px;
+  height: 16px;
+  color: #00aeec;
+}
+
+.comment-page-component .page-item .iconfont {
+  font-size: 12px;
+  vertical-align: super;
+}
+
+.comment-page-component .page-container {
+  padding-left: 10px;
+  justify-content: flex-start;
+}

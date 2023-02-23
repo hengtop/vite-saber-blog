@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 20:46:43
  * @LastEditors: zhangheng
- * @LastEditTime: 2023-02-22 20:39:24
+ * @LastEditTime: 2023-02-23 20:20:06
  */
 import React, { useState, memo } from 'react';
 
@@ -23,7 +23,7 @@ export interface CommentCardPropsType {
   userInfo: any;
   isRecurse?: boolean;
   replyInfo?: any;
-  neeShowReplyInfo?: boolean;
+  replyUserInfo?: any;
   showCommentInput?: boolean;
   onSubmitReplyHandle: (
     value: any,
@@ -40,13 +40,10 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
     content,
     updateAt,
     userInfo,
-    replyCommentList = [],
-    isRecurse = true,
     replyInfo,
-    neeShowReplyInfo = true,
+    replyUserInfo,
     onSubmitReplyHandle,
     onDeleteHandle,
-    id,
   } = props;
   const [showInput, setShowInput] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -88,10 +85,10 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
               <span className="max-w-[150px] truncate inline-block align-bottom text-[#252933]">
                 {userInfo?.name}
               </span>
-              {neeShowReplyInfo && (
+              {replyUserInfo && (
                 <span className="max-w-[180px] truncate inline-block align-bottom text-[#252933]">
                   <span className="text-[#515767]">&nbsp;&nbsp;回复&nbsp;&nbsp;</span>
-                  {replyInfo?.name}
+                  {replyUserInfo?.name}
                 </span>
               )}
             </div>
@@ -102,6 +99,11 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
           <div className="w-full max-h-[600px]  my-[10px] text-[#515767] text-[15px]">
             {content}
           </div>
+          {replyInfo && (
+            <div className="truncate w-full max-h-[600px]  my-[10px] px-[12px] text-[#8a919f] text-[15px] bg-[#f2f3f5]">
+              &quot;{replyInfo.content}&quot;
+            </div>
+          )}
           <div className="text-slate-400 flex items-center">
             <span className="iconfont icon-dianzan text-sm pr-[10px] cursor-pointer">点赞</span>
             <span

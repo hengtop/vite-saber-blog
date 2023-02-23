@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 18:12:27
  * @LastEditors: zhangheng
- * @LastEditTime: 2023-02-22 20:40:05
+ * @LastEditTime: 2023-02-23 20:24:22
  */
 import React, { memo, useCallback, useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
@@ -44,8 +44,9 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
   //其他逻辑
   // 添加评论
   const sendcommentHandle = useCallback(
-    async (params: SendCommnetReqType) => {
+    async (params: SendCommnetReqType, otherParams?: any) => {
       const [data, err] = await awaitHandle(sendComment(params));
+      // 乐观加载
       if (data) {
         const newCommentItem = {
           id: data.data.id,
@@ -54,14 +55,23 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
           commentId: params.comment_id ?? null,
           rootCommentId: params.root_comment_id ?? null,
           updateAt: new Date(),
+          replyInfo: otherParams?.content
+            ? {
+                content: otherParams?.content,
+              }
+            : null,
+          replyUserInfo: otherParams?.userInfo,
         };
+        console.log(newCommentItem);
         // 判断是否是回复
         if (params.root_comment_id) {
           const commentItem = commentList.find((item) => item.id === params.root_comment_id);
-          commentItem.replies.list = commentItem?.replies.list ?? [];
-          commentItem.replies?.list.push(newCommentItem);
-          commentItem.replies.totalCount = (commentItem.replies.totalCount ?? 0) + 1;
-          dispatch(changeCommentListAction([...(commentList as CommentCardPropsType[])]));
+          if (commentItem) {
+            commentItem.replies.list = commentItem?.replies.list ?? [];
+            commentItem.replies?.list.push(newCommentItem);
+            commentItem.replies.totalCount = (commentItem.replies.totalCount ?? 0) + 1;
+            dispatch(changeCommentListAction([...(commentList as CommentCardPropsType[])]));
+          }
         } else {
           dispatch(
             changeCommentListAction([...(commentList as CommentCardPropsType[]), newCommentItem]),
@@ -105,15 +115,19 @@ export default memo(function index(props: PropsWithChildren<CommentPropsType>) {
     cb: (arg: any) => void,
     setValue: (value: string) => void,
   ) => {
+    console.log(record);
     if (params.articleId && value.length !== 0) {
-      await sendcommentHandle({
-        article_id: parseInt(params.articleId),
-        content: value,
-        comment_id: record.id,
-        // 回复对象是顶级评论就不添加reply
-        reply_user_id: record.commentId ? record.userInfo.id : null,
-        root_comment_id: record.rootCommentId ?? record.id,
-      });
+      await sendcommentHandle(
+        {
+          article_id: parseInt(params.articleId),
+          content: value,
+          comment_id: record.id,
+          // 回复对象是顶级评论就不添加reply
+          reply_user_id: record.commentId ? record.userInfo.id : null,
+          root_comment_id: record.rootCommentId ?? record.id,
+        },
+        record,
+      );
       cb && cb(false);
       setValue && setValue('');
     }

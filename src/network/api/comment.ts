@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-04-04 17:34:50
  * @LastEditors: zhangheng
- * @LastEditTime: 2023-02-21 20:47:12
+ * @LastEditTime: 2023-02-23 21:02:40
  */
 import httpRequest from '..';
 import type { CommonResponseType, SendCommnetReqType } from '../config/types';
@@ -38,5 +38,25 @@ export const sendComment = (params: SendCommnetReqType) => {
 export const deleteComment = (id: number) => {
   return httpRequest.delete<CommonResponseType>({
     url: '/comment/' + id,
+  });
+};
+
+// 加载更多回复
+export const getReplyCommentListByRootCommentId = ({
+  rootCommentId,
+  offset,
+  limit,
+}: {
+  rootCommentId: number | string;
+  limit: string | number;
+  offset: string | number;
+}) => {
+  return httpRequest.get<CommonResponseType>({
+    url: '/comment/reply',
+    params: {
+      rootCommentId,
+      offset,
+      limit,
+    },
   });
 };

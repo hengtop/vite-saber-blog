@@ -1,18 +1,26 @@
 /*
  * @Date: 2022-04-04 20:46:43
  * @LastEditors: zhangheng
- * @LastEditTime: 2023-02-22 20:44:36
+ * @LastEditTime: 2023-02-23 21:33:49
  */
+import type { AppState } from '@/store/reducer';
+import type { PropsWithChildren } from 'react';
 import React, { useState, memo } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
+import { getReplyCommentListByRootCommentId } from '@/network/api/comment';
 import { showTimeNow } from '@/utils/timeFormat';
 import { handleClickHiddenEvent } from '@/utils/events';
 import { useLogin } from '@/hooks/useLogin';
+import { awaitHandle } from '@/utils/awaitHandle';
 
 import CommentChild from '../CommentChild';
 import CommentInput from '../CommentInput';
 
-import type { PropsWithChildren } from 'react';
+import PageComponent from '@/components/PageComponent';
+
+import './index.css';
+import { changeCommentListAction } from '@/pages/article/store';
 
 export interface CommentCardPropsType {
   id: number;
@@ -37,21 +45,23 @@ export interface CommentCardPropsType {
 
 export default memo(function index(props: PropsWithChildren<CommentCardPropsType>) {
   //props/state
-  const {
-    content,
-    updateAt,
-    userInfo,
-    replyInfo,
-    neeShowReplyInfo = true,
-    onSubmitReplyHandle,
-    onDeleteHandle,
-    replies,
-    id,
-  } = props;
+  const { content, updateAt, userInfo, onSubmitReplyHandle, onDeleteHandle, replies, id } = props;
   const [showInput, setShowInput] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showReplyMore, setShowReplyMore] = useState(false);
 
-  //redux hooks
+  //redux hooks\
+  const { commentList } = useSelector(
+    (state: AppState) => ({
+      articleDetailLoading: state.getIn(['article', 'articleDetailLoading']),
+      commentList: state.getIn(['article', 'commentList']),
+      commentListTotalCount: state.getIn(['article', 'commentListTotalCount']),
+    }),
+    shallowEqual,
+  );
+
+  //other hooks
+  const dispatch = useDispatch();
 
   //other hooks
   const [isLogin, localUserInfo] = useLogin();
@@ -77,6 +87,25 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
       setShowDelete(true);
     }
   };
+
+  const handkePageChange = async (arg: any) => {
+    console.log(arg);
+    const [data, err] = await awaitHandle(
+      getReplyCommentListByRootCommentId({
+        rootCommentId: id,
+        offset: (arg - 1) * 10,
+        limit: 10,
+      }),
+    );
+    if (!err) {
+      const rootComment = commentList.find((item) => item.id === id);
+      if (rootComment) {
+        const newList = data?.data.list;
+        rootComment.replies.list = data?.data.list;
+        dispatch(changeCommentListAction([...commentList]));
+      }
+    }
+  };
   return (
     <div className="px-[10px] flex p-[10px]">
       <img className="w-[36px] h-[36px] rounded-full mr-[10px]" src={userInfo?.avatar_url} />
@@ -87,12 +116,6 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
               <span className="max-w-[150px] truncate inline-block align-bottom text-[#252933]">
                 {userInfo?.name}
               </span>
-              {neeShowReplyInfo && (
-                <span className="max-w-[180px] truncate inline-block align-bottom text-[#252933]">
-                  <span className="text-[#515767]">&nbsp;&nbsp;回复&nbsp;&nbsp;</span>
-                  {replyInfo?.name}
-                </span>
-              )}
             </div>
             <div className="text-right">
               <span className="text-sm text-slate-400">{showTimeNow(updateAt)}</span>
@@ -139,6 +162,23 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
                 onSubmitReplyHandle={onSubmitReplyHandle}
               />
             ))}
+            <div className="comment-page-component">
+              {showReplyMore ? (
+                <PageComponent
+                  currentPage={1}
+                  groupCount={10}
+                  totalPage={Math.ceil(replies.totalCount / 10)}
+                  pageCallbackFn={handkePageChange}
+                />
+              ) : (
+                <div
+                  onClick={() => setShowReplyMore(true)}
+                  className="cursor-pointer text-[13px] text-[#9499a0] p-[5px] px-[10px]"
+                >
+                  共{replies.totalCount}条评论 点击查看
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-25 22:54:51
  * @LastEditors: zhangheng
- * @LastEditTime: 2022-01-26 23:33:32
+ * @LastEditTime: 2023-02-23 20:31:01
  */
 import React, { memo, useState, useEffect } from 'react';
 import classNames from 'classnames';
@@ -10,13 +10,14 @@ import './index.css';
 interface PageType {
   currentPage: number;
   totalPage: number;
+  groupCount?: number;
   pageCallbackFn: (arg?: any) => void;
 }
 
 export default memo(function index(props: PageType) {
   //props/state
   const [currentPage, setCurrentPage] = useState(1); //当前页码
-  const [groupCount] = useState(5); //设置页码分组
+  const [groupCount] = useState(props.groupCount ?? 5); //设置页码分组
   const [startPage, setStartPage] = useState(1); //分组开始页
   const [totalPage, setTotalPage] = useState(1);
   //redux hooks
@@ -57,7 +58,7 @@ export default memo(function index(props: PageType) {
       <li className="page-item transform rotate-180" onClick={prePageHandeler} key={0}>
         {' '}
         <i className="iconfont icon-jiantouyou"></i>
-      </li>
+      </li>,
     );
   }
 
@@ -69,11 +70,11 @@ export default memo(function index(props: PageType) {
           key={i}
           onClick={() => pageClick(i)}
           className={classNames('page-item', {
-            activePage: currentPage === i
+            activePage: currentPage === i,
           })}
         >
           {i}
-        </li>
+        </li>,
       );
     }
   } else {
@@ -83,13 +84,13 @@ export default memo(function index(props: PageType) {
     pages.push(
       <li
         className={classNames('page-item', {
-          activePage: currentPage === 1
+          activePage: currentPage === 1,
         })}
         key={1}
         onClick={() => pageClick(1)}
       >
         1
-      </li>
+      </li>,
     );
 
     //前面省略号(当当前页码比分组的页码大时显示省略号)
@@ -97,7 +98,7 @@ export default memo(function index(props: PageType) {
       pages.push(
         <li className="page-item" key={-1}>
           ···
-        </li>
+        </li>,
       );
     }
     //非第一页和最后一页显示
@@ -106,13 +107,13 @@ export default memo(function index(props: PageType) {
         pages.push(
           <li
             className={classNames('page-item', {
-              activePage: currentPage === i
+              activePage: currentPage === i,
             })}
             key={i}
             onClick={() => pageClick(i)}
           >
             {i}
-          </li>
+          </li>,
         );
       }
     }
@@ -121,20 +122,20 @@ export default memo(function index(props: PageType) {
       pages.push(
         <li className="page-item" key={-2}>
           ···
-        </li>
+        </li>,
       );
     }
     //最后一页
     pages.push(
       <li
         className={classNames('page-item', {
-          activePage: currentPage === totalPage
+          activePage: currentPage === totalPage,
         })}
         key={totalPage}
         onClick={() => pageClick(totalPage)}
       >
         {totalPage}
-      </li>
+      </li>,
     );
   }
 
@@ -143,7 +144,7 @@ export default memo(function index(props: PageType) {
     pages.push(
       <li className="page-item" onClick={nextPageHandeler} key={totalPage + 1}>
         <i className="iconfont icon-jiantouyou"></i>
-      </li>
+      </li>,
     );
   }
   return <ul className="page-container w-full flex justify-center flex-wrap">{pages}</ul>;
