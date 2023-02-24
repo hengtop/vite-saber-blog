@@ -1,0 +1,1 @@
+export const REPLY_COMMENT_PAGE_LIMIT = 8;

@@ -20,4 +20,5 @@
 .comment-page-component .page-container {
   padding-left: 10px;
   justify-content: flex-start;
+  width: auto;
 }

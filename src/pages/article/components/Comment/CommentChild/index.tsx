@@ -1,27 +1,25 @@
 /*
  * @Date: 2022-04-04 20:46:43
  * @LastEditors: zhangheng
- * @LastEditTime: 2023-02-23 20:20:06
+ * @LastEditTime: 2023-02-24 23:07:13
  */
 import React, { useState, memo } from 'react';
 
 import { showTimeNow } from '@/utils/timeFormat';
 import { handleClickHiddenEvent } from '@/utils/events';
-import { useLogin } from '@/hooks/useLogin';
 
-import CommentChild from '../CommentChild';
 import CommentInput from '../CommentInput';
 
 import type { PropsWithChildren } from 'react';
+import { useCommentItemEvent } from '../hooks';
 
 export interface CommentCardPropsType {
   id: number;
   commentId: number | null;
+  rootCommentId: number | null;
   content: string;
-  replyCommentList?: CommentCardPropsType[];
-  updateAt: string;
+  updateAt: string | Date;
   userInfo: any;
-  isRecurse?: boolean;
   replyInfo?: any;
   replyUserInfo?: any;
   showCommentInput?: boolean;
@@ -31,12 +29,13 @@ export interface CommentCardPropsType {
     cb: (arg: any) => void,
     setValue: (value: string) => void,
   ) => void;
-  onDeleteHandle: (id: number) => void;
+  onDeleteHandle: (id: number, rootCommentId?: number | null) => Promise<void>;
 }
 
 export default memo(function index(props: PropsWithChildren<CommentCardPropsType>) {
   //props/state
   const {
+    id,
     content,
     updateAt,
     userInfo,
@@ -44,6 +43,7 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
     replyUserInfo,
     onSubmitReplyHandle,
     onDeleteHandle,
+    rootCommentId,
   } = props;
   const [showInput, setShowInput] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -51,7 +51,7 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
   //redux hooks
 
   //other hooks
-  const [isLogin, localUserInfo] = useLogin();
+  const [isLogin, isShowDelete] = useCommentItemEvent(userInfo.id);
 
   //其他逻辑
   //通过点击的方式显示隐藏输入框
@@ -64,22 +64,15 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
     //避免触发失焦点事件
     setShowInput(!showInput);
   };
-  const onBlurShowInputHandle = () => {
-    setShowInput(false);
-  };
-
-  const onMouseEnterHandle = () => {
-    //判断当前评论是不是当前用户的
-    if (userInfo.id === (localUserInfo as any).id) {
-      setShowDelete(true);
-    }
-  };
 
   return (
     <div className="px-[10px] flex p-[10px]">
       <img className="w-[36px] h-[36px] rounded-full mr-[10px]" src={userInfo?.avatar_url} />
       <div className="flex-1 overflow-hidden">
-        <div onMouseEnter={onMouseEnterHandle} onMouseLeave={() => setShowDelete(false)}>
+        <div
+          onMouseEnter={() => setShowDelete(isShowDelete)}
+          onMouseLeave={() => setShowDelete(false)}
+        >
           <div className="flex justify-between">
             <div className="max-w-[70%]">
               <span className="max-w-[150px] truncate inline-block align-bottom text-[#252933]">
@@ -117,7 +110,7 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
               {showDelete && (
                 <span
                   className="text-sm cursor-pointer text-red-600"
-                  onClick={() => onDeleteHandle(props.id)}
+                  onClick={() => onDeleteHandle(id, rootCommentId)}
                 >
                   删除
                 </span>
@@ -127,7 +120,7 @@ export default memo(function index(props: PropsWithChildren<CommentCardPropsType
         </div>
         <CommentInput
           showInput={showInput}
-          onBlur={onBlurShowInputHandle}
+          onBlur={() => setShowInput(false)}
           placeholder={'回复' + userInfo.name + '...'}
           showAvatar={false}
           onSubmit={(value, setValue) => onSubmitReplyHandle(value, props, setShowInput, setValue)}

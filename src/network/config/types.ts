@@ -1,4 +1,5 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { CommentType, RepliesType } from '../types';
 
 export interface HttpInterceptor<T = AxiosResponse> {
   requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig;
@@ -54,4 +55,20 @@ export interface SendCommnetReqType {
   comment_id?: number;
   root_comment_id?: number;
   reply_user_id?: number;
+}
+
+export interface CommentResponseType {
+  code: number;
+  data: {
+    list: CommentType[];
+    totalCount: number;
+  };
+}
+
+export interface CommentReplyResponseType {
+  code: number;
+  data: {
+    list: RepliesType[] | null;
+    totalCount: number | null;
+  };
 }

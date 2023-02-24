@@ -1,10 +1,15 @@
 /*
  * @Date: 2022-04-04 17:34:50
  * @LastEditors: zhangheng
- * @LastEditTime: 2023-02-23 21:02:40
+ * @LastEditTime: 2023-02-24 20:57:48
  */
 import httpRequest from '..';
-import type { CommonResponseType, SendCommnetReqType } from '../config/types';
+import type {
+  CommentReplyResponseType,
+  CommentResponseType,
+  CommonResponseType,
+  SendCommnetReqType,
+} from '../config/types';
 
 // 获取文章下所有的评论
 export const getCommentListByArticleId = ({
@@ -16,7 +21,7 @@ export const getCommentListByArticleId = ({
   limit: string | number;
   offset: string | number;
 }) => {
-  return httpRequest.get<CommonResponseType>({
+  return httpRequest.get<CommentResponseType>({
     url: '/comment/v2',
     params: {
       articleId,
@@ -51,7 +56,7 @@ export const getReplyCommentListByRootCommentId = ({
   limit: string | number;
   offset: string | number;
 }) => {
-  return httpRequest.get<CommonResponseType>({
+  return httpRequest.get<CommentReplyResponseType>({
     url: '/comment/reply',
     params: {
       rootCommentId,

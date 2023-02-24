@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-01-25 22:54:51
  * @LastEditors: zhangheng
- * @LastEditTime: 2023-02-23 20:31:01
+ * @LastEditTime: 2023-02-24 23:49:13
  */
 import React, { memo, useState, useEffect } from 'react';
 import classNames from 'classnames';
@@ -10,7 +10,10 @@ import './index.css';
 interface PageType {
   currentPage: number;
   totalPage: number;
+  totalCount?: number;
   groupCount?: number;
+  showTotalCount?: boolean;
+  totalCountText?: string;
   pageCallbackFn: (arg?: any) => void;
 }
 
@@ -147,5 +150,18 @@ export default memo(function index(props: PageType) {
       </li>,
     );
   }
-  return <ul className="page-container w-full flex justify-center flex-wrap">{pages}</ul>;
+  return (
+    <>
+      {pages.length > 1 && (
+        <div className="flex items-center justify-start">
+          {props.showTotalCount && (
+            <div className="text-[13px] pl-[10px] py-[5px]">
+              共 {props.totalCount} {props.totalCountText}
+            </div>
+          )}
+          <ul className="page-container w-full flex justify-center flex-wrap">{pages}</ul>
+        </div>
+      )}
+    </>
+  );
 });

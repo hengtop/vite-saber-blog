@@ -19,4 +19,13 @@ declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
+  interface UserInfo {
+    id: number;
+    name: string;
+    email: string;
+    birthday: string | Date;
+    realname: string;
+    cellphone: string;
+    avatar_url: string;
+  }
 }
