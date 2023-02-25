@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-02-17 21:24:41
  * @LastEditors: zhangheng
- * @LastEditTime: 2023-02-21 20:54:06
+ * @LastEditTime: 2023-02-25 22:43:01
  */
 import React, { memo, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -75,7 +75,10 @@ export default memo(function index(props: PropsWithChildren<propsType>) {
               })}
           </div>
         </div>
-        <Comment commentList={commentList as any[]} commentListTotalCount={commentListTotalCount} />
+        <Comment
+          commentList={commentList as any[]}
+          commentListTotalCount={commentListTotalCount as number}
+        />
       </div>
     </>
   );

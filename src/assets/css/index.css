@@ -47,10 +47,11 @@ code {
   word-break: break-word;
   border-radius: 2px;
   overflow-x: auto;
-  background-color: #fff5f5;
   color: #ff502c;
-  font-size: 0.87em;
+  font-size: 0.8em;
   padding: 0.065em 0.4em;
+  border-radius: 5px;
+  background-color: #f8f8f8;
 }
 
 .articleHtml h5 {
@@ -146,5 +147,10 @@ code {
 
 .articleHtml pre {
   margin-top: 10px;
-  box-shadow: 0 0 20px 5px rgb(0 0 0 / 40%);
+  background-color: #f8f8f8;
+  border-radius: 5px;
+}
+
+.hljs {
+  background-color: transparent !important;
 }
