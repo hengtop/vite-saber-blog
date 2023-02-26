@@ -1,12 +1,16 @@
+import type { PropsWithChildren, BaseSyntheticEvent } from 'react';
+
 import React, { memo, useEffect, useState, useRef, useCallback } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import type { PropsWithChildren, BaseSyntheticEvent } from 'react';
 
 import { PhotoSlider } from 'react-photo-view';
 import md2Navigate from '@/utils/md2Navigate';
 import { useLogin } from '@/hooks/useLogin';
+import copy from 'copy-to-clipboard';
+
 import 'highlight.js/styles/github.css';
 import 'react-photo-view/dist/react-photo-view.css';
+import { toast } from 'react-toastify';
 
 interface MdToHtmlPropsType {
   htmlStr: string;
@@ -31,10 +35,12 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
   const [index, setIndex] = useState(0);
   const [imageList, setImageList] = useState<DataType[]>([]);
   const [renderHtml, setRenderHtml] = useState<RenderHtmlType>();
+  const [insterHtmlSuccess, setInsterHtmlSuccess] = useState(false);
   //redux hooks
   const [isLogin, localUseInfo] = useLogin();
 
   //other hooks
+  const containerRef = useRef(null);
   const params = useParams();
   const location = useLocation();
   useEffect(() => {
@@ -43,7 +49,7 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
     return () => {
       isMounted && isMounted(false);
     };
-  }, [htmlStr, title]);
+  }, [htmlStr, title, containerRef]);
 
   // 将html处理成渲染的对象
   const createHtml = useCallback(
@@ -57,6 +63,7 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
   useEffect(() => {
     handleImageList();
     getDomRenderObj(md2Navigate(htmlStr));
+    renderCopyBtn();
   }, [renderHtml]);
 
   //获取文章中的img图片
@@ -89,6 +96,42 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
     }`;
     window.open('/admin/main/article/article-add?' + searchQuery, '_self');
   };
+
+  // 获取code标签并加一个添加复制按钮
+  const renderCopyBtn = () => {
+    if (insterHtmlSuccess) return;
+
+    const container = containerRef.current;
+    if (container) {
+      const codes = (container as HTMLElement)?.getElementsByTagName('code');
+      for (const item of codes) {
+        if (item.getElementsByClassName('copy-code-btn').length) {
+          setInsterHtmlSuccess(true);
+          return;
+        }
+        const span = document.createElement('span');
+        span.textContent = '复制代码';
+        span.className = 'copy-code-btn';
+        item.append(span);
+        span.addEventListener('click', async () => {
+          // 将文本写入剪切板
+          const text = item.innerText.slice(0, -4);
+          const status = copy(text);
+          status
+            ? toast.success('复制成功', {
+                hideProgressBar: true,
+                autoClose: 1000,
+                position: 'top-right',
+              })
+            : toast.error('复制失败', {
+                hideProgressBar: true,
+                autoClose: 1000,
+                position: 'top-right',
+              });
+        });
+      }
+    }
+  };
   return (
     <div className="p-8 md:p-[32px] md:rounded pb-[40px] bg-white articleHtml">
       <h1 className="font-black text-4xl !mb-[0px]">{title}</h1>
@@ -102,7 +145,7 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
         )}
       </div>
       <hr className="mb-[25px]" />
-      <div dangerouslySetInnerHTML={renderHtml} onClick={textClickHandle}></div>
+      <div ref={containerRef} dangerouslySetInnerHTML={renderHtml} onClick={textClickHandle}></div>
       <PhotoSlider
         images={imageList}
         visible={visible}

@@ -44,6 +44,7 @@ body {
 }
 /* 这里因为样式优先级问题就这样写了 */
 code {
+  position: relative;
   word-break: break-word;
   border-radius: 2px;
   overflow-x: auto;
@@ -153,4 +154,17 @@ code {
 
 .hljs {
   background-color: transparent !important;
+}
+
+.copy-code-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 12px;
+  color: transparent;
+  cursor: pointer;
+}
+
+code:hover .copy-code-btn {
+  color: #000;
 }
