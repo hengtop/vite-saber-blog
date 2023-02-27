@@ -103,19 +103,21 @@ export default memo(function index(props: PropsWithChildren<MdToHtmlPropsType>) 
 
     const container = containerRef.current;
     if (container) {
-      const codes = (container as HTMLElement)?.getElementsByTagName('code');
-      for (const item of codes) {
+      const preList = (container as HTMLElement)?.getElementsByTagName('pre');
+      for (const item of preList) {
         if (item.getElementsByClassName('copy-code-btn').length) {
           setInsterHtmlSuccess(true);
           return;
         }
+        const code = item.children[0] as HTMLElement;
+        const language = item.className.split(' ')[0];
         const span = document.createElement('span');
-        span.textContent = '复制代码';
+        span.textContent = `${language} 复制代码`;
         span.className = 'copy-code-btn';
         item.append(span);
         span.addEventListener('click', async () => {
           // 将文本写入剪切板
-          const text = item.innerText.slice(0, -4);
+          const text = code.innerText;
           const status = copy(text);
           status
             ? toast.success('复制成功', {
